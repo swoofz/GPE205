@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(TankData))]
 public class TankMotor : MonoBehaviour {
 
     // This variable holds our Character Controller component
@@ -17,11 +18,6 @@ public class TankMotor : MonoBehaviour {
     void Start() {
         // Store the CharacterController in our variable
         characterController = gameObject.GetComponent<CharacterController>();
-    }
-
-    // Update is called once per frame
-    void Update() {
-        
     }
 
     // Function: Move
