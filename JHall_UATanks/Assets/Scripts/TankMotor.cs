@@ -41,4 +41,20 @@ public class TankMotor : MonoBehaviour {
         // Rotate our tank in local space
         tf.Rotate(rotateVector, Space.Self);
     }
+
+    // Function: Shoot
+    // Shoot a Shell the Direction your tank is facing
+    public void Shoot(float force, GameObject shell, Transform gunTip) {
+        // Shoot a Shell forward
+
+        // Mulptle the force that will be add by 100
+        // Kepts force value lower when trying to find a good force for the bullet to travel
+        force *= 100;
+
+        // Create a GameObject that is spawning a shell at the gunTip position
+        GameObject bullet = Instantiate(shell, gunTip.position, tf.rotation) as GameObject;
+
+        // Add force to the bullet to move it forward
+        bullet.GetComponent<Rigidbody>().AddForce(bullet.transform.forward * force);
+    }
 }

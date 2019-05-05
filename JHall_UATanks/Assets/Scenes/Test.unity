@@ -261,6 +261,12 @@ Transform:
   m_Father: {fileID: 1178202598}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &495528914 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 400006, guid: 65e92f227846e794883569c427a9c4c3,
+    type: 3}
+  m_PrefabInstance: {fileID: 221379951}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &576039458
 GameObject:
   m_ObjectHideFlags: 0
@@ -370,7 +376,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e89366377c2ddb840bcd80b4b2e55690, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myTaco: 0
+  input: 0
+  motor: {fileID: 0}
+  data: {fileID: 0}
 --- !u!114 &676914200
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -395,8 +403,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7364ae2352a7dd046b27eb65312061d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 3
+  shell: {fileID: 5056021748514210308, guid: 0bbf9f3fbada15e43ad45189a4e5dcec, type: 3}
+  barrelTip: {fileID: 1727483607}
+  MaxHealth: 100
+  forwardSpeed: 3
+  backwardsSpeed: 3
   turnSpeed: 180
+  fireRate: 1.5
+  bulletForce: 10
 --- !u!1 &1178202597
 GameObject:
   m_ObjectHideFlags: 0
@@ -500,6 +514,36 @@ Transform:
   m_Father: {fileID: 1178202598}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &1727483606
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1727483607}
+  m_Layer: 0
+  m_Name: FireSpot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1727483607
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1727483606}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.13, y: -0.114, z: 0.544}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 495528914}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1822076155
 GameObject:
   m_ObjectHideFlags: 0
