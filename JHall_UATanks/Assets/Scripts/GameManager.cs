@@ -6,8 +6,13 @@ public class GameManager : MonoBehaviour {
 
     public static GameManager instance;     // Creating our Game Manager Singleton
 
-    private GameObject[] players;   // Holds all players in the game
-    private GameObject[] Emenies;   // Holds all Emenies in the game
+    public int shellDamage = 20;
+    public int shellTimeForExistence = 3;
+
+    [HideInInspector]
+    public List<GameObject> players;   // Holds all players in the game
+    [HideInInspector]
+    public List<GameObject> Emenies;   // Holds all Emenies in the game
 
     // Runs before Start()
     void Awake() {

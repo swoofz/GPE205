@@ -5,13 +5,13 @@ using UnityEngine;
 [RequireComponent(typeof(TankData))]
 public class TankMotor : MonoBehaviour {
 
-    // This variable holds our Character Controller component
-    private CharacterController characterController;
-    private Transform tf;
+
+    private CharacterController characterController;    // This variable holds our Character Controller component
+    private Transform tf;                               // Variable to store a transform
 
 
     void Awake() {
-        tf = gameObject.GetComponent<Transform>();
+        tf = gameObject.GetComponent<Transform>();  // Store our GameObject's Transform in a variable
     }
 
     // Start is called before the first frame update
@@ -56,5 +56,16 @@ public class TankMotor : MonoBehaviour {
 
         // Add force to the bullet to move it forward
         bullet.GetComponent<Rigidbody>().AddForce(bullet.transform.forward * force);
+        //bullet.GetComponent<Collider>().attachedRigidbody.AddForce(bullet.transform.forward * force);
+    }
+
+    // Function: TakeDamage
+    // Lose health when hit
+    public int TakeDamage(int health, int damage) {
+        // Take away health basic on how much damage was done
+        health -= damage;
+
+        // Return our current health
+        return health;
     }
 }
