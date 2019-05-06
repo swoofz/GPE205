@@ -338,12 +338,11 @@ GameObject:
   m_Component:
   - component: {fileID: 400012}
   - component: {fileID: 14300000}
-  - component: {fileID: 676914197}
-  - component: {fileID: 676914198}
-  - component: {fileID: 676914200}
-  - component: {fileID: 676914201}
+  - component: {fileID: 1594632758725785220}
+  - component: {fileID: 4217293150013880549}
+  - component: {fileID: 310437180118227939}
   m_Layer: 0
-  m_Name: Tank
+  m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -382,7 +381,7 @@ CharacterController:
   m_SkinWidth: 0.001
   m_MinMoveDistance: 0
   m_Center: {x: 0, y: 0.25, z: 0}
---- !u!114 &676914197
+--- !u!114 &1594632758725785220
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -391,37 +390,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 100012}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e89366377c2ddb840bcd80b4b2e55690, type: 3}
+  m_Script: {fileID: 11500000, guid: 2f59be3995f0abf47b48ea3a2314ed73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  input: 0
-  motor: {fileID: 0}
-  data: {fileID: 0}
---- !u!114 &676914198
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 100012}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 686390e6d07df3b4a927a8ed9fc253b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &676914200
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 100012}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb7a9fdce62f4884eaa14576da73ecc4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &676914201
+--- !u!114 &4217293150013880549
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -441,6 +413,18 @@ MonoBehaviour:
   turnSpeed: 180
   fireRate: 1.5
   bulletForce: 10
+--- !u!114 &310437180118227939
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb7a9fdce62f4884eaa14576da73ecc4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &100014
 GameObject:
   m_ObjectHideFlags: 0

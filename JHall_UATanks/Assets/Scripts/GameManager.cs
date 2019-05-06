@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour {
     [HideInInspector]
     public List<GameObject> players;   // Holds all players in the game
     [HideInInspector]
-    public List<GameObject> Emenies;   // Holds all Emenies in the game
+    public List<GameObject> enemies;   // Holds all Emenies in the game
 
     // Runs before Start()
     void Awake() {

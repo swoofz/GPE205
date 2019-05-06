@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(TankMotor))]
 public class InputController : MonoBehaviour {
 
     public enum InputScheme { WASD, arrowKeys };
