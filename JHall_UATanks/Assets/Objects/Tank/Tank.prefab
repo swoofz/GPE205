@@ -441,6 +441,8 @@ MonoBehaviour:
   turnSpeed: 180
   fireRate: 1.5
   bulletForce: 10
+  pointsGivenOnDestory: 10
+  points: 0
 --- !u!1 &100014
 GameObject:
   m_ObjectHideFlags: 0

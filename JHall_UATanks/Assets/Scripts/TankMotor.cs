@@ -45,7 +45,15 @@ public class TankMotor : MonoBehaviour {
     // Function: Shoot
     // Shoot a Shell the Direction your tank is facing
     public void Shoot(float force, GameObject shell, Transform gunTip) {
-        // Shoot a Shell forward
+        GameObject bulletPlaceHolder;            // Create a Storage place for bullet gameobject
+
+        if (tf.Find("Bullets") == null) {                           // If there is no child bullet GameObject
+            bulletPlaceHolder = new GameObject();                   // Create new empty GameObject
+            bulletPlaceHolder.name = "Bullets";                     // Call it Bullets
+            bulletPlaceHolder.transform.parent = tf;                // Set it as a child to this GameObject
+        } else {                                                    // Else
+            bulletPlaceHolder = tf.Find("Bullets").gameObject;      // Find the child GameObject Bullets and store it
+        }
 
         // Mulptle the force that will be add by 100
         // Kepts force value lower when trying to find a good force for the bullet to travel
@@ -53,10 +61,10 @@ public class TankMotor : MonoBehaviour {
 
         // Create a GameObject that is spawning a shell at the gunTip position
         GameObject bullet = Instantiate(shell, gunTip.position, tf.rotation) as GameObject;
+        bullet.transform.parent = bulletPlaceHolder.transform;                                  // Set new bullets instantiate as a child of the Bullets GameObject
 
         // Add force to the bullet to move it forward
         bullet.GetComponent<Rigidbody>().AddForce(bullet.transform.forward * force);
-        //bullet.GetComponent<Collider>().attachedRigidbody.AddForce(bullet.transform.forward * force);
     }
 
     // Function: TakeDamage
@@ -67,5 +75,12 @@ public class TankMotor : MonoBehaviour {
 
         // Return our current health
         return health;
+    }
+
+    //Function: Givepoints
+    // Gives points to the tank the got the killing blow
+    public void GivePoints(int points,  GameObject tankDiedTo) {
+        // Adds points the tank that got the killing blow points
+        tankDiedTo.GetComponent<TankData>().points += points;
     }
 }

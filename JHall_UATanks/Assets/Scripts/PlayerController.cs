@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour {
     
     private TankData tankData;          // Tank's Data
     private TankMotor motor;            // Tank's motor
+    private GameObject lastHitBy;       // Get the last person that hit this tank
     private int health;                 // Current Tank health
     private int shellDamge;             // Get the damage a shell does when hits
 
@@ -21,10 +22,16 @@ public class PlayerController : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
+        // Send Points to be able to the GameManager see in the inspector
+        GameManager.instance.Player1Points = tankData.points;
+
 
         // If health get to zero or lower then destory this object
         if(health <= 0) {
-            Destroy(gameObject);
+            // Player dead
+            motor.GivePoints(tankData.pointsGivenOnDestory, lastHitBy);     // Give points
+            GameManager.instance.players.Remove(gameObject);                // Remove from list
+            Destroy(gameObject);                                            // Destory this
         }
     }
 
@@ -32,6 +39,9 @@ public class PlayerController : MonoBehaviour {
         if(other.gameObject.tag == "Shell") {
             // If we get hit by a shell, take some damage
             health = motor.TakeDamage(health, shellDamge);
+
+            // Get the Tank that last hit this tank
+            lastHitBy = other.gameObject.transform.parent.gameObject.transform.parent.gameObject;
         }
     }
 }
