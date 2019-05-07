@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(TankMotor))]
+[RequireComponent(typeof(TankMotor), typeof(Shooter))]
 public class InputController : MonoBehaviour {
 
     public enum InputScheme { WASD, arrowKeys };
     public InputScheme input = InputScheme.WASD;
 
-    public TankMotor motor;
-    public TankData data;
+    private TankMotor motor;
+    private TankData data;
+    private Shooter shooter;
 
     private float shootTimer = 0;
 
@@ -17,6 +18,7 @@ public class InputController : MonoBehaviour {
     void Start() {
         motor = gameObject.GetComponent<TankMotor>();
         data = gameObject.GetComponent<TankData>();
+        shooter = gameObject.GetComponent<Shooter>();
     }
 
     // Update is called once per frame
@@ -56,8 +58,7 @@ public class InputController : MonoBehaviour {
         if (Input.GetKey(KeyCode.Space)) {      // Shoot
             // if can shoot then shoot and reset the cooldown timer
             if (shootTimer <= 0) {              
-                motor.Shoot(data.bulletForce, data.shell , data.barrelTip);
-                shootTimer = data.fireRate;
+                shootTimer = shooter.Shoot();
             }
         }
     }

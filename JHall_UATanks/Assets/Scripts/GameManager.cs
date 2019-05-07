@@ -6,10 +6,10 @@ public class GameManager : MonoBehaviour {
 
     public static GameManager instance;     // Creating our Game Manager Singleton
 
-    public int Player1Points = 0;
-    public int AI1Points = 0;
-    public int shellDamage = 20;
-    public int shellTimeForExistence = 3;
+    public int Player1Points = 0;           // Player1 Points for show
+    public int AI1Points = 0;               // AI points for show
+    public int shellDamage = 20;            // Damage a shell can do
+    public int shellTimeForExistence = 3;   // How long a shell can exist
 
     [HideInInspector]
     public List<GameObject> players;   // Holds all players in the game

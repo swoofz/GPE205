@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(TankMotor))]
+[RequireComponent(typeof(TankMotor), typeof(Shooter))]
 public class AIController : MonoBehaviour {
 
     private TankData tankData;          // Tank's Data
     private TankMotor motor;            // Tank's motor
+    private Shooter shooter;
     private GameObject lastHitBy;       // Get the last person that hit this tank
     private int health;                 // Current Tank health
     private int shellDamge;             // Get the damage a shell does when hits
@@ -15,7 +16,8 @@ public class AIController : MonoBehaviour {
     // Start is called before the first frame update
     void Start() {
         tankData = gameObject.GetComponent<TankData>();             // Store Tank data in a variable
-        motor = gameObject.GetComponent<TankMotor>();               // Store Tank moter in a vaiable
+        motor = gameObject.GetComponent<TankMotor>();               // Store Tank moter in a variable
+        shooter = gameObject.GetComponent<Shooter>();               // Store Shoot component in a variable
         health = tankData.MaxHealth;                                // Set the current health to max on start
         GameManager.instance.enemies.Add(gameObject);               // Adding players to our list in the Game Manger to keep track of how many players are in the game
         shellDamge = GameManager.instance.shellDamage;              // Get our shell damage
@@ -29,8 +31,7 @@ public class AIController : MonoBehaviour {
         shootTimer -= Time.deltaTime;
         if(shootTimer <= 0) {
             // AI as soon as it can
-            motor.Shoot(tankData.bulletForce, tankData.shell, tankData.barrelTip);
-            shootTimer = tankData.fireRate;
+            shootTimer = shooter.Shoot();
         }
 
 
@@ -47,11 +48,9 @@ public class AIController : MonoBehaviour {
         if(other.gameObject.tag == "Shell") {
             // Hit by a shell and loses health
             health = motor.TakeDamage(health, shellDamge);
-            // Other gameObject = Shell
-            // Shell parent = Bullets
-            // Bullets parent = AI Tank/Player Tank ex. Player1 (Top most gameObject layer we want)
-            //        =          Shell               Bullets                     ex. Player1
-            lastHitBy = other.gameObject.transform.parent.gameObject.transform.parent.gameObject;
+            
+            // Set lastHitby to the shell owner
+            lastHitBy = other.gameObject.GetComponent<ShellController>().tankShooter;
         }
     }
 }

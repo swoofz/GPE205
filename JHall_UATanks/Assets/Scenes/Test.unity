@@ -175,6 +175,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 221379951}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &354751214 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1727483607, guid: d06f2202f2e4e1948b9d0505c0044ce0,
+    type: 3}
+  m_PrefabInstance: {fileID: 682694505}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &366588816
 GameObject:
   m_ObjectHideFlags: 0
@@ -257,6 +263,12 @@ Transform:
   m_Father: {fileID: 1178202598}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &400079875 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1727483607, guid: 65e92f227846e794883569c427a9c4c3,
+    type: 3}
+  m_PrefabInstance: {fileID: 221379951}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &576039458
 GameObject:
   m_ObjectHideFlags: 0
@@ -460,6 +472,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1306507397 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100012, guid: 65e92f227846e794883569c427a9c4c3,
+    type: 3}
+  m_PrefabInstance: {fileID: 221379951}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1306507398
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1306507397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7131044100c2d26469b7e567d41f4d19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shell: {fileID: 5056021748514210308, guid: 0bbf9f3fbada15e43ad45189a4e5dcec, type: 3}
+  barrelTip: {fileID: 400079875}
+  fireRate: 1.5
+  force: 10
 --- !u!1 &1398545653
 GameObject:
   m_ObjectHideFlags: 0
@@ -529,6 +563,28 @@ Transform:
   m_Father: {fileID: 1178202598}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &1467307003 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100012, guid: d06f2202f2e4e1948b9d0505c0044ce0,
+    type: 3}
+  m_PrefabInstance: {fileID: 682694505}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1467307004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1467307003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7131044100c2d26469b7e567d41f4d19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shell: {fileID: 5056021748514210308, guid: 0bbf9f3fbada15e43ad45189a4e5dcec, type: 3}
+  barrelTip: {fileID: 354751214}
+  fireRate: 1.5
+  force: 10
 --- !u!1 &1822076155
 GameObject:
   m_ObjectHideFlags: 0

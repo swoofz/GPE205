@@ -40,8 +40,8 @@ public class PlayerController : MonoBehaviour {
             // If we get hit by a shell, take some damage
             health = motor.TakeDamage(health, shellDamge);
 
-            // Get the Tank that last hit this tank
-            lastHitBy = other.gameObject.transform.parent.gameObject.transform.parent.gameObject;
+            // Set lastHitby to the shell owner
+            lastHitBy = other.gameObject.GetComponent<ShellController>().tankShooter;
         }
     }
 }
