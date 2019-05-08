@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Shooter : MonoBehaviour {
 
-    public GameObject shell;            // Bullets used to fire
+    public GameObject bullet;           // Bullets used to fire
     public Transform barrelTip;         // The location of the end of the barrel
     public float fireRate = 1.5f;       // how often can shoot
     public float force = 10f;           // Force added to the shell to move it in the direction fired
@@ -13,19 +13,20 @@ public class Shooter : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
-        tf = GetComponent<Transform>();
+        // Tank: Cannon -- Visuals -- GameObject / Tank
+        tf = gameObject.transform.parent.parent;
     }
 
     // Update is called once per frame
     public float Shoot() {
         GameObject bulletPlaceHolder;            // Create a Storage place for bullet gameobject
 
-        if (tf.parent.transform.Find("Bullets") == null) {                              // If there is no child bullet GameObject
-            bulletPlaceHolder = new GameObject();                                       // Create new empty GameObject
-            bulletPlaceHolder.name = "Bullets";                                         // Call it Bullets
-            bulletPlaceHolder.transform.parent = tf.parent;                             // Set it as a child to this GameObject
-        } else {                                                                        // Else
-            bulletPlaceHolder = tf.parent.transform.Find("Bullets").gameObject;         // Find the child GameObject Bullets and store it
+        if (tf.parent.Find("Bullets") == null) {                            // If there is no child bullet GameObject
+            bulletPlaceHolder = new GameObject();                           // Create new empty GameObject
+            bulletPlaceHolder.name = "Bullets";                             // Call it Bullets
+            bulletPlaceHolder.transform.parent = tf.parent;                 // Set it as a child to this GameObject
+        } else {                                                            // Else
+            bulletPlaceHolder = tf.parent.Find("Bullets").gameObject;       // Find the child GameObject Bullets and store it
         }
 
         // Mulptle the force that will be add by 100
@@ -33,18 +34,15 @@ public class Shooter : MonoBehaviour {
         float newForce = force * 100;
 
         // Create a GameObject that is spawning a shell at the gunTip position
-        GameObject bullet = Instantiate(shell, barrelTip.position, tf.rotation) as GameObject;
-        bullet.transform.parent = bulletPlaceHolder.transform;                                  // Set new bullets instantiate as a child of the Bullets GameObject
+        GameObject clone = Instantiate(bullet, barrelTip.position, tf.rotation) as GameObject;
+        clone.transform.parent = bulletPlaceHolder.transform;                                  // Set new bullets instantiate as a child of the Bullets GameObject
 
         // Add force to the bullet to move it forward
-        bullet.GetComponent<Rigidbody>().AddForce(bullet.transform.forward * newForce);
+        clone.GetComponent<Rigidbody>().AddForce(clone.transform.forward * newForce);
 
         // Sending Tank that shot the bullet
-        bullet.GetComponent<ShellController>().tankShooter = gameObject;
+        clone.GetComponent<ShellController>().tankShooter = tf.gameObject;
 
-        return fireRate;
+        return fireRate;    // Return how fast can shoot bullets
     }
-
-    // Return this GameObject to find out who shot this bullet
-
 }

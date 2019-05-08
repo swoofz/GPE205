@@ -9,18 +9,18 @@ public class TankMotor : MonoBehaviour {
     private CharacterController characterController;    // This variable holds our Character Controller component
     private Transform tf;                               // Variable to store a transform
 
-
+    // AWAKE
     void Awake() {
         tf = gameObject.GetComponent<Transform>();  // Store our GameObject's Transform in a variable
     }
 
-    // Start is called before the first frame update
+    // START is called before the first frame update
     void Start() {
         // Store the CharacterController in our variable
         characterController = gameObject.GetComponent<CharacterController>();
     }
 
-    // Function: Move
+    // Function: MOVE
     // Move tank forward or backwards
     public void Move(float speed) {
         // Create a vector to store our speed data
@@ -32,7 +32,7 @@ public class TankMotor : MonoBehaviour {
         characterController.SimpleMove(speedVector);
     }
 
-    // Function: Rotate
+    // Function: ROTATE
     // Rotates our tank right or left
     public void Rotate(float speed) {
         // Create a variable to rotate right or left at a given speed basic on time (per second)
@@ -42,7 +42,7 @@ public class TankMotor : MonoBehaviour {
         tf.Rotate(rotateVector, Space.Self);
     }
 
-    // Function: TakeDamage
+    // Function: TAKEDAMAGE
     // Lose health when hit
     public int TakeDamage(int health, int damage) {
         // Take away health basic on how much damage was done
@@ -52,7 +52,7 @@ public class TankMotor : MonoBehaviour {
         return health;
     }
 
-    //Function: Givepoints
+    //Function: GIVEPOINTS
     // Gives points to the tank the got the killing blow
     public void GivePoints(int points,  GameObject tankDiedTo) {
         // Adds points the tank that got the killing blow points

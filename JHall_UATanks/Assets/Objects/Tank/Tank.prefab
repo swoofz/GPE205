@@ -86,6 +86,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 400002}
+  - component: {fileID: 49392262}
   m_Layer: 0
   m_Name: Cannon
   m_TagString: Untagged
@@ -109,6 +110,22 @@ Transform:
   m_Father: {fileID: 400010}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &49392262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7131044100c2d26469b7e567d41f4d19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bullet: {fileID: 5056021748514210308, guid: 0bbf9f3fbada15e43ad45189a4e5dcec, type: 3}
+  barrelTip: {fileID: 1727483607}
+  fireRate: 1.5
+  force: 10
 --- !u!1 &100004
 GameObject:
   m_ObjectHideFlags: 0
@@ -395,8 +412,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   input: 0
-  motor: {fileID: 0}
-  data: {fileID: 0}
+  shooter: {fileID: 49392262}
 --- !u!114 &676914198
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -433,14 +449,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7364ae2352a7dd046b27eb65312061d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shell: {fileID: 5056021748514210308, guid: 0bbf9f3fbada15e43ad45189a4e5dcec, type: 3}
-  barrelTip: {fileID: 1727483607}
   MaxHealth: 100
   forwardSpeed: 3
   backwardsSpeed: 3
   turnSpeed: 180
-  fireRate: 1.5
-  bulletForce: 10
   pointsGivenOnDestory: 10
   points: 0
 --- !u!1 &100014
@@ -544,7 +556,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1727483606}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.13, y: -0.114, z: 0.544}
+  m_LocalPosition: {x: 0.13, y: -0.114, z: 0.538}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400006}

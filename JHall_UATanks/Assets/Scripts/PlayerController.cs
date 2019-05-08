@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour {
     
     private TankData tankData;          // Tank's Data
     private TankMotor motor;            // Tank's motor
-    private GameObject lastHitBy;       // Get the last person that hit this tank
+    private GameObject lastHitBy;       // Be able to get the last person that hit this tank
     private int health;                 // Current Tank health
     private int shellDamge;             // Get the damage a shell does when hits
 

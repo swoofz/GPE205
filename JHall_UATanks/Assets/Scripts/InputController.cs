@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(TankMotor), typeof(Shooter))]
+[RequireComponent(typeof(TankMotor))]
 public class InputController : MonoBehaviour {
 
     public enum InputScheme { WASD, arrowKeys };
@@ -10,7 +10,7 @@ public class InputController : MonoBehaviour {
 
     private TankMotor motor;
     private TankData data;
-    private Shooter shooter;
+    public Shooter shooter;
 
     private float shootTimer = 0;
 
@@ -18,7 +18,7 @@ public class InputController : MonoBehaviour {
     void Start() {
         motor = gameObject.GetComponent<TankMotor>();
         data = gameObject.GetComponent<TankData>();
-        shooter = gameObject.GetComponent<Shooter>();
+        //shooter = gameObject.GetComponent<Shooter>();
     }
 
     // Update is called once per frame
