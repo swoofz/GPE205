@@ -62,11 +62,9 @@ public class AIController : MonoBehaviour {
         if(other.gameObject.tag == "Shell") {
             // Hit by a shell and loses health
             health = motor.TakeDamage(health, shellDamge);
-            Debug.Log("hit");
             
             // Set lastHitby to the shell owner
             lastHitBy = other.gameObject.GetComponent<ShellController>().tankShooter;
-            Debug.Log(lastHitBy.name);
         }
     }
 }
