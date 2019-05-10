@@ -41,8 +41,13 @@ public class GameManager : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         // Update Scores
-        Player1Points = players[0].points;
-        AI1Points = enemies[0].points;
+        if (players.Count > 0) {
+            Player1Points = players[0].points;
+        }
+
+        if (enemies.Count > 0) {
+            AI1Points = enemies[0].points;
+        }
 
         tanksAlive = players.Count + enemies.Count;         // A Count of All the tank that are alive
 
