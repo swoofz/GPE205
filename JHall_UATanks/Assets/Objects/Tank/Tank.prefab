@@ -412,7 +412,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   input: 0
-  shooter: {fileID: 49392262}
+  action: 0
 --- !u!114 &676914198
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -425,6 +425,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 686390e6d07df3b4a927a8ed9fc253b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shooter: {fileID: 49392262}
 --- !u!114 &676914200
 MonoBehaviour:
   m_ObjectHideFlags: 0
