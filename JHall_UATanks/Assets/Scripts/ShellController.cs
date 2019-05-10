@@ -9,7 +9,6 @@ public class ShellController : MonoBehaviour {
 
     private int damage;                 // Shell damage when hit a tank
     private float timeForExistence;     // Time for the shell to be in the scene
-    private Shooter shooter;            // Use to find the own of this shell
 
     // Start is called before the first frame update
     void Start() {

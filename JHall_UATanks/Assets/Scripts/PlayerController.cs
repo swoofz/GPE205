@@ -15,21 +15,19 @@ public class PlayerController : MonoBehaviour {
     private int shellDamge;             // Get the damage a shell does when hits
     private float shootTimer = 0f;      // Time to be able to shoot
 
+
     // Start is called before the first frame update
     void Start() {
         tankData = gameObject.GetComponent<TankData>();             // Store Tank data in a variable
         motor = gameObject.GetComponent<TankMotor>();               // Store Tank moter in a variable
         input = GetComponent<InputController>();                    // Store our InputController in a variable
         health = tankData.MaxHealth;                                // Set the current health to max on start
-        GameManager.instance.players.Add(gameObject);               // Adding players to our list in the Game Manger to keep track of how many players are in the game
+        GameManager.instance.players.Add(tankData);                 // Adding player's Tank Data to our list in the Game Manger to keep track of how many players are in the game
         shellDamge = GameManager.instance.shellDamage;              // Get our shell damage
     }
 
     // Update is called once per frame
     void Update() {
-        // Send Points to be able to the GameManager see in the inspector
-        GameManager.instance.Player1Points = tankData.points;
-
         // Get two a max of two input to move around with
         if(input.move1  == InputController.MoveActions.Forward || input.move2 == InputController.MoveActions.Forward) {
             motor.Move(tankData.forwardSpeed);                  // Move Forward
@@ -60,7 +58,7 @@ public class PlayerController : MonoBehaviour {
         if (health <= 0) {
             // Player dead
             motor.GivePoints(tankData.pointsGivenOnDestory, lastHitBy);     // Give points
-            GameManager.instance.players.Remove(gameObject);                // Remove from list
+            GameManager.instance.players.Remove(tankData);                // Remove from list
             Destroy(gameObject);                                            // Destory this
         }
     }

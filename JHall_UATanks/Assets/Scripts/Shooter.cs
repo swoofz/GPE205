@@ -38,7 +38,7 @@ public class Shooter : MonoBehaviour {
         clone.transform.parent = bulletPlaceHolder.transform;                                  // Set new bullets instantiate as a child of the Bullets GameObject
 
         // Add force to the bullet to move it forward
-        clone.GetComponent<Rigidbody>().AddForce(clone.transform.forward * newForce);
+        clone.GetComponent<Rigidbody>().AddForce(tf.forward * newForce);
 
         // Sending Tank that shot the bullet
         clone.GetComponent<ShellController>().tankShooter = tf.gameObject;

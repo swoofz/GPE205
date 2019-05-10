@@ -21,16 +21,13 @@ public class AIController : MonoBehaviour {
         tankData = gameObject.GetComponent<TankData>();             // Store Tank data in a variable
         motor = gameObject.GetComponent<TankMotor>();               // Store Tank moter in a variable
         health = tankData.MaxHealth;                                // Set the current health to max on start
-        GameManager.instance.enemies.Add(gameObject);               // Adding players to our list in the Game Manger to keep track of how many players are in the game
+        GameManager.instance.enemies.Add(tankData);                 // Adding AI's Tank Data to our list in the Game Manger to keep track of how many players are in the game
         shellDamge = GameManager.instance.shellDamage;              // Get our shell damage
         rotateTimer = timeRotating;
     }
 
     // Update is called once per frame
     void Update() {
-        // Send Points to be able to the GameManager see in the inspector
-        GameManager.instance.AI1Points = tankData.points;
-
         // Shoot
         shootTimer -= Time.deltaTime;
         if(shootTimer <= 0) {
@@ -52,7 +49,7 @@ public class AIController : MonoBehaviour {
         if(health <= 0) {
             // Dies
             motor.GivePoints(tankData.pointsGivenOnDestory, lastHitBy);     // Give Points
-            GameManager.instance.enemies.Remove(gameObject);                // Remove from list
+            GameManager.instance.enemies.Remove(tankData);                // Remove from list
             Destroy(gameObject);                                            // Destory this
         }   
 

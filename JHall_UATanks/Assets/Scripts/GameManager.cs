@@ -12,9 +12,9 @@ public class GameManager : MonoBehaviour {
     public int shellTimeForExistence = 3;   // How long a shell can exist
 
     [HideInInspector]
-    public List<GameObject> players;   // Holds all players in the game
+    public List<TankData> players;   // Holds all players in the game
     [HideInInspector]
-    public List<GameObject> enemies;   // Holds all Emenies in the game
+    public List<TankData> enemies;   // Holds all Emenies in the game
 
 
     private int tanksAlive;         // Store the number of tank alive
@@ -40,6 +40,10 @@ public class GameManager : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
+        // Update Scores
+        Player1Points = players[0].points;
+        AI1Points = enemies[0].points;
+
         tanksAlive = players.Count + enemies.Count;         // A Count of All the tank that are alive
 
         if(tanksAlive <= 1 && !ranOnce) {                       // If there is only 1 Tank left, possibly no Tanks and haven't ran this code yet
