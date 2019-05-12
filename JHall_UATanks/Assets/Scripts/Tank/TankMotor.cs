@@ -58,4 +58,27 @@ public class TankMotor : MonoBehaviour {
         // Adds points the tank that got the killing blow points
         tankDiedTo.GetComponent<TankData>().points += points;
     }
+
+    // Function: ROTATETOWARDS
+    // Rotate towards our tagart if not already face it
+    public bool RotateTowards(Vector3 target, float rotateSpeed) {
+        Vector3 vectorToTarget;
+
+        // The vecotr to our target is the DIFFERENCE
+        //      between the target position and our position.
+        vectorToTarget = target - tf.position;
+
+        // Find the Quaternion that looks down that vector
+        Quaternion targetRotation = Quaternion.LookRotation(vectorToTarget);
+
+        // If not facing the target we rotate
+        if(tf.rotation != targetRotation) {
+            // Turn toward target at a constant speed
+            tf.rotation = Quaternion.RotateTowards(tf.rotation, targetRotation, rotateSpeed * Time.deltaTime);
+            return true;
+        }
+
+        // Otherwise we don't need to rotate
+        return false;
+    }
 }
