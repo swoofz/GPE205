@@ -5,6 +5,9 @@ using UnityEngine;
 [RequireComponent(typeof(TankMotor))]
 public class SampleAIController : MonoBehaviour {
 
+    public enum LoopType { Stop, Loop, PingPong };
+    public LoopType loopType;
+
     public Transform[] waypoints;
     public TankMotor motor;
     public TankData data;
@@ -12,6 +15,7 @@ public class SampleAIController : MonoBehaviour {
 
     private Transform tf;
     private int currentWaypoint = 0;
+    private bool isPatrolForward = true;
 
     // Awake
     void Awake() {
@@ -32,11 +36,51 @@ public class SampleAIController : MonoBehaviour {
             motor.Move(data.forwardSpeed);
         }
 
+        // Optimization: Taking out square root
+        //      Note: Vector3.SqrMagnitude (waypoints[currentWatpoint].position - tf.position) < (closeEnough * closeEnough)
         if(Vector3.Distance(tf.position, waypoints[currentWaypoint].position) < closeEnough) {
-            // Advance to the next waypoint, if we are still in range
-            if (currentWaypoint < waypoints.Length - 1) {
-                currentWaypoint++;
+            // Run through way points and stop when done
+            if (loopType == LoopType.Stop) {
+                // Advance to the next waypoint, if we are still in range
+                if (currentWaypoint < waypoints.Length - 1) {
+                    currentWaypoint++;
+                }
             }
+
+            // Circle throught the waypoints
+            else if (loopType == LoopType.Loop) {
+                // Advance to the next waypoint, if we are still in range
+                if(currentWaypoint < waypoints.Length -1) {
+                    currentWaypoint++;
+                } else {
+                    // Otherwise go back to waypoint 0
+                    currentWaypoint = 0;
+                }
+            }
+
+            // Run through to the end then come back from the end to the begining
+            else if (loopType == LoopType.PingPong) {
+                if(isPatrolForward) {
+                    // Advance to the next waypoint, if we are still in range
+                    if(currentWaypoint < waypoints.Length - 1) {
+                        currentWaypoint++;
+                    } else {
+                        // Otherwise reverse direction and decrement our current waypoint
+                        isPatrolForward = false;
+                        currentWaypoint--;
+                    }
+                } else {
+                    // Advance to the next waypoint, if we are still in range
+                    if(currentWaypoint > 0) {
+                        currentWaypoint--;
+                    } else {
+                        // Otherwise reverse direction and increment our current waypoint
+                        isPatrolForward = true;
+                        currentWaypoint++;
+                    }
+                }
+            }
+
         }
 
 
