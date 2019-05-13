@@ -159,7 +159,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400012, guid: 65e92f227846e794883569c427a9c4c3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4.283912
+      value: 12.65
       objectReference: {fileID: 0}
     - target: {fileID: 400012, guid: 65e92f227846e794883569c427a9c4c3, type: 3}
       propertyPath: m_LocalPosition.y
@@ -257,9 +257,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 155e3925ea1e04dabb3cc91c598ec211, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackMode: 0
+  aiState: 0
+  stateEnterTime: 2
+  aiSenseRadius: 5
+  restingHealRate: 1
   target: {fileID: 221379952}
   avoidanceTime: 2
+  fleeDistance: 1
 --- !u!1 &366588816
 GameObject:
   m_ObjectHideFlags: 0
@@ -459,7 +463,7 @@ Transform:
   m_GameObject: {fileID: 576039458}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 20, y: 1, z: 20}
+  m_LocalScale: {x: 50, y: 1, z: 50}
   m_Children: []
   m_Father: {fileID: 756151091}
   m_RootOrder: 0
@@ -874,7 +878,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400012, guid: 90a6ce508cc4247f497bc846e05f6c0c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.27
+      value: -16.68
       objectReference: {fileID: 0}
     - target: {fileID: 400012, guid: 90a6ce508cc4247f497bc846e05f6c0c, type: 3}
       propertyPath: m_LocalPosition.y
@@ -882,7 +886,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400012, guid: 90a6ce508cc4247f497bc846e05f6c0c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -4.2
+      value: 0.96
       objectReference: {fileID: 0}
     - target: {fileID: 400012, guid: 90a6ce508cc4247f497bc846e05f6c0c, type: 3}
       propertyPath: m_LocalRotation.x
@@ -921,6 +925,11 @@ PrefabInstance:
       propertyPath: target
       value: 
       objectReference: {fileID: 221379952}
+    - target: {fileID: 4250589278867663316, guid: 90a6ce508cc4247f497bc846e05f6c0c,
+        type: 3}
+      propertyPath: fireRate
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2425120768507346068, guid: 90a6ce508cc4247f497bc846e05f6c0c, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 90a6ce508cc4247f497bc846e05f6c0c, type: 3}

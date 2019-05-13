@@ -4,12 +4,17 @@ using UnityEngine;
 
 public class SampleAIController3 : MonoBehaviour {
 
-    public enum AttackMode { Chase };
-    public AttackMode attackMode;
+    public enum AIState { Chase, ChaseAndFire, CheckForFlee, Flee, Rest };
+    public AIState aiState = AIState.Chase;
 
+    public float stateEnterTime;
+    public float aiSenseRadius;
+    public float restingHealRate; //in hp/second
     public Transform target;
     public float avoidanceTime = 2.0f;
+    public float fleeDistance = 1.0f;
 
+    private float lastShootTime;
     private Transform tf;
     private TankData data;
     private TankMotor motor;
@@ -24,18 +29,81 @@ public class SampleAIController3 : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
-
+        data.health = data.MaxHealth;
     }
 
     // Update is called once per frame
     void Update() {
-        if(attackMode == AttackMode.Chase) {
+        if(aiState == AIState.Chase) {
+            // Perform behavior
             if(avoidanceStage != 0) {
                 DoAvoidance();
             } else {
                 DoChase();
             }
+
+            // Check for Transitions    
+            if(data.health < data.MaxHealth * 0.5f) {
+                ChangeState(AIState.CheckForFlee);
+            } else if (Vector3.Distance(target.position, tf.position) <= aiSenseRadius) {
+                ChangeState(AIState.ChaseAndFire);
+            }
+        } else if (aiState == AIState.ChaseAndFire) {
+            // Perform behacior
+            if(avoidanceStage != 0) {
+                DoAvoidance();
+            } else {
+                DoChase();
+
+                // Limit our firing rate, so we can only shoot if enough time has passed
+                if(Time.time > lastShootTime + data.fireRate) {
+                    // Shoot
+                    Debug.Log("Shoot");
+                    lastShootTime = Time.time;
+                }
+            }
+
+            // Check for Transitions
+            if(data.health < data.MaxHealth * 0.5f) {
+                ChangeState(AIState.CheckForFlee);
+            } else if (Vector3.Distance(target.position, tf.position) > aiSenseRadius) {
+                ChangeState(AIState.Chase);
+            }
+        } else if( aiState == AIState.Flee) {
+            // Perform behavior
+            if(avoidanceStage != 0) {
+                DoAvoidance();
+            } else {
+                DoFlee();
+            }
+
+            // Check for Transitions
+            if(Time.time >= stateEnterTime + 10) {
+                ChangeState(AIState.CheckForFlee);
+            }
+        } else if (aiState == AIState.CheckForFlee) {
+            // Perform behavior
+            CheckForFlee();
+
+            // Check for Transitions
+            if(Vector3.Distance(target.position, tf.position) <= aiSenseRadius) {
+                ChangeState(AIState.Flee);
+            } else {
+                ChangeState(AIState.Rest);
+            }
+        } else if (aiState == AIState.Rest) {
+            // Perform behavior
+            DoRest();
+
+            // Check for Transitions
+            if(Vector3.Distance(target.position, tf.position) <= aiSenseRadius) {
+                ChangeState(AIState.Flee);
+            } else if (data.health >= data.MaxHealth) {
+                ChangeState(AIState.Chase);
+            }
         }
+
+
     }
 
     // DoAcoidance - handles obstacle avoidance
@@ -71,6 +139,28 @@ public class SampleAIController3 : MonoBehaviour {
         } 
     }
 
+    // DoFlee - 
+    void DoFlee() {
+        // The vector from ai to target is target position minus our position
+        Vector3 vectorToTarget = target.position - tf.position;
+
+        // We can flip this vector by -1 to get a vector AWAY from our target
+        Vector3 vectorAwayFromTarget = vectorToTarget * -1;
+
+        // Now, we can normalize that vector to give it a magnitude of 1
+        vectorAwayFromTarget.Normalize();
+
+        // A normalize vector can be multiplied by a length to make a vector of that length
+        vectorAwayFromTarget *= fleeDistance;
+
+        // We can find the position in space we want to move to by adding our vector away from our ai to our AI's position
+        //      This gives us a point that is "that away vector" from our current position
+        Vector3 fleePosition = vectorAwayFromTarget + tf.position;
+        motor.RotateTowards(fleePosition, data.turnSpeed);
+        motor.Move(data.forwardSpeed);
+    }
+
+    // DoChase - 
     void DoChase() {
         motor.RotateTowards(target.position, data.turnSpeed);
         // Check if we can move "data.moveSpeed" units away.
@@ -99,5 +189,25 @@ public class SampleAIController3 : MonoBehaviour {
 
         // otherwise, return true
         return true;
+    }
+
+    public void CheckForFlee() {
+        // TODO:: Write the CheckForFlee state 
+    }
+
+    public void DoRest() {
+        // Increase our health. Remember that our incresse is "per second"!
+        data.health += restingHealRate * Time.deltaTime;
+
+        // But never go over our max Health
+        data.health = Mathf.Min(data.health, data.MaxHealth);
+    }
+
+    public void ChangeState(AIState newState) {
+        // Change our state
+        aiState = newState;
+
+        // save the time we changed states
+        stateEnterTime = Time.time;
     }
 }

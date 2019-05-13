@@ -14,5 +14,9 @@ public class TankData : MonoBehaviour {
     // access to it in other scripts
     [HideInInspector]
     public int points;                  // Tank points
+    //[HideInInspector]
+    public float health;
+
+    public float fireRate = 3f;
 
 }
