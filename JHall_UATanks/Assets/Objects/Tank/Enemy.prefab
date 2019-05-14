@@ -358,6 +358,7 @@ GameObject:
   - component: {fileID: 1594632758725785220}
   - component: {fileID: 4217293150013880549}
   - component: {fileID: 310437180118227939}
+  - component: {fileID: 637252013}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -412,6 +413,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeRotating: 2
   shooter: {fileID: 1125538934437867476}
+  target: {fileID: 0}
+  avoidanceTime: 2
+  fleeDistance: 1
 --- !u!114 &4217293150013880549
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -430,6 +434,7 @@ MonoBehaviour:
   turnSpeed: 50
   pointsGivenOnDestory: 10
   points: 0
+  health: 0
 --- !u!114 &310437180118227939
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -442,6 +447,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb7a9fdce62f4884eaa14576da73ecc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &637252013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f48328d34bc5d149a73c90cfe1288a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  persionality: 0
+  aiState: 0
 --- !u!1 &100014
 GameObject:
   m_ObjectHideFlags: 0

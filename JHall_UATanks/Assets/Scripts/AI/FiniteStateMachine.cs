@@ -10,13 +10,15 @@ public class FiniteStateMachine : MonoBehaviour {
     public enum AIState { Chase, ChaseAndFire, CheckForFlee, Flee, Patrol };
     [HideInInspector] public AIState aiState = AIState.Chase;
 
+    [HideInInspector] public bool lowHealth;
+    [HideInInspector] public bool tookShots;
+    [HideInInspector] public bool flee;
+
+
     private AIController ai;
     private Transform target;
     private Transform tf;
-    private bool lowHealth;
-    private bool tookShots;
     private float aiSenseRadius;
-    private float fleeTimer;
 
     void Awake() {
         ai = GetComponent<AIController>();
@@ -24,6 +26,7 @@ public class FiniteStateMachine : MonoBehaviour {
         tf = ai.transform;
         lowHealth = false;
         tookShots = false;
+        flee = false;
     }
 
     void Update() {
@@ -33,22 +36,23 @@ public class FiniteStateMachine : MonoBehaviour {
             case Persionality.AllTalk:                                                          // All Talk Tank
                 aiSenseRadius = 5;
                 switch(aiState) {
-                    case AIState.Chase:
+                    case AIState.Chase:                                                         // Chase
                         if (lowHealth) {
                             persionality = Persionality.Sniper;
-                        } else if (Vector3.SqrMagnitude(target.position - tf.position) <= (aiSenseRadius * aiSenseRadius)) {
+                        } else if (DistanceBetween() <= (aiSenseRadius * aiSenseRadius)) {
+                            // TODO:: Only fire if in LOS
                             ChangeState(AIState.ChaseAndFire);
                         }
                         break;
-                    case AIState.ChaseAndFire:
+                    case AIState.ChaseAndFire:                                                  // Chase and Fire
                         if(tookShots) {
                             ChangeState(AIState.Flee);
-                        } else if (Vector3.SqrMagnitude(target.position - tf.position) > ( aiSenseRadius * aiSenseRadius )) {
+                        } else if (DistanceBetween() > ( aiSenseRadius * aiSenseRadius )) {
                             ChangeState(AIState.Chase);
                         }
                         break;
-                    case AIState.Flee:
-                        if (fleeTimer <= 0) {
+                    case AIState.Flee:                                                          // Flee
+                        if (flee) {
                             if (target == null) {
                                 ChangeState(AIState.Patrol);
                             } else {
@@ -56,62 +60,65 @@ public class FiniteStateMachine : MonoBehaviour {
                             }
                         }
                         break;
-                    case AIState.Patrol:
-                        if (Vector3.SqrMagnitude(target.position - tf.position) > ( aiSenseRadius * aiSenseRadius )) {
+                    case AIState.Patrol:                                                        // Patrol
+                        if (DistanceBetween() > ( aiSenseRadius * aiSenseRadius )) {
                             ChangeState(AIState.Chase);
-                        } else if (Vector3.SqrMagnitude(target.position - tf.position) <= ( aiSenseRadius * aiSenseRadius )) {
+                        } else if (DistanceBetween() <= ( aiSenseRadius * aiSenseRadius )) {
                             ChangeState(AIState.ChaseAndFire);
                         }
                         break;
-                    default:
+                    default:                                                                    // If all else fails
                         Debug.Log("Couldn't find that state");
                         break;
                 }
-
                 break;
+
             case Persionality.AttackHunger:                                                     // Attack Hunger Tank
                 // TODO:: Transitions for Attack Hunger Tank
                 switch(aiState) {
-                    case AIState.Chase:
+                    case AIState.Chase:                                                         // Chase
                         break;
-                    case AIState.ChaseAndFire:
+                    case AIState.ChaseAndFire:                                                  // Chase and Fire
                         break;
-                    case AIState.Patrol:
+                    case AIState.Patrol:                                                        // Patrol
                         break;
-                    default:
+                    default:                                                                    // IF all else fails
                         Debug.Log("Couldn't find that state");
                         break;
                 }
                 break;
+
             case Persionality.ScaredyCat:                                                       // Scaredy Cat Tank
                 // TODO:: Transitions for Scaredy Cat Tank
                 switch (aiState) {
-                    case AIState.Flee:
+                    case AIState.Flee:                                                          // Flee
                         break;
-                    case AIState.ChaseAndFire:
+                    case AIState.ChaseAndFire:                                                  // Chase and Fire
                         break;
-                    case AIState.Patrol:
+                    case AIState.Patrol:                                                        // Patrol
                         break;
-                    default:
+                    default:                                                                    // If all else fails
                         Debug.Log("Couldn't find that state");
                         break;
                 }
                 break;
+
             case Persionality.Sniper:                                                           // Sniper Tank
                 // TODO:: Transitions for Sniper Tank
                 switch (aiState) {
-                    case AIState.Patrol:
+                    case AIState.Patrol:                                                        // Patrol
                         break;
-                    case AIState.ChaseAndFire:
+                    case AIState.ChaseAndFire:                                                  // Chase and Fire
                         break;
-                    case AIState.Flee:
+                    case AIState.Flee:                                                          // Flee
                         break;
-                    default:
+                    default:                                                                    // If all else fails
                         Debug.Log("Couldn't find that state");
                         break;
                 }
                 break;
-            default:
+
+            default:                                                                            // Can't Find Persionality
                 Debug.Log("Didn't find the personality that is link to this Tank");
                 break;
         }
@@ -120,6 +127,20 @@ public class FiniteStateMachine : MonoBehaviour {
     void ChangeState(AIState newState) {
         // Change our state
         aiState = newState;
+    }
+
+    float DistanceBetween() {
+        return Vector3.SqrMagnitude(target.position - tf.position);
+    }
+
+    bool CanSee() {
+        // TODO:: Write if can see our target
+        return false;
+    }
+
+    bool CanHear() {
+        // TODO:: Write if can hear something
+        return false;
     }
 
 }

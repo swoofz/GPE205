@@ -106,7 +106,7 @@ public class SampleAIController3 : MonoBehaviour {
 
     }
 
-    // DoAcoidance - handles obstacle avoidance
+    // DoAvoidance - handles obstacle avoidance
     void DoAvoidance() { 
         if(avoidanceStage == 1) {
             // Rotate Left

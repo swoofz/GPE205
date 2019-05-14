@@ -201,6 +201,10 @@ PrefabInstance:
       propertyPath: turnSpeed
       value: 90
       objectReference: {fileID: 0}
+    - target: {fileID: 676914201, guid: 65e92f227846e794883569c427a9c4c3, type: 3}
+      propertyPath: MaxHealth
+      value: 10000
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 65e92f227846e794883569c427a9c4c3, type: 3}
 --- !u!4 &221379952 stripped
@@ -492,10 +496,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy
       objectReference: {fileID: 0}
-    - target: {fileID: 100012, guid: d06f2202f2e4e1948b9d0505c0044ce0, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 400012, guid: d06f2202f2e4e1948b9d0505c0044ce0, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5.52
@@ -540,6 +540,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1594632758725785220, guid: d06f2202f2e4e1948b9d0505c0044ce0,
+        type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 221379952}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d06f2202f2e4e1948b9d0505c0044ce0, type: 3}
 --- !u!1 &756151090
@@ -875,6 +880,10 @@ PrefabInstance:
     - target: {fileID: 100012, guid: 90a6ce508cc4247f497bc846e05f6c0c, type: 3}
       propertyPath: m_Name
       value: TestTank
+      objectReference: {fileID: 0}
+    - target: {fileID: 100012, guid: 90a6ce508cc4247f497bc846e05f6c0c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400012, guid: 90a6ce508cc4247f497bc846e05f6c0c, type: 3}
       propertyPath: m_LocalPosition.x
