@@ -10,6 +10,8 @@ public class AIController : MonoBehaviour {
     public Transform target;            // Target we are going to attack
     public float avoidanceTime = 2.0f;
     public float fleeDistance = 1.0f;
+    public float FOV = 45f;
+    public float hearDistance = 5f;
 
     private FiniteStateMachine FSM;
     private Transform tf;

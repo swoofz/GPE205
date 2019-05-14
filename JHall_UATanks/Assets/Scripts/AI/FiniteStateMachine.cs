@@ -8,7 +8,7 @@ public class FiniteStateMachine : MonoBehaviour {
     public Persionality persionality = Persionality.AllTalk;
 
     public enum AIState { Chase, ChaseAndFire, CheckForFlee, Flee, Patrol };
-    [HideInInspector] public AIState aiState = AIState.Chase;
+    /*[HideInInspector]*/ public AIState aiState = AIState.Chase;
 
     [HideInInspector] public bool lowHealth;
     [HideInInspector] public bool tookShots;
@@ -18,7 +18,7 @@ public class FiniteStateMachine : MonoBehaviour {
     private AIController ai;
     private Transform target;
     private Transform tf;
-    private float aiSenseRadius;
+    private float hearDistance;
 
     void Awake() {
         ai = GetComponent<AIController>();
@@ -27,6 +27,7 @@ public class FiniteStateMachine : MonoBehaviour {
         lowHealth = false;
         tookShots = false;
         flee = false;
+        hearDistance = ai.hearDistance;
     }
 
     void Update() {
@@ -34,26 +35,26 @@ public class FiniteStateMachine : MonoBehaviour {
         // Handling Transitions
         switch (persionality) {
             case Persionality.AllTalk:                                                          // All Talk Tank
-                aiSenseRadius = 5;
                 switch(aiState) {
                     case AIState.Chase:                                                         // Chase
                         if (lowHealth) {
                             persionality = Persionality.Sniper;
-                        } else if (DistanceBetween() <= (aiSenseRadius * aiSenseRadius)) {
-                            // TODO:: Only fire if in LOS
+                        } else if (DistanceBetween() <= (hearDistance * hearDistance) && CanSee()) {
                             ChangeState(AIState.ChaseAndFire);
+                        } else if (!CanHear()) {
+                            ChangeState(AIState.Patrol);
                         }
                         break;
                     case AIState.ChaseAndFire:                                                  // Chase and Fire
                         if(tookShots) {
                             ChangeState(AIState.Flee);
-                        } else if (DistanceBetween() > ( aiSenseRadius * aiSenseRadius )) {
+                        } else if (!CanSee() && CanHear()) {
                             ChangeState(AIState.Chase);
                         }
                         break;
                     case AIState.Flee:                                                          // Flee
                         if (flee) {
-                            if (target == null) {
+                            if (!CanHear()) {
                                 ChangeState(AIState.Patrol);
                             } else {
                                 ChangeState(AIState.Chase);
@@ -61,9 +62,9 @@ public class FiniteStateMachine : MonoBehaviour {
                         }
                         break;
                     case AIState.Patrol:                                                        // Patrol
-                        if (DistanceBetween() > ( aiSenseRadius * aiSenseRadius )) {
+                        if (!CanSee() && CanHear()) {
                             ChangeState(AIState.Chase);
-                        } else if (DistanceBetween() <= ( aiSenseRadius * aiSenseRadius )) {
+                        } else if (DistanceBetween() <= ( hearDistance * hearDistance ) && CanSee()) {
                             ChangeState(AIState.ChaseAndFire);
                         }
                         break;
@@ -134,12 +135,37 @@ public class FiniteStateMachine : MonoBehaviour {
     }
 
     bool CanSee() {
-        // TODO:: Write if can see our target
+        // Get the direction to the target then find out if that angle looking at the target is...
+        //  less than our Field of View
+        Vector3 agentToTargetVector = target.position - tf.position;
+        float angleToTarget = Vector3.Angle(agentToTargetVector, transform.forward);
+
+        if (angleToTarget <= ai.FOV) {
+            RaycastHit hit;
+
+            // Check if we are see the player
+            if (Physics.Raycast(tf.position, agentToTargetVector, out hit)) {
+                if(hit.collider.CompareTag("Player")) {
+                    // Return true if can see the player
+                    return true;
+                }
+            }
+        }
+
+        // Otherwise, we can't see the player so return false
         return false;
     }
 
     bool CanHear() {
-        // TODO:: Write if can hear something
+        if(target != null) {
+            float volume = (hearDistance * hearDistance) - DistanceBetween();
+
+            if(volume > 0) {        // Can hear something if volume is positive
+                return true;        //  ...so return true
+            }
+        }
+        
+        // Otherwise, can't hear anything so return false
         return false;
     }
 

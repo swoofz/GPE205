@@ -416,6 +416,8 @@ MonoBehaviour:
   target: {fileID: 0}
   avoidanceTime: 2
   fleeDistance: 1
+  FOV: 45
+  hearDistance: 10
 --- !u!114 &4217293150013880549
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -461,6 +463,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   persionality: 0
   aiState: 0
+  lowHealth: 0
+  tookShots: 0
+  flee: 0
 --- !u!1 &100014
 GameObject:
   m_ObjectHideFlags: 0

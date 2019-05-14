@@ -48,6 +48,9 @@ public class InputController : MonoBehaviour {
                     move1 = MoveActions.Left;
                     SetSecondInput();           
                 }
+                if (Input.GetKey(KeyCode.Space)) {
+                    action = Action.Shoot;          // Set shoot key
+                }
                 break;
             case InputScheme.arrowKeys:                 // Arrow Keys Input Scheme
                 // Reset after key is let go of a key
@@ -70,13 +73,14 @@ public class InputController : MonoBehaviour {
                     move1 = MoveActions.Left;
                     SetSecondInput();
                 }
+                if (Input.GetKey(KeyCode.RightShift)) {
+                    action = Action.Shoot;          // Set shoot key
+                }
                 break;
         }
 
 
-        if (Input.GetKey(KeyCode.Space)) {
-            action = Action.Shoot;          // Set shoot key
-        }
+
     } // End Update
 
     // Function: SETSECONDINPUT
