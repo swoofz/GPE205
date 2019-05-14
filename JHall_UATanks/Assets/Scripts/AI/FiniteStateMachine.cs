@@ -138,7 +138,7 @@ public class FiniteStateMachine : MonoBehaviour {
         // Get the direction to the target then find out if that angle looking at the target is...
         //  less than our Field of View
         Vector3 agentToTargetVector = target.position - tf.position;
-        float angleToTarget = Vector3.Angle(agentToTargetVector, transform.forward);
+        float angleToTarget = Vector3.Angle(agentToTargetVector, tf.forward);
 
         if (angleToTarget <= ai.FOV) {
             RaycastHit hit;
