@@ -56,7 +56,7 @@ public class SampleAIController3 : MonoBehaviour {
                 DoChase();
 
                 // Limit our firing rate, so we can only shoot if enough time has passed
-                if(Time.time > lastShootTime + data.fireRate) {
+                if(Time.time > lastShootTime + 2) {
                     // Shoot
                     Debug.Log("Shoot");
                     lastShootTime = Time.time;

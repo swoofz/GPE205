@@ -11,7 +11,6 @@ public class PlayerController : MonoBehaviour {
     private TankMotor motor;            // Tank's motor
     private InputController input;      // Player's inputs to do actions
     private GameObject lastHitBy;       // Be able to get the last person that hit this tank
-    private int health;                 // Current Tank health
     private int shellDamge;             // Get the damage a shell does when hits
     private float shootTimer = 0f;      // Time to be able to shoot
 
@@ -21,7 +20,7 @@ public class PlayerController : MonoBehaviour {
         tankData = gameObject.GetComponent<TankData>();             // Store Tank data in a variable
         motor = gameObject.GetComponent<TankMotor>();               // Store Tank moter in a variable
         input = GetComponent<InputController>();                    // Store our InputController in a variable
-        health = tankData.MaxHealth;                                // Set the current health to max on start
+        tankData.health = tankData.MaxHealth;                       // Set the current health to max on start
         GameManager.instance.players.Add(tankData);                 // Adding player's Tank Data to our list in the Game Manger to keep track of how many players are in the game
         shellDamge = GameManager.instance.shellDamage;              // Get our shell damage
     }
@@ -55,7 +54,7 @@ public class PlayerController : MonoBehaviour {
 
 
         // If health get to zero or lower then destory this object
-        if (health <= 0) {
+        if (tankData.health <= 0) {
             // Player dead
             motor.GivePoints(tankData.pointsGivenOnDestory, lastHitBy);     // Give points
             GameManager.instance.players.Remove(tankData);                // Remove from list
@@ -66,7 +65,7 @@ public class PlayerController : MonoBehaviour {
     void OnTriggerEnter(Collider other) {
         if(other.gameObject.tag == "Shell") {
             // If we get hit by a shell, take some damage
-            health = motor.TakeDamage(health, shellDamge);
+            tankData.health = motor.TakeDamage(tankData.health, shellDamge);
 
             // Set lastHitby to the shell owner
             lastHitBy = other.gameObject.GetComponent<ShellController>().tankShooter;

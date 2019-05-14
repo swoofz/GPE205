@@ -44,7 +44,7 @@ public class TankMotor : MonoBehaviour {
 
     // Function: TAKEDAMAGE
     // Lose health when hit
-    public int TakeDamage(int health, int damage) {
+    public float TakeDamage(float health, int damage) {
         // Take away health basic on how much damage was done
         health -= damage;
 
@@ -68,11 +68,14 @@ public class TankMotor : MonoBehaviour {
         //      between the target position and our position.
         vectorToTarget = target - tf.position;
 
+        // Freeze the rotation on the x and y axis ... Get ride of tilt on flat surface
+        Vector3 freezeRotation = new Vector3(vectorToTarget.x, 0, vectorToTarget.z);
+
         // Find the Quaternion that looks down that vector
-        Quaternion targetRotation = Quaternion.LookRotation(vectorToTarget);
+        Quaternion targetRotation = Quaternion.LookRotation(freezeRotation);
 
         // If not facing the target we rotate
-        if(tf.rotation != targetRotation) {
+        if (tf.rotation != targetRotation) {
             // Turn toward target at a constant speed
             tf.rotation = Quaternion.RotateTowards(tf.rotation, targetRotation, rotateSpeed * Time.deltaTime);
             return true;

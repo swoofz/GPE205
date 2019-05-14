@@ -361,7 +361,7 @@ GameObject:
   - component: {fileID: 676914201}
   m_Layer: 0
   m_Name: Tank
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -413,6 +413,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   input: 0
   action: 0
+  move1: 0
+  move2: 0
 --- !u!114 &676914198
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -456,6 +458,8 @@ MonoBehaviour:
   turnSpeed: 180
   pointsGivenOnDestory: 10
   points: 0
+  health: 0
+  fireRate: 3
 --- !u!1 &100014
 GameObject:
   m_ObjectHideFlags: 0
