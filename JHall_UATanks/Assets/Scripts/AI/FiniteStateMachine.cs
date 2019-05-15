@@ -78,10 +78,21 @@ public class FiniteStateMachine : MonoBehaviour {
                 // TODO:: Transitions for Attack Hunger Tank
                 switch(aiState) {
                     case AIState.Chase:                                                         // Chase
+                        if(CanSee()) {
+                            ChangeState(AIState.ChaseAndFire);
+                        } else if (!CanHear()) {
+                            ChangeState(AIState.Patrol);
+                        }
                         break;
                     case AIState.ChaseAndFire:                                                  // Chase and Fire
+                        if(!CanSee() && CanHear()) {
+                            ChangeState(AIState.Chase);
+                        }
                         break;
                     case AIState.Patrol:                                                        // Patrol
+                        if(CanHear()) {
+                            ChangeState(AIState.Chase);
+                        }
                         break;
                     default:                                                                    // IF all else fails
                         Debug.Log("Couldn't find that state");
@@ -93,10 +104,23 @@ public class FiniteStateMachine : MonoBehaviour {
                 // TODO:: Transitions for Scaredy Cat Tank
                 switch (aiState) {
                     case AIState.Flee:                                                          // Flee
+                        if(CanSee()) {
+                            ChangeState(AIState.ChaseAndFire);
+                        } else if(!CanHear()) {
+                            ChangeState(AIState.Patrol);
+                        }
                         break;
                     case AIState.ChaseAndFire:                                                  // Chase and Fire
+                        if(flee) {
+                            ChangeState(AIState.Flee);
+                        }
                         break;
                     case AIState.Patrol:                                                        // Patrol
+                        if(CanSee()) {
+                            ChangeState(AIState.ChaseAndFire);
+                        } else if(CanHear()) {
+                            ChangeState(AIState.Flee);
+                        }
                         break;
                     default:                                                                    // If all else fails
                         Debug.Log("Couldn't find that state");
@@ -108,10 +132,23 @@ public class FiniteStateMachine : MonoBehaviour {
                 // TODO:: Transitions for Sniper Tank
                 switch (aiState) {
                     case AIState.Patrol:                                                        // Patrol
+                        if(CanSee()) {
+                            ChangeState(AIState.ChaseAndFire);
+                        } else if (CanHear()) {
+                            ChangeState(AIState.Flee);
+                        }
                         break;
                     case AIState.ChaseAndFire:                                                  // Chase and Fire
+                        if(!CanSee()) {
+                            ChangeState(AIState.Patrol);
+                        } else if (CanHear()) {
+                            ChangeState(AIState.Flee);
+                        }
                         break;
                     case AIState.Flee:                                                          // Flee
+                        if(!CanHear()) {
+                            ChangeState(AIState.Patrol);
+                        }
                         break;
                     default:                                                                    // If all else fails
                         Debug.Log("Couldn't find that state");
