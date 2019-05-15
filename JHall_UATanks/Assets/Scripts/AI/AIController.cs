@@ -44,7 +44,7 @@ public class AIController : MonoBehaviour {
     void Update() {
 
         // Handling Actions
-        switch(FSM.persionality) {
+        switch (FSM.persionality) {
             case FiniteStateMachine.Persionality.AllTalk:                           // All Talk Tank
                 switch(FSM.aiState) {
                     case FiniteStateMachine.AIState.Chase:                                                              // Chase
@@ -194,37 +194,33 @@ public class AIController : MonoBehaviour {
         }
     }
 
-    // Function: DOAVOIDANCE
     void DoAvoidance() {
-        if(avoidanceStage == 1) {
-            // TODO:: Find Shortest path around object instead of always rotating left
-            // Rotate Left
-            motor.Rotate(-tankData.turnSpeed);
+        if (avoidanceStage == 1) {
+            GoAround();
 
             // If can move forward, go to stage 2
-            if(CanMove(tankData.forwardSpeed)) {
+            if (CanMove(tankData.forwardSpeed)) {
                 avoidanceStage = 2;
-
                 // Number of second we want to stay in stage 2
                 exitTime = avoidanceTime;
             }
-        } else if(avoidanceStage == 2) {
 
+        } else if (avoidanceStage == 2) {
             // if we can move forward do so
-            if(CanMove(tankData.forwardSpeed)) {
+            if (CanMove(tankData.forwardSpeed)) {
                 // Start time countdown and move forward
                 exitTime -= Time.deltaTime;
                 motor.Move(tankData.forwardSpeed);
 
                 // if we have moved long enough, return to an AIstate
-                if(exitTime <= 0) {
+                if (exitTime <= 0) {
                     avoidanceStage = 0;
                 }
             } else {
                 // Can't move go back to stage 1
                 avoidanceStage = 1;
             }
-        } 
+        }
     }
 
     // Function: DOCHASE
@@ -271,15 +267,28 @@ public class AIController : MonoBehaviour {
         }
     }
 
-    bool CanMove(float speed) {
+    bool CanMove(float distanceInFront) {
         // Send a Raycast forward
         //  if hits something that is not a player then we can't move
         RaycastHit hit;
-        if(Physics.Raycast(tf.position, tf.forward, out hit, speed)) {
+        if(Physics.Raycast(tf.position, tf.forward, out hit, distanceInFront)) { // middle
             if(!hit.collider.CompareTag("Player")) {
                 return false;
             }
         }
+        
+        if (Physics.Raycast(tf.position, tf.forward - tf.right, out hit, distanceInFront)) { // left diagonal
+            if (!hit.collider.CompareTag("Player")) {
+                return false;
+            }
+        }
+
+        if (Physics.Raycast(tf.position, tf.forward + tf.right, out hit, distanceInFront)) { // right diagonal
+            if (!hit.collider.CompareTag("Player")) {
+                return false;
+            }
+        }
+        
 
         // Otherwise, we can move
         return true;
@@ -297,5 +306,62 @@ public class AIController : MonoBehaviour {
 
         // Otherwise, return false
         return false;
+    }
+
+    void GoAround() {
+        RaycastHit hit;
+        bool avoid = false;
+        float maxDistance = tankData.forwardSpeed;
+        float direction = 0;
+        float goRight = 0, goLeft = 0;
+
+        if (Physics.Raycast(tf.position, tf.forward, out hit, maxDistance)) {    // Middle
+            if(!hit.collider.CompareTag("Player")) {
+                avoid = true;
+                goRight += Vector3.SqrMagnitude(hit.collider.transform.position - tf.position);
+                goLeft += Vector3.SqrMagnitude(hit.collider.transform.position - tf.position);
+            }
+        }
+
+        if (Physics.Raycast(tf.position, tf.forward + tf.right, out hit, maxDistance)) {    // Diagonal Right
+            if (!hit.collider.CompareTag("Player")) {
+                avoid = true;
+                goRight += Vector3.SqrMagnitude(hit.collider.transform.position - tf.position);
+            }
+        }
+
+        if (Physics.Raycast(tf.position, tf.forward - tf.right, out hit, maxDistance)) {    // Diagonal Left
+            if (!hit.collider.CompareTag("Player")) {
+                avoid = true;
+                goLeft += Vector3.SqrMagnitude(hit.collider.transform.position - tf.position);
+            }
+        }
+
+        if (Physics.Raycast(tf.position, tf.right, out hit, maxDistance)) {                 // Right
+            if (!hit.collider.CompareTag("Player")) {
+                avoid = true;
+                goRight += Vector3.SqrMagnitude(hit.collider.transform.position - tf.position);
+            }
+        }
+
+        if (Physics.Raycast(tf.position, -tf.right, out hit, maxDistance)) {                // Left
+            if (!hit.collider.CompareTag("Player")) {
+                avoid = true;
+                goLeft += Vector3.SqrMagnitude(hit.collider.transform.position - tf.position);
+            }
+        }
+
+        if (avoid) {
+            if(goRight > goLeft) {
+                direction = -1;
+            } else if (goRight < goLeft) {
+                direction = 1;
+            }
+
+        }
+
+        motor.Rotate(tankData.turnSpeed * direction);
+        motor.Move(tankData.forwardSpeed);
+        
     }
 }
