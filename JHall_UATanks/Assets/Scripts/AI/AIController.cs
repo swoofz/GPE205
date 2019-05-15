@@ -27,6 +27,7 @@ public class AIController : MonoBehaviour {
     private int timeShot = 0;
     private float fleeTimer = 5f;
     private int currentWaypoint = 0;
+    private float closeEnough = 2f;
 
     // Start is called before the first frame update
     void Start() {
@@ -106,7 +107,7 @@ public class AIController : MonoBehaviour {
                             if (avoidanceStage != 0) {
                                 DoAvoidance();
                             } else {
-                                Patrol(currentWaypoint, 2f);
+                                Patrol(currentWaypoint, closeEnough);
                             }
                         }
                         break;
@@ -119,11 +120,42 @@ public class AIController : MonoBehaviour {
                 break;
 
             case FiniteStateMachine.Persionality.AttackHunger:                      // Attack Hunger Tank
-                // TODO:: Actions for Attack Hunger Tank
                 switch (FSM.aiState) {
                     case FiniteStateMachine.AIState.Chase:                                                              // Chase
                         {// Make a block that can close down in the editor
+                            if(avoidanceStage != 0) {
+                                DoAvoidance();
+                            } else {
+                                DoChase();
+                            }
+                        }
+                        break;
+                    case FiniteStateMachine.AIState.ChaseAndFire:                                                       // Chase and Fire
+                        {// Make a block that can close down in the editor
+                            // Chase
+                            if (avoidanceStage != 0) {
+                                DoAvoidance();
+                            } else {
+                                DoChase();
+                            }
 
+                            // target is in our line of fire
+                            if (TargetIsInSight()) {
+                                // Shoot
+                                shootTimer -= Time.deltaTime;
+                                if (shootTimer <= 0) {
+                                    shootTimer = shooter.Shoot();
+                                }
+                            }
+                        }
+                        break;
+                    case FiniteStateMachine.AIState.Patrol:                                                             // Patrol
+                        {// Make a block that can close down in the editor
+                            if (avoidanceStage != 0) {
+                                DoAvoidance();
+                            } else {
+                                Patrol(currentWaypoint, closeEnough);
+                            }
                         }
                         break;
                     default:                                                                                            // If all else fails
@@ -135,11 +167,45 @@ public class AIController : MonoBehaviour {
                 break;
 
             case FiniteStateMachine.Persionality.ScaredyCat:                        // Scaredy Cat Tank
-                // TODO:: Actions for Scaredy Cat Tank
                 switch (FSM.aiState) {
                     case FiniteStateMachine.AIState.Flee:                                                               // Flee
                         {// Make a block that can close down in the editor
+                            if(avoidanceStage != 0) {
+                                DoAvoidance();
+                            } else {
+                                DoFlee();
+                            }
+                        }
+                        break;
+                    case FiniteStateMachine.AIState.ChaseAndFire:                                                       // Chase and Fire
+                        {// Make a block that can close down in the editor
+                            // Chase
+                            if (avoidanceStage != 0) {
+                                DoAvoidance();
+                            } else {
+                                DoChase();
+                            }
 
+
+                            if (TargetIsInSight()) {
+                                shootTimer -= Time.deltaTime;
+                                if (shootTimer <= 0) {
+                                    shootTimer = shooter.Shoot();
+                                    timeShot += 1;
+                                    if (timeShot >= 1) {
+                                        FSM.flee = true;
+                                    }
+                                }
+                            }
+                        }
+                        break;
+                    case FiniteStateMachine.AIState.Patrol:                                                             // Patrol
+                        {// Make a block that can close down in the editor
+                            if(avoidanceStage != 0) {
+                                DoAvoidance();
+                            } else {
+                                Patrol(currentWaypoint, closeEnough);
+                            }
                         }
                         break;
                     default:                                                                                            // If all else fails
@@ -151,11 +217,31 @@ public class AIController : MonoBehaviour {
                 break;
 
             case FiniteStateMachine.Persionality.Sniper:                            // Sniper Tank
-                // TODO:: Actions for Sniper Tank
                 switch (FSM.aiState) {
                     case FiniteStateMachine.AIState.Patrol:                                                             // Patrol
                         {// Make a block that can close down in the editor
+                            if(avoidanceStage != 0) {
+                                DoAvoidance();
+                            } else {
+                                Patrol(currentWaypoint, closeEnough);
+                            }
+                        }
+                        break;
+                    case FiniteStateMachine.AIState.ChaseAndFire:                                                       // Chase and Fire
+                        {// Make a block that can close down in the editor
+                            // Sit and shoot at the target
+                            // Try leading shoot
+                            ShootInDirectionGoing();
 
+                        }
+                        break;
+                    case FiniteStateMachine.AIState.Flee:                                                               // Flee
+                        {// Make a block that can close down in the editor
+                            if(avoidanceStage != 0) {
+                                DoAvoidance();
+                            } else {
+                                DoFlee();
+                            }
                         }
                         break;
                     default:                                                                                            // If all else fails
@@ -173,7 +259,6 @@ public class AIController : MonoBehaviour {
 
 
 
-        /*
         // Health
         if(tankData.health <= 0) {
             // Dies
@@ -181,14 +266,14 @@ public class AIController : MonoBehaviour {
             GameManager.instance.enemies.Remove(tankData);                // Remove from list
             Destroy(gameObject);                                            // Destory this
         }   
-        */
+
     }
 
     void OnTriggerEnter(Collider other) {
         if(other.gameObject.tag == "Shell") {
             // Hit by a shell and loses health
             tankData.health = motor.TakeDamage(tankData.health, shellDamge);
-            
+
             // Set lastHitby to the shell owner
             lastHitBy = other.gameObject.GetComponent<ShellController>().tankShooter;
         }
@@ -294,20 +379,6 @@ public class AIController : MonoBehaviour {
         return true;
     }
 
-    bool TargetIsInSight() {
-        // Get the vector to target and find the angle to be able to shoot the target
-        Vector3 vectorToTarget = target.position - tf.position;
-        float angleToShootTarget = Vector3.Angle(vectorToTarget, tf.forward);
-
-        // target within the angle value to shoot return true
-        if(angleToShootTarget <= inSights) {
-            return true;
-        }
-
-        // Otherwise, return false
-        return false;
-    }
-
     void GoAround() {
         RaycastHit hit;
         bool avoid = false;
@@ -363,5 +434,38 @@ public class AIController : MonoBehaviour {
         motor.Rotate(tankData.turnSpeed * direction);
         motor.Move(tankData.forwardSpeed);
         
+    }
+
+
+    bool TargetIsInSight() {
+        // Get the vector to target and find the angle to be able to shoot the target
+        Vector3 vectorToTarget = target.position - tf.position;
+        float angleToShootTarget = Vector3.Angle(vectorToTarget, tf.forward);
+
+        // target within the angle value to shoot return true
+        if (angleToShootTarget <= inSights) {
+            return true;
+        }
+
+        // Otherwise, return false
+        return false;
+    }
+
+    void ShootInDirectionGoing() {
+        if (target != null) {
+            // Find where the target is going to be and shoot in the location it will hit have the bullet makes it that far
+            float bulletTravelTimeToTarget = ( target.position - tf.position ).magnitude / (shooter.force * 1.25f);
+            Vector3 velocity = target.GetComponent<CharacterController>().velocity;
+            Vector3 futurePos = target.position  * bulletTravelTimeToTarget;
+
+            // Rotate to the future position
+            motor.RotateTowards(futurePos, tankData.turnSpeed);
+
+            // then shoot
+            shootTimer -= Time.deltaTime;
+            if (shootTimer <= 0) {
+                shootTimer = shooter.Shoot();
+            }
+        }
     }
 }

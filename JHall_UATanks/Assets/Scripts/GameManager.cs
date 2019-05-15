@@ -65,4 +65,21 @@ public class GameManager : MonoBehaviour {
 
     }
 
+    public TankData GetTargetTankData(Transform target) {
+        foreach (TankData player in players) {
+            if(player.name == target.name) {
+                return player;
+            }
+        }
+
+        foreach (TankData enemy in enemies) {
+            if(enemy.name == target.name) {
+                return enemy;
+            }
+        }
+
+
+        return null;
+    }
+
 }

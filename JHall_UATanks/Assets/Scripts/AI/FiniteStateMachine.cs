@@ -8,7 +8,7 @@ public class FiniteStateMachine : MonoBehaviour {
     public Persionality persionality = Persionality.AllTalk;
 
     public enum AIState { Chase, ChaseAndFire, CheckForFlee, Flee, Patrol };
-    /*[HideInInspector]*/ public AIState aiState = AIState.Chase;
+    /*[HideInInspector]*/ public AIState aiState;
 
     [HideInInspector] public bool lowHealth;
     [HideInInspector] public bool tookShots;
@@ -19,6 +19,8 @@ public class FiniteStateMachine : MonoBehaviour {
     private Transform target;
     private Transform tf;
     private float hearDistance;
+    private float fleeTimer;
+    private float addFleeTime = 2f;
 
     void Awake() {
         ai = GetComponent<AIController>();
@@ -28,6 +30,7 @@ public class FiniteStateMachine : MonoBehaviour {
         tookShots = false;
         flee = false;
         hearDistance = ai.hearDistance;
+        aiState = AIState.Patrol;
     }
 
     void Update() {
@@ -75,7 +78,6 @@ public class FiniteStateMachine : MonoBehaviour {
                 break;
 
             case Persionality.AttackHunger:                                                     // Attack Hunger Tank
-                // TODO:: Transitions for Attack Hunger Tank
                 switch(aiState) {
                     case AIState.Chase:                                                         // Chase
                         if(CanSee()) {
@@ -101,17 +103,27 @@ public class FiniteStateMachine : MonoBehaviour {
                 break;
 
             case Persionality.ScaredyCat:                                                       // Scaredy Cat Tank
-                // TODO:: Transitions for Scaredy Cat Tank
                 switch (aiState) {
                     case AIState.Flee:                                                          // Flee
-                        if(CanSee()) {
+                        // If want to flee then flee first then do what ever want to do
+                        if (flee) {
+                            //fleeTimer = addFleeTime;
+                            fleeTimer -= Time.deltaTime;
+                            if (fleeTimer <= 0) {
+                                flee = false;
+                            }
+                        }
+
+
+                        if (CanSee() && !flee) {
                             ChangeState(AIState.ChaseAndFire);
-                        } else if(!CanHear()) {
+                        } else if(!CanHear() && !flee) {
                             ChangeState(AIState.Patrol);
                         }
                         break;
                     case AIState.ChaseAndFire:                                                  // Chase and Fire
-                        if(flee) {
+                        fleeTimer = addFleeTime;
+                        if (flee) {
                             ChangeState(AIState.Flee);
                         }
                         break;
@@ -129,7 +141,6 @@ public class FiniteStateMachine : MonoBehaviour {
                 break;
 
             case Persionality.Sniper:                                                           // Sniper Tank
-                // TODO:: Transitions for Sniper Tank
                 switch (aiState) {
                     case AIState.Patrol:                                                        // Patrol
                         if(CanSee()) {
