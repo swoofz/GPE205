@@ -428,14 +428,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f59be3995f0abf47b48ea3a2314ed73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shooter: {fileID: 1125538934437867476}
   target: {fileID: 0}
+  shooter: {fileID: 1125538934437867476}
   avoidanceTime: 2
   fleeDistance: 1
   FOV: 45
-  inSights: 10
+  inSight: 5
   hearDistance: 7
   waypoints:
+  - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
