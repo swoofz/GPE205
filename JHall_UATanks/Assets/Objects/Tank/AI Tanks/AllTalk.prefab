@@ -216,7 +216,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5e2d66c7f8f9b5c489d20f579bd86dba, type: 2}
+  - {fileID: 2100000, guid: 14d64bc3d8921a54c92d2acd6ff8722c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -293,7 +293,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5e2d66c7f8f9b5c489d20f579bd86dba, type: 2}
+  - {fileID: 2100000, guid: 14d64bc3d8921a54c92d2acd6ff8722c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -360,7 +360,7 @@ GameObject:
   - component: {fileID: 4217293150013880549}
   - component: {fileID: 310437180118227939}
   m_Layer: 0
-  m_Name: Enemy
+  m_Name: AllTalk
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -435,7 +435,12 @@ MonoBehaviour:
   FOV: 45
   inSights: 10
   hearDistance: 10
-  waypoints: []
+  waypoints:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!114 &4217293150013880549
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -449,9 +454,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxHealth: 100
-  forwardSpeed: 3
-  backwardsSpeed: 3
-  turnSpeed: 50
+  forwardSpeed: 5.2
+  backwardsSpeed: 4.8
+  turnSpeed: 180
   pointsGivenOnDestory: 10
   points: 0
   health: 0
@@ -524,7 +529,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5e2d66c7f8f9b5c489d20f579bd86dba, type: 2}
+  - {fileID: 2100000, guid: 14d64bc3d8921a54c92d2acd6ff8722c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour {
         input = GetComponent<InputController>();                    // Store our InputController in a variable
         tankData.health = tankData.MaxHealth;                       // Set the current health to max on start
         GameManager.instance.players.Add(tankData);                 // Adding player's Tank Data to our list in the Game Manger to keep track of how many players are in the game
+        GameManager.instance.tanks.Add(gameObject.transform);
         shellDamge = GameManager.instance.shellDamage;              // Get our shell damage
     }
 
@@ -58,6 +59,7 @@ public class PlayerController : MonoBehaviour {
             // Player dead
             motor.GivePoints(tankData.pointsGivenOnDestory, lastHitBy);     // Give points
             GameManager.instance.players.Remove(tankData);                // Remove from list
+            GameManager.instance.tanks.Remove(gameObject.transform);
             Destroy(gameObject);                                            // Destory this
         }
     }

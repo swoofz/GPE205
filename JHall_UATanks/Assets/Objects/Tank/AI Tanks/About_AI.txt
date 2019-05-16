@@ -1,0 +1,15 @@
+	AI Personalities:
+
+ All Talk:
+ - This tank likes to find a target, then attack it a few times then run away.
+
+ Attack Hunger:
+ - This tank likes to find a target and try to chase it down for as long as can see them.
+	
+ Scaredy Cat:
+ - This tank likes to avoid contact with others and trying to mind it own business. It will attack if has an opportunity to hit it target then will leave.
+
+ PotatoSniper:
+ - This tank try to hit leading shots but most of the time misses. If a tank is to close it will run. 
+
+

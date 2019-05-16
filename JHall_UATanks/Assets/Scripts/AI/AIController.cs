@@ -5,12 +5,14 @@ using UnityEngine;
 [RequireComponent(typeof(TankMotor))]
 public class AIController : MonoBehaviour {
 
-    public Shooter shooter;             // Get Access to the Shooter compenent methods
+    //[HideInInspector]
     public Transform target;            // Target we are going to attack
+
+    public Shooter shooter;             // Get Access to the Shooter compenent methods
     public float avoidanceTime = 2.0f;
     public float fleeDistance = 1.0f;
     public float FOV = 45f;
-    public float inSights = 10f;
+    public float inSight = 5f;
     public float hearDistance = 5f;
     public Transform[] waypoints;
 
@@ -21,13 +23,13 @@ public class AIController : MonoBehaviour {
     private GameObject lastHitBy;       // Get the last person that hit this tank
     private int shellDamge;             // Get the damage a shell does when hits
     private float shootTimer = 0;       // AI shoot after timer is done
-    private float rotateTimer;          // Changer rotation after timer
     private int avoidanceStage = 0;
     private float exitTime;
     private int timeShot = 0;
     private float fleeTimer = 5f;
     private int currentWaypoint = 0;
     private float closeEnough = 2f;
+    private float inSightsAngle = 10f;
 
     // Start is called before the first frame update
     void Start() {
@@ -37,6 +39,7 @@ public class AIController : MonoBehaviour {
         motor = gameObject.GetComponent<TankMotor>();               // Store Tank moter in a variable
         tankData.health = tankData.MaxHealth;                       // Set the current health to max on start
         GameManager.instance.enemies.Add(tankData);                 // Adding AI's Tank Data to our list in the Game Manger to keep track of how many players are in the game
+        GameManager.instance.tanks.Add(tf);
         shellDamge = GameManager.instance.shellDamage;              // Get our shell damage
         currentWaypoint = Random.Range(0, waypoints.Length);
     }
@@ -47,6 +50,13 @@ public class AIController : MonoBehaviour {
         // Handling Actions
         switch (FSM.persionality) {
             case FiniteStateMachine.Persionality.AllTalk:                           // All Talk Tank
+                // Set Tank to be worried about health
+                if(tankData.health <= 30) {
+                    FSM.lowHealth = true;
+                } else {
+                    FSM.lowHealth = false;
+                }
+
                 switch(FSM.aiState) {
                     case FiniteStateMachine.AIState.Chase:                                                              // Chase
                         {// Make a block that can close down in the editor
@@ -216,7 +226,7 @@ public class AIController : MonoBehaviour {
                 }
                 break;
 
-            case FiniteStateMachine.Persionality.Sniper:                            // Sniper Tank
+            case FiniteStateMachine.Persionality.PotatoSniper:                            // Sniper Tank
                 switch (FSM.aiState) {
                     case FiniteStateMachine.AIState.Patrol:                                                             // Patrol
                         {// Make a block that can close down in the editor
@@ -231,6 +241,7 @@ public class AIController : MonoBehaviour {
                         {// Make a block that can close down in the editor
                             // Sit and shoot at the target
                             // Try leading shoot
+                            shootTimer -= Time.deltaTime;
                             ShootInDirectionGoing();
 
                         }
@@ -264,6 +275,7 @@ public class AIController : MonoBehaviour {
             // Dies
             motor.GivePoints(tankData.pointsGivenOnDestory, lastHitBy);     // Give Points
             GameManager.instance.enemies.Remove(tankData);                // Remove from list
+            GameManager.instance.tanks.Remove(tf);
             Destroy(gameObject);                                            // Destory this
         }   
 
@@ -279,6 +291,7 @@ public class AIController : MonoBehaviour {
         }
     }
 
+    // Function: DOAVOIDANCE
     void DoAvoidance() {
         if (avoidanceStage == 1) {
             GoAround();
@@ -310,35 +323,41 @@ public class AIController : MonoBehaviour {
 
     // Function: DOCHASE
     void DoChase() {
-        motor.RotateTowards(target.position, tankData.turnSpeed);       // Rotate to target's position
+        if (target != null) {
+            motor.RotateTowards(target.position, tankData.turnSpeed);       // Rotate to target's position
 
-        // if can move forward then do so
-        if(CanMove(tankData.forwardSpeed)) {
-            motor.Move(tankData.forwardSpeed);
-        } else {
-            // Avoid obstacle that is in front of us
-            avoidanceStage = 1;
+            // if can move forward then do so
+            if (CanMove(tankData.forwardSpeed)) {
+                motor.Move(tankData.forwardSpeed);
+            } else {
+                // Avoid obstacle that is in front of us
+                avoidanceStage = 1;
+            }
         }
     }
 
+    // Function: DOFLEE
     void DoFlee() {
-        // Create a vector to our target then flip to do away
-        Vector3 vectorToTarget = target.position - tf.position;
-        Vector3 oppsiteVector = -1 * vectorToTarget;
-        oppsiteVector.Normalize();                                  // Make magnitude of 1 
+        if (target != null) {
+            // Create a vector to our target then flip to do away
+            Vector3 vectorToTarget = target.position - tf.position;
+            Vector3 oppsiteVector = -1 * vectorToTarget;
+            oppsiteVector.Normalize();                                  // Make magnitude of 1 
 
-        // Go away from target
-        oppsiteVector *= fleeDistance;                              // increase the distance to go away from
-        Vector3 fleePosition = oppsiteVector + tf.position;         // Get the location that are planing to flee to
+            // Go away from target
+            oppsiteVector *= fleeDistance;                              // increase the distance to go away from
+            Vector3 fleePosition = oppsiteVector + tf.position;         // Get the location that are planing to flee to
 
-        if (CanMove(tankData.forwardSpeed)) {
-            motor.RotateTowards(fleePosition, tankData.turnSpeed);  // Rotate to the flee location
-            motor.Move(tankData.forwardSpeed);                      // Go to the flee location
-        } else {
-            avoidanceStage = 1;
+            if (CanMove(tankData.forwardSpeed)) {
+                motor.RotateTowards(fleePosition, tankData.turnSpeed);  // Rotate to the flee location
+                motor.Move(tankData.forwardSpeed);                      // Go to the flee location
+            } else {
+                avoidanceStage = 1;
+            }
         }
     }
 
+    // Function: PATROL
     void Patrol(int waypoint, float closeEnough) {
         if (Vector3.SqrMagnitude(waypoints[waypoint].position - tf.position) < ( closeEnough * closeEnough )) {
             currentWaypoint = Random.Range(0, waypoints.Length);
@@ -352,6 +371,7 @@ public class AIController : MonoBehaviour {
         }
     }
 
+    // Function: CANMOVE
     bool CanMove(float distanceInFront) {
         // Send a Raycast forward
         //  if hits something that is not a player then we can't move
@@ -379,6 +399,7 @@ public class AIController : MonoBehaviour {
         return true;
     }
 
+    // Function: GOAROUND
     void GoAround() {
         RaycastHit hit;
         bool avoid = false;
@@ -436,36 +457,36 @@ public class AIController : MonoBehaviour {
         
     }
 
-
+    // Function: TARGETISINSIGHT
     bool TargetIsInSight() {
-        // Get the vector to target and find the angle to be able to shoot the target
-        Vector3 vectorToTarget = target.position - tf.position;
-        float angleToShootTarget = Vector3.Angle(vectorToTarget, tf.forward);
+        if (target != null) {
+            // Get the vector to target and find the angle to be able to shoot the target
+            Vector3 vectorToTarget = target.position - tf.position;
+            float angleToShootTarget = Vector3.Angle(vectorToTarget, tf.forward);
 
-        // target within the angle value to shoot return true
-        if (angleToShootTarget <= inSights) {
-            return true;
+            // target within the angle value to shoot return true
+            if (angleToShootTarget <= inSightsAngle) {
+                return true;
+            }
         }
 
         // Otherwise, return false
         return false;
     }
 
+    // Function: SHOOTINDIRECTIONGOING
     void ShootInDirectionGoing() {
-        if (target != null) {
-            // Find where the target is going to be and shoot in the location it will hit have the bullet makes it that far
-            float bulletTravelTimeToTarget = ( target.position - tf.position ).magnitude / (shooter.force * 1.25f);
-            Vector3 velocity = target.GetComponent<CharacterController>().velocity;
-            Vector3 futurePos = target.position  * bulletTravelTimeToTarget;
+        // Find where the target is going to be and shoot in the location it will hit have the bullet makes it that far
+        float bulletTravelTimeToTarget = ( target.position - tf.position ).magnitude / (shooter.force * 1.25f);
+        Vector3 velocity = target.GetComponent<CharacterController>().velocity;
+        Vector3 futurePos = target.position  * bulletTravelTimeToTarget;
 
-            // Rotate to the future position
-            motor.RotateTowards(futurePos, tankData.turnSpeed);
+        // Rotate to the future position
+        motor.RotateTowards(futurePos, tankData.turnSpeed);
 
-            // then shoot
-            shootTimer -= Time.deltaTime;
-            if (shootTimer <= 0) {
-                shootTimer = shooter.Shoot();
-            }
+        // then shoot
+        if (shootTimer <= 0) {
+            shootTimer = shooter.Shoot();
         }
     }
 }

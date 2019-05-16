@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class FiniteStateMachine : MonoBehaviour {
 
-    public enum Persionality { AllTalk, AttackHunger, ScaredyCat, Sniper };
+    public enum Persionality { AllTalk, AttackHunger, ScaredyCat, PotatoSniper };
     public Persionality persionality = Persionality.AllTalk;
 
     public enum AIState { Chase, ChaseAndFire, CheckForFlee, Flee, Patrol };
-    /*[HideInInspector]*/ public AIState aiState;
+    //[HideInInspector]
+    public AIState aiState;
 
     [HideInInspector] public bool lowHealth;
     [HideInInspector] public bool tookShots;
@@ -16,7 +17,6 @@ public class FiniteStateMachine : MonoBehaviour {
 
 
     private AIController ai;
-    private Transform target;
     private Transform tf;
     private float hearDistance;
     private float fleeTimer;
@@ -24,7 +24,6 @@ public class FiniteStateMachine : MonoBehaviour {
 
     void Awake() {
         ai = GetComponent<AIController>();
-        target = ai.target;
         tf = ai.transform;
         lowHealth = false;
         tookShots = false;
@@ -41,8 +40,9 @@ public class FiniteStateMachine : MonoBehaviour {
                 switch(aiState) {
                     case AIState.Chase:                                                         // Chase
                         if (lowHealth) {
-                            persionality = Persionality.Sniper;
-                        } else if (DistanceBetween() <= (hearDistance * hearDistance) && CanSee()) {
+                            ChangeState(AIState.Patrol);
+                            persionality = Persionality.PotatoSniper;
+                        } else if (DistanceBetween(ai.target) <= (hearDistance * hearDistance) && CanSee()) {
                             ChangeState(AIState.ChaseAndFire);
                         } else if (!CanHear()) {
                             ChangeState(AIState.Patrol);
@@ -53,6 +53,8 @@ public class FiniteStateMachine : MonoBehaviour {
                             ChangeState(AIState.Flee);
                         } else if (!CanSee() && CanHear()) {
                             ChangeState(AIState.Chase);
+                        } else if(ai.target == null) {
+                            ChangeState(AIState.Patrol);
                         }
                         break;
                     case AIState.Flee:                                                          // Flee
@@ -67,7 +69,7 @@ public class FiniteStateMachine : MonoBehaviour {
                     case AIState.Patrol:                                                        // Patrol
                         if (!CanSee() && CanHear()) {
                             ChangeState(AIState.Chase);
-                        } else if (DistanceBetween() <= ( hearDistance * hearDistance ) && CanSee()) {
+                        } else if (DistanceBetween(ai.target) <= ( hearDistance * hearDistance ) && CanSee()) {
                             ChangeState(AIState.ChaseAndFire);
                         }
                         break;
@@ -89,6 +91,8 @@ public class FiniteStateMachine : MonoBehaviour {
                     case AIState.ChaseAndFire:                                                  // Chase and Fire
                         if(!CanSee() && CanHear()) {
                             ChangeState(AIState.Chase);
+                        } else if(ai.target == null) {
+                            ChangeState(AIState.Patrol);
                         }
                         break;
                     case AIState.Patrol:                                                        // Patrol
@@ -107,7 +111,6 @@ public class FiniteStateMachine : MonoBehaviour {
                     case AIState.Flee:                                                          // Flee
                         // If want to flee then flee first then do what ever want to do
                         if (flee) {
-                            //fleeTimer = addFleeTime;
                             fleeTimer -= Time.deltaTime;
                             if (fleeTimer <= 0) {
                                 flee = false;
@@ -140,7 +143,7 @@ public class FiniteStateMachine : MonoBehaviour {
                 }
                 break;
 
-            case Persionality.Sniper:                                                           // Sniper Tank
+            case Persionality.PotatoSniper:                                                           // Sniper Tank
                 switch (aiState) {
                     case AIState.Patrol:                                                        // Patrol
                         if(CanSee()) {
@@ -150,10 +153,10 @@ public class FiniteStateMachine : MonoBehaviour {
                         }
                         break;
                     case AIState.ChaseAndFire:                                                  // Chase and Fire
-                        if(!CanSee()) {
-                            ChangeState(AIState.Patrol);
-                        } else if (CanHear()) {
+                        if (CanHear()) {
                             ChangeState(AIState.Flee);
+                        } else if (!CanSee()) {
+                            ChangeState(AIState.Patrol);
                         }
                         break;
                     case AIState.Flee:                                                          // Flee
@@ -173,46 +176,72 @@ public class FiniteStateMachine : MonoBehaviour {
         }
     }
 
+    // Function: CHANGESTATE
     void ChangeState(AIState newState) {
         // Change our state
         aiState = newState;
     }
 
-    float DistanceBetween() {
+    // Function: DISTANCEBETWEEN
+    float DistanceBetween(Transform target) {
+        if(target == null) {
+            return 0;
+        }
         return Vector3.SqrMagnitude(target.position - tf.position);
     }
 
+    // Function: CANSEE
     bool CanSee() {
-        // Get the direction to the target then find out if that angle looking at the target is...
-        //  less than our Field of View
-        Vector3 agentToTargetVector = target.position - tf.position;
-        float angleToTarget = Vector3.Angle(agentToTargetVector, tf.forward);
+        foreach(Transform tank in GameManager.instance.tanks) {
+            if (tank.name != this.name) {
+                ai.target = tank;
+                // Makes sure the target is close enough to for us to see
+                if (DistanceBetween(ai.target) <= ai.inSight * ai.inSight) {
+                    // Get the direction to the target then find out if that angle looking at the target is...
+                    //  less than our Field of View
+                    Vector3 agentToTargetVector = ai.target.position - tf.position;
+                    float angleToTarget = Vector3.Angle(agentToTargetVector, tf.forward);
 
-        if (angleToTarget <= ai.FOV) {
-            RaycastHit hit;
+                    if (angleToTarget <= ai.FOV) {
+                        RaycastHit hit;
 
-            // Check if we are see the player
-            if (Physics.Raycast(tf.position, agentToTargetVector, out hit)) {
-                if(hit.collider.CompareTag("Player")) {
-                    // Return true if can see the player
-                    return true;
+                        // Check if we are able to see the player
+                        if (Physics.Raycast(tf.position, agentToTargetVector, out hit)) {
+                            if (hit.collider.CompareTag("Player")) {
+                                // Return true if can see the player
+                                ai.target = tank;
+                                return true;
+                            }
+                        }
+                    }
                 }
             }
         }
 
         // Otherwise, we can't see the player so return false
+        ai.target = null;
         return false;
     }
 
+    // Function: CANHEAR
     bool CanHear() {
-        if(target != null) {
-            float volume = (hearDistance * hearDistance) - DistanceBetween();
+        foreach (Transform tank in GameManager.instance.tanks) {
 
-            if(volume > 0) {        // Can hear something if volume is positive
-                return true;        //  ...so return true
+            if (tank.name != this.name) {
+                float volume = ( hearDistance * hearDistance ) - DistanceBetween(tank);
+
+                if (volume > 0) {
+                    ai.target = tank;
+                    return true;
+                }
             }
         }
-        
+
+        if (!CanSee()) {
+            // Make sure cant see before setting the target to null
+            ai.target = null;
+        }
+
         // Otherwise, can't hear anything so return false
         return false;
     }
