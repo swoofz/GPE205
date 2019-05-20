@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour {
     [HideInInspector]
     public List<TankData> enemies;   // Holds all Emenies in the game
     [HideInInspector]
-    public List<Transform> tanks;
+    public List<Transform> tanks;    // Hold all transform of every tank in the game
 
 
     private int tanksAlive;         // Store the number of tank alive

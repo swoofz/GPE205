@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TankData : MonoBehaviour {
 
-    public int MaxHealth = 100;         // Max Health that a Tank can have
+    public float MaxHealth = 100;       // Max Health that a Tank can have
     public float forwardSpeed = 3;      // in meters per second
     public float backwardsSpeed = 3;    // in meters per second
     public float turnSpeed = 180;       // in degress per second
@@ -14,6 +14,6 @@ public class TankData : MonoBehaviour {
     // access to it in other scripts
     [HideInInspector]
     public int points;                  // Tank points
-    //[HideInInspector]
-    public float health;
+    [HideInInspector]
+    public float health;                // Health player has
 }

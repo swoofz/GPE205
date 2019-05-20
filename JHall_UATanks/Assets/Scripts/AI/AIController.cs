@@ -5,43 +5,43 @@ using UnityEngine;
 [RequireComponent(typeof(TankMotor))]
 public class AIController : MonoBehaviour {
 
-    //[HideInInspector]
+    [HideInInspector]
     public Transform target;            // Target we are going to attack
 
     public Shooter shooter;             // Get Access to the Shooter compenent methods
-    public float avoidanceTime = 2.0f;
-    public float fleeDistance = 1.0f;
-    public float FOV = 45f;
-    public float inSight = 5f;
-    public float hearDistance = 5f;
-    public Transform[] waypoints;
+    public float avoidanceTime = 2.0f;  // Time in avoiding stage
+    public float fleeDistance = 1.0f;   // How far we will flee
+    public float FOV = 45f;             // Field of View    
+    public float inSight = 5f;          // Distance that can to be able to see a target
+    public float hearDistance = 5f;     // The distance in which you can hear
+    public Transform[] waypoints;       // Locations that will go to
 
-    private FiniteStateMachine FSM;
-    private Transform tf;
+    private FiniteStateMachine FSM;     // Finite State Machine for our AI
+    private Transform tf;               // To store our tranform
     private TankData tankData;          // Tank's Data
     private TankMotor motor;            // Tank's motor
     private GameObject lastHitBy;       // Get the last person that hit this tank
     private int shellDamge;             // Get the damage a shell does when hits
     private float shootTimer = 0;       // AI shoot after timer is done
-    private int avoidanceStage = 0;
-    private float exitTime;
-    private int timeShot = 0;
-    private float fleeTimer = 5f;
-    private int currentWaypoint = 0;
-    private float closeEnough = 2f;
-    private float inSightsAngle = 10f;
+    private int avoidanceStage = 0;     // The different stages of avoiding
+    private float exitTime;             // Time to exit the avoid stage
+    private int timeShot = 0;           // Get the amount of shots fired
+    private float fleeTimer = 5f;       // Time will be fleeing
+    private int currentWaypoint = 0;    // The current way that we go to
+    private float closeEnough = 2f;     // Close enough to a waypoint
+    private float inSightsAngle = 10f;  // Within shoot angle
 
     // Start is called before the first frame update
     void Start() {
-        FSM = GetComponent<FiniteStateMachine>();
-        tf = GetComponent<Transform>();
+        FSM = GetComponent<FiniteStateMachine>();                   // Store our Finite State Machine
+        tf = GetComponent<Transform>();                             // Store our Transform for easy access
         tankData = gameObject.GetComponent<TankData>();             // Store Tank data in a variable
         motor = gameObject.GetComponent<TankMotor>();               // Store Tank moter in a variable
         tankData.health = tankData.MaxHealth;                       // Set the current health to max on start
         GameManager.instance.enemies.Add(tankData);                 // Adding AI's Tank Data to our list in the Game Manger to keep track of how many players are in the game
-        GameManager.instance.tanks.Add(tf);
+        GameManager.instance.tanks.Add(tf);                         // Add our transform to our list to kept track on the different players in the game
         shellDamge = GameManager.instance.shellDamage;              // Get our shell damage
-        currentWaypoint = Random.Range(0, waypoints.Length);
+        currentWaypoint = Random.Range(0, waypoints.Length);        // Start off with a random waypoint
     }
 
     // Update is called once per frame
@@ -274,8 +274,8 @@ public class AIController : MonoBehaviour {
         if(tankData.health <= 0) {
             // Dies
             motor.GivePoints(tankData.pointsGivenOnDestory, lastHitBy);     // Give Points
-            GameManager.instance.enemies.Remove(tankData);                // Remove from list
-            GameManager.instance.tanks.Remove(tf);
+            GameManager.instance.enemies.Remove(tankData);                  // Remove from list
+            GameManager.instance.tanks.Remove(tf);                          // Remove from list to stop being an target option
             Destroy(gameObject);                                            // Destory this
         }   
 
@@ -358,11 +358,13 @@ public class AIController : MonoBehaviour {
     }
 
     // Function: PATROL
-    void Patrol(int waypoint, float closeEnough) {
-        if (Vector3.SqrMagnitude(waypoints[waypoint].position - tf.position) < ( closeEnough * closeEnough )) {
+    void Patrol(int waypoint, float closeEnoughToWaypoint) {
+        // if close enough to a waypoint then change waypoint
+        if (Vector3.SqrMagnitude(waypoints[waypoint].position - tf.position) < ( closeEnoughToWaypoint * closeEnoughToWaypoint )) {
             currentWaypoint = Random.Range(0, waypoints.Length);
         }
 
+        // If can move then more otherwise do avoidance
         if (CanMove(tankData.forwardSpeed)) {
             motor.RotateTowards(waypoints[waypoint].position, tankData.turnSpeed);
             motor.Move(tankData.forwardSpeed);
@@ -376,7 +378,10 @@ public class AIController : MonoBehaviour {
         // Send a Raycast forward
         //  if hits something that is not a player then we can't move
         RaycastHit hit;
-        if(Physics.Raycast(tf.position, tf.forward, out hit, distanceInFront)) { // middle
+
+        // Find out if we come in to contact (collision) with an object other than player return false
+        //      ... Center, Diagonal to the right, and diagonal to the left
+        if(Physics.Raycast(tf.position, tf.forward, out hit, distanceInFront)) { // Middle
             if(!hit.collider.CompareTag("Player")) {
                 return false;
             }
@@ -402,10 +407,10 @@ public class AIController : MonoBehaviour {
     // Function: GOAROUND
     void GoAround() {
         RaycastHit hit;
-        bool avoid = false;
-        float maxDistance = tankData.forwardSpeed;
-        float direction = 0;
-        float goRight = 0, goLeft = 0;
+        bool avoid = false;                         // find out of need to avoid anything
+        float maxDistance = tankData.forwardSpeed;  // Max distance to see if hit anything
+        float direction = 0;                        // Get out direction we want to turn
+        float goRight = 0, goLeft = 0;              // Find out what side has more room to go on
 
         if (Physics.Raycast(tf.position, tf.forward, out hit, maxDistance)) {    // Middle
             if(!hit.collider.CompareTag("Player")) {
@@ -443,11 +448,13 @@ public class AIController : MonoBehaviour {
             }
         }
 
+        // if need to avoid
         if (avoid) {
+            // find out the direction need to go
             if(goRight > goLeft) {
-                direction = -1;
-            } else if (goRight < goLeft) {
-                direction = 1;
+                direction = -1;                 // go left
+            } else if (goRight <= goLeft) {
+                direction = 1;                  // go right
             }
 
         }

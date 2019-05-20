@@ -4,25 +4,27 @@ using UnityEngine;
 
 public class FiniteStateMachine : MonoBehaviour {
 
+    // Different Persionality for tanks
     public enum Persionality { AllTalk, AttackHunger, ScaredyCat, PotatoSniper };
     public Persionality persionality = Persionality.AllTalk;
 
+    // State in which our AI is in
     public enum AIState { Chase, ChaseAndFire, CheckForFlee, Flee, Patrol };
-    //[HideInInspector]
-    public AIState aiState;
+    [HideInInspector] public AIState aiState;
 
-    [HideInInspector] public bool lowHealth;
-    [HideInInspector] public bool tookShots;
-    [HideInInspector] public bool flee;
+    [HideInInspector] public bool lowHealth;    // Get whether or not we have low hp
+    [HideInInspector] public bool tookShots;    // Get whether or not we took enoung shots
+    [HideInInspector] public bool flee;         // Get whether or not we want to flee
 
 
-    private AIController ai;
-    private Transform tf;
-    private float hearDistance;
-    private float fleeTimer;
-    private float addFleeTime = 2f;
+    private AIController ai;        // Get our AI Controller
+    private Transform tf;           // Get our Transform
+    private float hearDistance;     // Figure out how far we can hear
+    private float fleeTimer;        // Timer for fleeing
+    private float addFleeTime = 2f; // Time to flee
 
     void Awake() {
+        // Inialize Variables to use
         ai = GetComponent<AIController>();
         tf = ai.transform;
         lowHealth = false;
@@ -39,37 +41,46 @@ public class FiniteStateMachine : MonoBehaviour {
             case Persionality.AllTalk:                                                          // All Talk Tank
                 switch(aiState) {
                     case AIState.Chase:                                                         // Chase
-                        if (lowHealth) {
-                            ChangeState(AIState.Patrol);
-                            persionality = Persionality.PotatoSniper;
+                        if (lowHealth) {                                // if low hp
+                            ChangeState(AIState.Patrol);                // change state to Patorl
+                            persionality = Persionality.PotatoSniper;   // then swicth to a potato sniper
                         } else if (DistanceBetween(ai.target) <= (hearDistance * hearDistance) && CanSee()) {
+                            // if can cansee and within distance to hear the
                             ChangeState(AIState.ChaseAndFire);
-                        } else if (!CanHear()) {
+                        } else if (!CanHear()) { // can't hear
                             ChangeState(AIState.Patrol);
                         }
                         break;
                     case AIState.ChaseAndFire:                                                  // Chase and Fire
                         if(tookShots) {
+                            // if took enough shoots then flee
                             ChangeState(AIState.Flee);
                         } else if (!CanSee() && CanHear()) {
+                            // cant see but can hear then just chase
                             ChangeState(AIState.Chase);
                         } else if(ai.target == null) {
+                            // no target then go on partol
                             ChangeState(AIState.Patrol);
                         }
                         break;
                     case AIState.Flee:                                                          // Flee
                         if (flee) {
+                            // when fleeing
                             if (!CanHear()) {
+                                // cant hear go on patrol
                                 ChangeState(AIState.Patrol);
                             } else {
+                                // otherwise chase
                                 ChangeState(AIState.Chase);
                             }
                         }
                         break;
                     case AIState.Patrol:                                                        // Patrol
                         if (!CanSee() && CanHear()) {
+                            // Cant see but can hear so chase
                             ChangeState(AIState.Chase);
                         } else if (DistanceBetween(ai.target) <= ( hearDistance * hearDistance ) && CanSee()) {
+                            // see and hear chase and fire
                             ChangeState(AIState.ChaseAndFire);
                         }
                         break;
@@ -83,20 +94,25 @@ public class FiniteStateMachine : MonoBehaviour {
                 switch(aiState) {
                     case AIState.Chase:                                                         // Chase
                         if(CanSee()) {
+                            // see chase and fire
                             ChangeState(AIState.ChaseAndFire);
                         } else if (!CanHear()) {
+                            // cant hear - patrol
                             ChangeState(AIState.Patrol);
                         }
                         break;
                     case AIState.ChaseAndFire:                                                  // Chase and Fire
                         if(!CanSee() && CanHear()) {
+                            // cant see and hear - Chase
                             ChangeState(AIState.Chase);
                         } else if(ai.target == null) {
+                            // no target - Patrol
                             ChangeState(AIState.Patrol);
                         }
                         break;
                     case AIState.Patrol:                                                        // Patrol
                         if(CanHear()) {
+                            // can hear - Chase
                             ChangeState(AIState.Chase);
                         }
                         break;
@@ -117,14 +133,16 @@ public class FiniteStateMachine : MonoBehaviour {
                             }
                         }
 
-
                         if (CanSee() && !flee) {
+                            // see and not want to flee - Chase
                             ChangeState(AIState.ChaseAndFire);
                         } else if(!CanHear() && !flee) {
+                            // cant hear and dont want to flee - Patrol
                             ChangeState(AIState.Patrol);
                         }
                         break;
                     case AIState.ChaseAndFire:                                                  // Chase and Fire
+                        // Set flee timer
                         fleeTimer = addFleeTime;
                         if (flee) {
                             ChangeState(AIState.Flee);
@@ -132,8 +150,10 @@ public class FiniteStateMachine : MonoBehaviour {
                         break;
                     case AIState.Patrol:                                                        // Patrol
                         if(CanSee()) {
+                            // can see - Chase and fire
                             ChangeState(AIState.ChaseAndFire);
                         } else if(CanHear()) {
+                            // can hear - Flee
                             ChangeState(AIState.Flee);
                         }
                         break;
@@ -147,20 +167,25 @@ public class FiniteStateMachine : MonoBehaviour {
                 switch (aiState) {
                     case AIState.Patrol:                                                        // Patrol
                         if(CanSee()) {
+                            // Can see - Chase and Fire
                             ChangeState(AIState.ChaseAndFire);
                         } else if (CanHear()) {
+                            // Can Hear - Flee
                             ChangeState(AIState.Flee);
                         }
                         break;
                     case AIState.ChaseAndFire:                                                  // Chase and Fire
                         if (CanHear()) {
+                            // can hear - Flee
                             ChangeState(AIState.Flee);
                         } else if (!CanSee()) {
+                            // cant see - Patrol
                             ChangeState(AIState.Patrol);
                         }
                         break;
                     case AIState.Flee:                                                          // Flee
                         if(!CanHear()) {
+                            // cant hear - Patrol
                             ChangeState(AIState.Patrol);
                         }
                         break;
@@ -184,15 +209,19 @@ public class FiniteStateMachine : MonoBehaviour {
 
     // Function: DISTANCEBETWEEN
     float DistanceBetween(Transform target) {
+        // check that we have a target
         if(target == null) {
             return 0;
         }
+        // return the distance between target and us squared
         return Vector3.SqrMagnitude(target.position - tf.position);
     }
 
     // Function: CANSEE
     bool CanSee() {
+        // Check all tanks transform
         foreach(Transform tank in GameManager.instance.tanks) {
+            // Don't get this tank with this component
             if (tank.name != this.name) {
                 ai.target = tank;
                 // Makes sure the target is close enough to for us to see
@@ -225,11 +254,15 @@ public class FiniteStateMachine : MonoBehaviour {
 
     // Function: CANHEAR
     bool CanHear() {
+        // check all tanks transform
         foreach (Transform tank in GameManager.instance.tanks) {
 
+            // don't get the same tank as this one
             if (tank.name != this.name) {
+                // Check if you can hear a tank near by
                 float volume = ( hearDistance * hearDistance ) - DistanceBetween(tank);
 
+                // if can hear return true and set a target
                 if (volume > 0) {
                     ai.target = tank;
                     return true;
