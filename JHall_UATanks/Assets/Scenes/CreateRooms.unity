@@ -155,8 +155,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d37c9facf93448dc98a19a6709eeb09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rows: 5
-  cols: 5
+  rows: 2
+  cols: 2
+  mapSeed: 0
+  isMapOfTheDay: 1
   gridPrefabs:
   - {fileID: 121816, guid: 41d4243be8ad3a5409422171976de7ff, type: 3}
   - {fileID: 5690004546231816396, guid: 48e49549709014cf1906c6367ff71e12, type: 3}
