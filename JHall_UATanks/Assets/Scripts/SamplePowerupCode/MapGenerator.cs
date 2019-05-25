@@ -9,6 +9,7 @@ public class MapGenerator : MonoBehaviour {
     public int cols;
     public int mapSeed;
     public bool isMapOfTheDay;
+    public bool randomMap;
 
     private float roomWidth = 50.0f;
     private float roomHeight = 50.0f;
@@ -18,14 +19,22 @@ public class MapGenerator : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
-        if (isMapOfTheDay) {
+        if (isMapOfTheDay && !randomMap) {
             // Set our seed
             UnityEngine.Random.InitState(DateToInt(DateTime.Now.Date));
-        } else {
-            UnityEngine.Random.InitState(DateToInt(DateTime.Now));
         }
-        // Generate grid
-        GenerateGrid();
+
+        if(randomMap && !isMapOfTheDay) {
+            UnityEngine.Random.InitState(mapSeed);
+        }
+
+        if (randomMap && isMapOfTheDay) {
+            Debug.Log("No map was generated.");
+            Debug.LogWarning("Can't be both a random map and the map of the day.");
+        } else {
+            // Generate grid
+            GenerateGrid();
+        }
     }
 
     public void GenerateGrid() {
