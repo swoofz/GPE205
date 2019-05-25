@@ -35,6 +35,7 @@ public class Pickup : MonoBehaviour {
 
             // Destory this pickup
             Destroy(gameObject);
+            GameManager.instance.powerupCount -= 1;
         }    
     }
 }
