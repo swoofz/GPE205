@@ -22,12 +22,18 @@ public class PlayerController : MonoBehaviour {
         input = GetComponent<InputController>();                    // Store our InputController in a variable
         tankData.health = tankData.MaxHealth;                       // Set the current health to max on start
         GameManager.instance.players.Add(tankData);                 // Adding player's Tank Data to our list in the Game Manger to keep track of how many players are in the game
-        GameManager.instance.tanks.Add(gameObject.transform);
+        GameManager.instance.tanks.Add(gameObject.transform);       // Add our tranform to a list in the game Manager
         shellDamge = GameManager.instance.shellDamage;              // Get our shell damage
     }
 
     // Update is called once per frame
     void Update() {
+
+        if(Input.GetKeyDown(KeyCode.Q)) {
+            GameManager.instance.Respawn(transform);
+        }
+
+
         // Get two a max of two input to move around with
         if(input.move1  == InputController.MoveActions.Forward || input.move2 == InputController.MoveActions.Forward) {
             motor.Move(tankData.forwardSpeed);                  // Move Forward
@@ -58,6 +64,7 @@ public class PlayerController : MonoBehaviour {
         if (tankData.health <= 0) {
             // Player dead
             motor.GivePoints(tankData.pointsGivenOnDestory, lastHitBy);     // Give points
+            GameManager.instance.Respawn(transform);
             GameManager.instance.players.Remove(tankData);                // Remove from list
             GameManager.instance.tanks.Remove(gameObject.transform);
             Destroy(gameObject);                                            // Destory this

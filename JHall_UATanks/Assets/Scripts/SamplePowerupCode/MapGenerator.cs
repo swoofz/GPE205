@@ -17,6 +17,10 @@ public class MapGenerator : MonoBehaviour {
 
     public GameObject[] gridPrefabs;
 
+
+    private float timer = 10f;
+
+
     // Start is called before the first frame update
     void Start() {
         if (isMapOfTheDay && !randomMap) {
@@ -24,8 +28,9 @@ public class MapGenerator : MonoBehaviour {
             UnityEngine.Random.InitState(DateToInt(DateTime.Now.Date));
         }
 
-        if(randomMap && !isMapOfTheDay) {
-            UnityEngine.Random.InitState(mapSeed);
+        if (randomMap && !isMapOfTheDay) {
+            UnityEngine.Random.InitState(DateToInt(DateTime.Now) * mapSeed);
+            //UnityEngine.Random.InitState(mapSeed);
         }
 
         if (randomMap && isMapOfTheDay) {
@@ -35,6 +40,9 @@ public class MapGenerator : MonoBehaviour {
             // Generate grid
             GenerateGrid();
         }
+
+        // Reset the Random for every other things that is using random
+        UnityEngine.Random.InitState(System.Environment.TickCount);
     }
 
     public void GenerateGrid() {
@@ -93,13 +101,43 @@ public class MapGenerator : MonoBehaviour {
         }
     }
 
+    void Update() {
+        /* // Uncomment To test Random Map Generatortion 
+        // Testing the Random Feature of the Map Generator
+        timer -= Time.deltaTime;
+        if(timer <= 0) {
+            LoadNextRandomMap();
+        }
+        */
+    }
+
+    // Funtion: RANDOM_ROOM_PREFAB
     // Return a random room
     public GameObject RandomRoomPrefab() {
         return gridPrefabs[UnityEngine.Random.Range(0, gridPrefabs.Length)];
     }
 
+    // Function: DATE_TO_INT
+    // Convert Datae to an int
     public int DateToInt(DateTime dateToUse) {
         // Add our date up and return it
         return dateToUse.Year + dateToUse.Month + dateToUse.Day + dateToUse.Hour + dateToUse.Minute + dateToUse.Second + dateToUse.Millisecond;
+    }
+
+    // Function: LOAD_NEXT_RANDOM_MAP
+    // Load another Random Map to Show that the map is changing.
+    public void LoadNextRandomMap() {
+        // Clear out the current rooms
+        foreach (Transform child in transform) {
+            Destroy(child.gameObject);
+        }
+
+        // Go back to Start to generate another map
+        Start();
+        // Spawn all players in a new spot
+        GameManager.instance.Spawn();
+
+        // Reset timer for testing
+        timer = 10f;
     }
 }

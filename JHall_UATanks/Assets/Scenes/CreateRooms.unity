@@ -226,13 +226,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rows: 2
   cols: 2
-  mapSeed: 5
+  mapSeed: 25
   isMapOfTheDay: 0
   randomMap: 1
   gridPrefabs:
-  - {fileID: 121816, guid: 41d4243be8ad3a5409422171976de7ff, type: 3}
-  - {fileID: 5690004546231816396, guid: 48e49549709014cf1906c6367ff71e12, type: 3}
-  - {fileID: 9176457358339225843, guid: 1d659423961df44a4aefbbcc6f7d0d2c, type: 3}
+  - {fileID: 6983979164721808014, guid: 10c9e50ce61d8c941a68bdb3de3b9145, type: 3}
+  - {fileID: 338380054718799193, guid: b8456c461bdfd244d8ba1cff6a9bb27f, type: 3}
+  - {fileID: 7051167747085958920, guid: 941e7649f979285419f74450d60d8271, type: 3}
 --- !u!1 &817015094
 GameObject:
   m_ObjectHideFlags: 0
@@ -468,6 +468,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SquareCircle
+      objectReference: {fileID: 0}
+    - target: {fileID: 7051167747085958920, guid: 941e7649f979285419f74450d60d8271,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7051167747085958921, guid: 941e7649f979285419f74450d60d8271,
         type: 3}

@@ -10,7 +10,7 @@ public class PickupSpawner : MonoBehaviour {
 
     private float nextSpawnTime;
     private GameObject spawnPickup;
-    private Transform tf;
+    private Transform powerupSpawn;
     //private Transform randomPowerupSpawn;
 
     // Start is called before the first frame update
@@ -19,20 +19,19 @@ public class PickupSpawner : MonoBehaviour {
             GameManager.instance.PowerupSpawns.Add(child);
         }
         nextSpawnTime =  Time.time + spawnDelay;
-        //tf = GameManager.instance.PowerupSpawns[0];
     }
 
     // Update is called once per frame
     void Update() {
-        // IF there is nothing spawns
+        // IF there is room to spawn another powerup
         if (GameManager.instance.powerupCount < maxPowerups) {
             // Add it is time to spawn
             if (Time.time > nextSpawnTime) {
                 GetRandomSpawnPoint();
-                // Spawn it and set the next time
-                if (tf != null) {
-                    spawnPickup = Instantiate(pickupPrefab[Random.Range(0, pickupPrefab.Length)], tf.position, Quaternion.identity) as GameObject;
-                    spawnPickup.transform.parent = tf;
+                // Spawn it and set the next time if have a place to spawn
+                if (powerupSpawn != null) {
+                    spawnPickup = Instantiate(pickupPrefab[Random.Range(0, pickupPrefab.Length)], powerupSpawn.position, Quaternion.identity) as GameObject;
+                    spawnPickup.transform.parent = powerupSpawn;
                     GameManager.instance.powerupCount += 1;
                 }
                 nextSpawnTime = Time.time + spawnDelay;
@@ -44,10 +43,13 @@ public class PickupSpawner : MonoBehaviour {
     }
 
     void GetRandomSpawnPoint() {
-        int size = GameManager.instance.PowerupSpawns.Count;
-        tf = GameManager.instance.PowerupSpawns[Random.Range(0, size)];
-        if(tf.childCount != 0) {
-            tf = null;
+        int size = GameManager.instance.PowerupSpawns.Count;                        // Get how many powerup spawns there are
+        powerupSpawn = GameManager.instance.PowerupSpawns[Random.Range(0, size)];   // Get a random powerup spawn and set it
+        
+        // if already has a power up object as a child set to null
+        if(powerupSpawn.childCount != 0) {
+            // no overlaps
+            powerupSpawn = null;
         }
     }
 }

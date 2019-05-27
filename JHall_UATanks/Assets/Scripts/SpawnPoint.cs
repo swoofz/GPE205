@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class SpawnPoint : MonoBehaviour {
 
-    // Start is called before the first frame update
-    void Start() {
+    // Runs before Start
+    void Awake() {
+        // Send all Spawn points to our GameManager, to be able to get spawn location
         foreach (Transform child in transform) {
             GameManager.instance.SpawnPoints.Add(child);
         }

@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour {
     public List<TankData> enemies;   // Holds all Emenies in the game
     [HideInInspector]
     public List<Transform> tanks;    // Hold all transform of every tank in the game
-    [HideInInspector]
+    //[HideInInspector]
     public List<Transform> SpawnPoints;
     [HideInInspector]
     public List<Transform> PowerupSpawns;
@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
-
+        Spawn();            // Spawn All of players and AI on Start
     }
 
     // Update is called once per frame
@@ -71,5 +71,17 @@ public class GameManager : MonoBehaviour {
             ranOnce = true; // We ran the code above once
         }
 
+    }
+
+    // Function: RESPAWN
+    // Respawn our player or AI in one of the spawn Locations
+    public void Respawn(Transform ourPostion) {
+        ourPostion.position = SpawnPoints[Random.Range(0, SpawnPoints.Count)].position;
+    }
+
+    public void Spawn() {
+        foreach(Transform player in tanks) {
+            player.position = SpawnPoints[Random.Range(0, SpawnPoints.Count)].position;
+        }
     }
 }
