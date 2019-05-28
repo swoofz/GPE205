@@ -31,15 +31,19 @@ public class AIController : MonoBehaviour {
     private float closeEnough = 2f;     // Close enough to a waypoint
     private float inSightsAngle = 10f;  // Within shoot angle
 
-    // Start is called before the first frame update
-    void Start() {
+    // Runs before Start
+    void Awake() {
         FSM = GetComponent<FiniteStateMachine>();                   // Store our Finite State Machine
         tf = GetComponent<Transform>();                             // Store our Transform for easy access
         tankData = gameObject.GetComponent<TankData>();             // Store Tank data in a variable
         motor = gameObject.GetComponent<TankMotor>();               // Store Tank moter in a variable
-        tankData.health = tankData.MaxHealth;                       // Set the current health to max on start
         GameManager.instance.enemies.Add(tankData);                 // Adding AI's Tank Data to our list in the Game Manger to keep track of how many players are in the game
         GameManager.instance.tanks.Add(tf);                         // Add our transform to our list to kept track on the different players in the game
+    }
+
+    // Start is called before the first frame update
+    void Start() {
+        tankData.health = tankData.MaxHealth;                       // Set the current health to max on start
         shellDamge = GameManager.instance.shellDamage;              // Get our shell damage
         currentWaypoint = Random.Range(0, waypoints.Length);        // Start off with a random waypoint
     }
@@ -274,9 +278,8 @@ public class AIController : MonoBehaviour {
         if(tankData.health <= 0) {
             // Dies
             motor.GivePoints(tankData.pointsGivenOnDestory, lastHitBy);     // Give Points
-            GameManager.instance.enemies.Remove(tankData);                  // Remove from list
-            GameManager.instance.tanks.Remove(tf);                          // Remove from list to stop being an target option
-            Destroy(gameObject);                                            // Destory this
+            GameManager.instance.Respawn(transform);
+            GameManager.instance.ResetHealth(gameObject);
         }   
 
     }

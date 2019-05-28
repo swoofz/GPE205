@@ -18,7 +18,7 @@ public class MapGenerator : MonoBehaviour {
     public GameObject[] gridPrefabs;
 
 
-    private float timer = 10f;
+    private float timer;
 
 
     // Start is called before the first frame update
@@ -43,6 +43,7 @@ public class MapGenerator : MonoBehaviour {
 
         // Reset the Random for every other things that is using random
         UnityEngine.Random.InitState(System.Environment.TickCount);
+        timer = 10f;
     }
 
     public void GenerateGrid() {
@@ -107,6 +108,9 @@ public class MapGenerator : MonoBehaviour {
         timer -= Time.deltaTime;
         if(timer <= 0) {
             LoadNextRandomMap();
+
+            // Reset timer
+            timer = 10f;
         }
         */
     }
@@ -136,8 +140,5 @@ public class MapGenerator : MonoBehaviour {
         Start();
         // Spawn all players in a new spot
         GameManager.instance.Spawn();
-
-        // Reset timer for testing
-        timer = 10f;
     }
 }

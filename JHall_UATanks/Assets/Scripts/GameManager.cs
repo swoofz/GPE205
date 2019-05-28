@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour {
     public int AI1Points = 0;               // AI points for show
     public int shellDamage = 20;            // Damage a shell can do
     public int shellTimeForExistence = 3;   // How long a shell can exist
+    public GameObject[] AIPrefabs;          // Store our AI prefabs here
+    public GameObject[] PlayerPrefabs;      // Store our Player prefabs here
 
     [HideInInspector]
     public List<TankData> players;   // Holds all players in the game
@@ -17,7 +19,7 @@ public class GameManager : MonoBehaviour {
     public List<TankData> enemies;   // Holds all Emenies in the game
     [HideInInspector]
     public List<Transform> tanks;    // Hold all transform of every tank in the game
-    //[HideInInspector]
+    [HideInInspector]
     public List<Transform> SpawnPoints;
     [HideInInspector]
     public List<Transform> PowerupSpawns;
@@ -43,7 +45,9 @@ public class GameManager : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
-        Spawn();            // Spawn All of players and AI on Start
+        SpawnPlayers(1);    // Spawn a given amount of players
+        SpawnAI();          // Spawn all AI tanks
+        Spawn();            // Position all players and ai in the spawnLocations
     }
 
     // Update is called once per frame
@@ -79,9 +83,55 @@ public class GameManager : MonoBehaviour {
         ourPostion.position = SpawnPoints[Random.Range(0, SpawnPoints.Count)].position;
     }
 
+    // Function: SPAWN
+    // Spawn all Players/AIs in a random location
     public void Spawn() {
+        // Hold what location we used to spawn
+        List<int> spawnLocations = new List<int>();
         foreach(Transform player in tanks) {
-            player.position = SpawnPoints[Random.Range(0, SpawnPoints.Count)].position;
+            // Random spawn location
+            int spawnNumber = Random.Range(0, SpawnPoints.Count);
+
+            // Get a spawn location that wasn't already used
+            while(spawnLocations.Contains(spawnNumber)) {
+                spawnNumber = Random.Range(0, SpawnPoints.Count);
+            }
+
+            // Add a spawnlocation and spawn our player
+            spawnLocations.Add(spawnNumber);
+            player.position = SpawnPoints[spawnNumber].position;
+        }
+    }
+
+    // Function: RESET_HEALTH
+    // Reset the health of our tank
+    public void ResetHealth(GameObject go) {
+        // Reset player's health
+        foreach(TankData data in players) {
+            if (go.name == data.name) {
+                data.health = data.MaxHealth;
+            }
+        }
+
+        // Reset AI's health
+        foreach (TankData data in enemies) {
+            if (go.name == data.name) {
+                data.health = data.MaxHealth;
+            }
+        }
+    }
+
+    void SpawnAI() {
+        GameObject game = GameObject.Find("Game");
+        foreach(GameObject ai in AIPrefabs) {
+            Instantiate(ai).transform.parent = game.transform;
+        }
+    }
+
+    void SpawnPlayers(int playerCount) {
+        GameObject game = GameObject.Find("Game");
+        for(int i = 0; i < playerCount; i++) {
+            Instantiate(PlayerPrefabs[Random.Range(0, PlayerPrefabs.Length)]).transform.parent = game.transform;
         }
     }
 }
