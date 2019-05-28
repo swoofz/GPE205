@@ -5,25 +5,33 @@ using UnityEngine;
 [System.Serializable]
 public class Powerup {
 
-    public float speedModifier;
-    public float healthModifier;
-    public float maxHealthModifier;
-    public float fireRateModifier;
+    public float speedModifier;             // Change in speed
+    public float healthModifier;            // Change in health
+    public float maxHealthModifier;         // Change in Max Health
+    //public float fireRateModifier;
+    
+    public float duration;                  // Time the power will last for
+    public bool isPermanent;                // If power changes stat forever
 
-    public float duration;
-    public bool isPermanent;
 
+    // Function: ON_ACTIVATE
+    // When activate a powerup update tank data
     public void OnActivate(TankData target) {
         target.forwardSpeed += speedModifier;
-        target.health += healthModifier;
         target.MaxHealth += maxHealthModifier;
+        target.health += healthModifier;
+        if(target.health > target.MaxHealth) {
+            target.health = target.MaxHealth;
+        }
         // target.fireRate += fireRateModifier;
     }
 
+    // Function: ON_DEACTIVATE
+    // Remove powerup effects
     public void OnDeactivate(TankData target) {
         target.forwardSpeed -= speedModifier;
-        target.health -= healthModifier;
         target.MaxHealth -= maxHealthModifier;
+        target.health -= healthModifier;
         // target.fireRate -= fireRateModifier;
     }
 

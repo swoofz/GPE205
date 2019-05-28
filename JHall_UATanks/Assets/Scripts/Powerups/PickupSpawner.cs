@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class PickupSpawner : MonoBehaviour {
 
-    public GameObject[] pickupPrefab;
-    public float spawnDelay;
-    public int maxPowerups = 3;
+    public GameObject[] pickupPrefab;   // Pick up items
+    public float spawnDelay;            // Time take it take to respawn the item
+    public int maxPowerups = 3;         // Max amount of power in the map at one time
 
-    private float nextSpawnTime;
-    private GameObject spawnPickup;
-    private Transform powerupSpawn;
+    private float nextSpawnTime;        // Next time to spawn the item
+    private GameObject spawnPickup;     // Get the pickup we want to spawn
+    private Transform powerupSpawn;     // Get the position we want to spawn pickup
 
     // Start is called before the first frame update
     void Start() {

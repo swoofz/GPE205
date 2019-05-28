@@ -381,19 +381,19 @@ public class AIController : MonoBehaviour {
         // Find out if we come in to contact (collision) with an object other than player return false
         //      ... Center, Diagonal to the right, and diagonal to the left
         if(Physics.Raycast(tf.position, tf.forward, out hit, distanceInFront)) { // Middle
-            if(!hit.collider.CompareTag("Player")) {
+            if(!hit.collider.CompareTag("Player") && !hit.collider.CompareTag("Powerups")) {
                 return false;
             }
         }
         
         if (Physics.Raycast(tf.position, tf.forward - tf.right, out hit, distanceInFront)) { // left diagonal
-            if (!hit.collider.CompareTag("Player")) {
+            if (!hit.collider.CompareTag("Player") && !hit.collider.CompareTag("Powerups")) {
                 return false;
             }
         }
 
         if (Physics.Raycast(tf.position, tf.forward + tf.right, out hit, distanceInFront)) { // right diagonal
-            if (!hit.collider.CompareTag("Player")) {
+            if (!hit.collider.CompareTag("Player") && !hit.collider.CompareTag("Powerups")) {
                 return false;
             }
         }
@@ -412,7 +412,7 @@ public class AIController : MonoBehaviour {
         float goRight = 0, goLeft = 0;              // Find out what side has more room to go on
 
         if (Physics.Raycast(tf.position, tf.forward, out hit, maxDistance)) {    // Middle
-            if(!hit.collider.CompareTag("Player")) {
+            if(!hit.collider.CompareTag("Player") && !hit.collider.CompareTag("Powerups")) {
                 avoid = true;
                 goRight += Vector3.SqrMagnitude(hit.collider.transform.position - tf.position);
                 goLeft += Vector3.SqrMagnitude(hit.collider.transform.position - tf.position);
@@ -420,28 +420,28 @@ public class AIController : MonoBehaviour {
         }
 
         if (Physics.Raycast(tf.position, tf.forward + tf.right, out hit, maxDistance)) {    // Diagonal Right
-            if (!hit.collider.CompareTag("Player")) {
+            if (!hit.collider.CompareTag("Player") && !hit.collider.CompareTag("Powerups")) {
                 avoid = true;
                 goRight += Vector3.SqrMagnitude(hit.collider.transform.position - tf.position);
             }
         }
 
         if (Physics.Raycast(tf.position, tf.forward - tf.right, out hit, maxDistance)) {    // Diagonal Left
-            if (!hit.collider.CompareTag("Player")) {
+            if (!hit.collider.CompareTag("Player") && !hit.collider.CompareTag("Powerups")) {
                 avoid = true;
                 goLeft += Vector3.SqrMagnitude(hit.collider.transform.position - tf.position);
             }
         }
 
         if (Physics.Raycast(tf.position, tf.right, out hit, maxDistance)) {                 // Right
-            if (!hit.collider.CompareTag("Player")) {
+            if (!hit.collider.CompareTag("Player") && !hit.collider.CompareTag("Powerups")) {
                 avoid = true;
                 goRight += Vector3.SqrMagnitude(hit.collider.transform.position - tf.position);
             }
         }
 
         if (Physics.Raycast(tf.position, -tf.right, out hit, maxDistance)) {                // Left
-            if (!hit.collider.CompareTag("Player")) {
+            if (!hit.collider.CompareTag("Player") && !hit.collider.CompareTag("Powerups")) {
                 avoid = true;
                 goLeft += Vector3.SqrMagnitude(hit.collider.transform.position - tf.position);
             }

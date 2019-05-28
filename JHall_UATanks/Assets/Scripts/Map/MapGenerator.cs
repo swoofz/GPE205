@@ -5,20 +5,19 @@ using UnityEngine;
 
 public class MapGenerator : MonoBehaviour {
 
-    public int rows;
-    public int cols;
-    public int mapSeed;
-    public bool isMapOfTheDay;
-    public bool randomMap;
+    public int rows;                // Map Width
+    public int cols;                // Map Height
+    public int mapSeed;             // Random Seed
+    public bool isMapOfTheDay;      // Want map of the day?
+    public bool randomMap;          // Want random map?
 
-    private float roomWidth = 50.0f;
-    private float roomHeight = 50.0f;
-    private Room[,] grid;
+    private float roomWidth = 50.0f;    // Room width size
+    private float roomHeight = 50.0f;   // Room height size
+    private Room[,] grid;               // Place to store our map grid
 
-    public GameObject[] gridPrefabs;
+    public GameObject[] gridPrefabs;    // Room prefabs
 
-
-    private float timer;
+    private float timer;    // Test variable to test random map
 
 
     // Start is called before the first frame update

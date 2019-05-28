@@ -130,13 +130,17 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+    // Function: SPAWN_AI
     void SpawnAI() {
         GameObject game = GameObject.Find("Game");
+        // Spawn all AI
         foreach(GameObject ai in AIPrefabs) {
             Instantiate(ai).transform.parent = game.transform;
         }
     }
 
+    // Function: SPAWN_PLAYERS
+    // Spawn a spefic number of players
     void SpawnPlayers(int playerCount) {
         GameObject game = GameObject.Find("Game");
         for(int i = 0; i < playerCount; i++) {
@@ -144,18 +148,22 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+    // Function: RESPAWN_IF_NEED
+    // Player / AI health lower or equal to zero respawn is needed
     void RespawnIfNeed() {
+        // Check if a player needs a respawn
         foreach(TankData player in players) {
             if(player.health <= 0) {
-                ResetHealth(player.gameObject);
-                Respawn(player.transform);
+                ResetHealth(player.gameObject); // Reset health
+                Respawn(player.transform);      // Then respawn
             }
         }
 
+        // Check if an ai needs a respawn
         foreach(TankData ai in enemies) {
             if(ai.health <= 0) {
-                ResetHealth(ai.gameObject);
-                Respawn(ai.transform);
+                ResetHealth(ai.gameObject); // Reset health
+                Respawn(ai.transform);      // Then respawn
             }
         }
     }

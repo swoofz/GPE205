@@ -1133,6 +1133,7 @@ MonoBehaviour:
   pickupPrefab:
   - {fileID: 1876420279751682443, guid: f1de2b2f8a70945b1954f87d6222c29d, type: 3}
   - {fileID: 1688139619054266674, guid: 704c6c186cb66184b9e1813ac2e8938a, type: 3}
+  - {fileID: 1876420279751682443, guid: 03d1cfe3e769c58429223412a1c66a2d, type: 3}
   spawnDelay: 5
   maxPowerups: 3
 --- !u!114 &834943601153289234

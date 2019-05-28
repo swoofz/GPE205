@@ -13,7 +13,6 @@ public class PlayerController : MonoBehaviour {
     private GameObject lastHitBy;       // Be able to get the last person that hit this tank
     private int shellDamge;             // Get the damage a shell does when hits
     private float shootTimer = 0f;      // Time to be able to shoot
-    private float speed;
 
     // Runs before Start
     void Awake() {
@@ -28,7 +27,6 @@ public class PlayerController : MonoBehaviour {
     void Start() {
         tankData.health = tankData.MaxHealth;                       // Set the current health to max on start
         shellDamge = GameManager.instance.shellDamage;              // Get our shell damage
-        speed = tankData.forwardSpeed;                              // Get our inital speed
     }
 
     // Update is called once per frame
@@ -63,8 +61,6 @@ public class PlayerController : MonoBehaviour {
         if (tankData.health <= 0) {
             // Player dead
             motor.GivePoints(tankData.pointsGivenOnDestory, lastHitBy);     // Give points
-            //GameManager.instance.Respawn(transform);
-            GameManager.instance.ResetHealth(gameObject);
         }
     }
 

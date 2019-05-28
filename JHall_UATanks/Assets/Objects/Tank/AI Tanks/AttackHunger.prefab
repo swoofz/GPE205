@@ -359,6 +359,7 @@ GameObject:
   - component: {fileID: 1594632758725785220}
   - component: {fileID: 4217293150013880549}
   - component: {fileID: 310437180118227939}
+  - component: {fileID: 3623787690289045472}
   m_Layer: 0
   m_Name: AttackHunger
   m_TagString: Player
@@ -472,6 +473,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb7a9fdce62f4884eaa14576da73ecc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3623787690289045472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a20bc47bd51840d2a438f4491bbdc72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  powerups: []
 --- !u!1 &100014
 GameObject:
   m_ObjectHideFlags: 0

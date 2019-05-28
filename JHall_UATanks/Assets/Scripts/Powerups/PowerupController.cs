@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class PowerupController : MonoBehaviour {
 
-    public List<Powerup> powerups;
-
-    private TankData data;
+    public List<Powerup> powerups;  // List of all powerup option
+        
+    private TankData data;          // Player's tank data
 
     // Start is called before the first frame update
     void Start() {
-        powerups = new List<Powerup>();
-        data = GetComponent<TankData>();
+        powerups = new List<Powerup>();     // Get the powerup list
+        data = GetComponent<TankData>();    // get player's tank data
     }
 
     // Update is called once per frame
@@ -41,6 +41,8 @@ public class PowerupController : MonoBehaviour {
         expiredPowerups.Clear();
     }
 
+    // Function: ADD
+    // Add powerup to our player
     public void Add(Powerup powerup) {
         powerup.OnActivate(data);
         powerups.Add(powerup);

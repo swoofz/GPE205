@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class Pickup : MonoBehaviour {
 
-    public Powerup powerup;
-    public AudioClip feedback;
+    public Powerup powerup;         // Set powerup values
+    public AudioClip feedback;      // When picked up play this sound
 
-    private Transform tf;
+    private Transform tf;       // Store our transfrom
 
     // Start is called before the first frame update
     void Start() {
