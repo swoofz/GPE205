@@ -14,11 +14,6 @@ public class Pickup : MonoBehaviour {
         tf = GetComponent<Transform>();
     }
 
-    // Update is called once per frame
-    void Update() {
-
-    }
-
     void OnTriggerEnter(Collider other) {
         // Variable to store other object's Powerup Controller - if it has one
         PowerupController powCon = other.GetComponent<PowerupController>();

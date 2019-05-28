@@ -10,7 +10,8 @@ public class FiniteStateMachine : MonoBehaviour {
 
     // State in which our AI is in
     public enum AIState { Chase, ChaseAndFire, CheckForFlee, Flee, Patrol };
-    [HideInInspector] public AIState aiState;
+    //[HideInInspector]
+    public AIState aiState;
 
     [HideInInspector] public bool lowHealth;    // Get whether or not we have low hp
     [HideInInspector] public bool tookShots;    // Get whether or not we took enoung shots

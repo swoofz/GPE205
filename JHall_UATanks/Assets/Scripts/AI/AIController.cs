@@ -43,13 +43,19 @@ public class AIController : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
-        tankData.health = tankData.MaxHealth;                       // Set the current health to max on start
-        shellDamge = GameManager.instance.shellDamage;              // Get our shell damage
-        currentWaypoint = Random.Range(0, waypoints.Length);        // Start off with a random waypoint
+        tankData.health = tankData.MaxHealth;                                           // Set the current health to max on start
+        shellDamge = GameManager.instance.shellDamage;                                  // Get our shell damage
+        currentWaypoint = Random.Range(0, GameManager.instance.wayPoints.Count);        // Start off with a random waypoint
     }
 
     // Update is called once per frame
     void Update() {
+
+        // Health
+        if (tankData.health <= 0) {
+            // Dies
+            motor.GivePoints(tankData.pointsGivenOnDestory, lastHitBy);     // Give Points
+        }
 
         // Handling Actions
         switch (FSM.persionality) {
@@ -272,16 +278,6 @@ public class AIController : MonoBehaviour {
                 break;
         }
 
-
-
-        // Health
-        if(tankData.health <= 0) {
-            // Dies
-            motor.GivePoints(tankData.pointsGivenOnDestory, lastHitBy);     // Give Points
-            GameManager.instance.Respawn(transform);
-            GameManager.instance.ResetHealth(gameObject);
-        }   
-
     }
 
     void OnTriggerEnter(Collider other) {
@@ -363,13 +359,13 @@ public class AIController : MonoBehaviour {
     // Function: PATROL
     void Patrol(int waypoint, float closeEnoughToWaypoint) {
         // if close enough to a waypoint then change waypoint
-        if (Vector3.SqrMagnitude(waypoints[waypoint].position - tf.position) < ( closeEnoughToWaypoint * closeEnoughToWaypoint )) {
-            currentWaypoint = Random.Range(0, waypoints.Length);
+        if (Vector3.SqrMagnitude(GameManager.instance.wayPoints[waypoint].position - tf.position) < ( closeEnoughToWaypoint * closeEnoughToWaypoint )) {
+            currentWaypoint = Random.Range(0, GameManager.instance.wayPoints.Count);
         }
 
         // If can move then more otherwise do avoidance
         if (CanMove(tankData.forwardSpeed)) {
-            motor.RotateTowards(waypoints[waypoint].position, tankData.turnSpeed);
+            motor.RotateTowards(GameManager.instance.wayPoints[waypoint].position, tankData.turnSpeed);
             motor.Move(tankData.forwardSpeed);
         } else {
             avoidanceStage = 1;

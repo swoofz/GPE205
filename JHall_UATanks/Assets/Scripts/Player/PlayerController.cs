@@ -63,7 +63,7 @@ public class PlayerController : MonoBehaviour {
         if (tankData.health <= 0) {
             // Player dead
             motor.GivePoints(tankData.pointsGivenOnDestory, lastHitBy);     // Give points
-            GameManager.instance.Respawn(transform);
+            //GameManager.instance.Respawn(transform);
             GameManager.instance.ResetHealth(gameObject);
         }
     }

@@ -14,17 +14,19 @@ public class GameManager : MonoBehaviour {
     public GameObject[] PlayerPrefabs;      // Store our Player prefabs here
 
     [HideInInspector]
-    public List<TankData> players;   // Holds all players in the game
+    public List<TankData> players;          // Holds all players in the game
     [HideInInspector]
-    public List<TankData> enemies;   // Holds all Emenies in the game
+    public List<TankData> enemies;          // Holds all Emenies in the game
     [HideInInspector]
-    public List<Transform> tanks;    // Hold all transform of every tank in the game
+    public List<Transform> tanks;           // Hold all transform of every tank in the game
     [HideInInspector]
-    public List<Transform> SpawnPoints;
+    public List<Transform> SpawnPoints;     // Hold Player/Ai Spawn locations
     [HideInInspector]
-    public List<Transform> PowerupSpawns;
+    public List<Transform> PowerupSpawns;   // Hold All power locations
     [HideInInspector]
-    public int powerupCount;
+    public List<Transform> wayPoints;       // Hold AI waypoints
+    [HideInInspector]
+    public int powerupCount;                // Hold the amount of powerups are in the game
 
 
     private int tanksAlive;         // Store the number of tank alive
@@ -52,6 +54,8 @@ public class GameManager : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
+        RespawnIfNeed();
+
         // Update Scores
         if (players.Count > 0) {
             Player1Points = players[0].points;
@@ -80,7 +84,12 @@ public class GameManager : MonoBehaviour {
     // Function: RESPAWN
     // Respawn our player or AI in one of the spawn Locations
     public void Respawn(Transform ourPostion) {
+        // Deactivate gameobject to reset position and not get an inputs
+        ourPostion.gameObject.SetActive(false);
         ourPostion.position = SpawnPoints[Random.Range(0, SpawnPoints.Count)].position;
+
+        // Reactivate gameobject in new position
+        ourPostion.gameObject.SetActive(true);
     }
 
     // Function: SPAWN
@@ -132,6 +141,22 @@ public class GameManager : MonoBehaviour {
         GameObject game = GameObject.Find("Game");
         for(int i = 0; i < playerCount; i++) {
             Instantiate(PlayerPrefabs[Random.Range(0, PlayerPrefabs.Length)]).transform.parent = game.transform;
+        }
+    }
+
+    void RespawnIfNeed() {
+        foreach(TankData player in players) {
+            if(player.health <= 0) {
+                ResetHealth(player.gameObject);
+                Respawn(player.transform);
+            }
+        }
+
+        foreach(TankData ai in enemies) {
+            if(ai.health <= 0) {
+                ResetHealth(ai.gameObject);
+                Respawn(ai.transform);
+            }
         }
     }
 }

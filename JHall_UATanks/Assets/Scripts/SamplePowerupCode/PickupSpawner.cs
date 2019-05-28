@@ -11,13 +11,9 @@ public class PickupSpawner : MonoBehaviour {
     private float nextSpawnTime;
     private GameObject spawnPickup;
     private Transform powerupSpawn;
-    //private Transform randomPowerupSpawn;
 
     // Start is called before the first frame update
     void Start() {
-        foreach (Transform child in transform) {
-            GameManager.instance.PowerupSpawns.Add(child);
-        }
         nextSpawnTime =  Time.time + spawnDelay;
     }
 
