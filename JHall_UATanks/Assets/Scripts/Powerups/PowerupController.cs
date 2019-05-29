@@ -21,12 +21,16 @@ public class PowerupController : MonoBehaviour {
 
         // Loop through all the powers in the list
         foreach(Powerup power in powerups) {
-            // Subtract from the timer
-            power.duration -= Time.deltaTime;
+            if (power.isPermanent) {
+                // Do nothing
+            } else {
+                // Subtract from the timer
+                power.duration -= Time.deltaTime;
 
-            // If time is up, deactivate the powerup and remove it from the list
-            if (power.duration <= 0) {
-                expiredPowerups.Add(power);
+                // If time is up, deactivate the powerup and remove it from the list
+                if (power.duration <= 0) {
+                    expiredPowerups.Add(power);
+                }
             }
         }
 

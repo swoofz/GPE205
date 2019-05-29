@@ -108,6 +108,6 @@ MonoBehaviour:
     speedModifier: 0
     healthModifier: 20
     maxHealthModifier: 0
-    duration: 10
+    duration: 0
     isPermanent: 1
   feedback: {fileID: 0}
