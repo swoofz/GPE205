@@ -8,7 +8,6 @@ public class Powerup {
     public float speedModifier;             // Change in speed
     public float healthModifier;            // Change in health
     public float maxHealthModifier;         // Change in Max Health
-    //public float fireRateModifier;
     
     public float duration;                  // Time the power will last for
     public bool isPermanent;                // If power changes stat forever
@@ -23,7 +22,6 @@ public class Powerup {
         if(target.health > target.MaxHealth) {
             target.health = target.MaxHealth;
         }
-        // target.fireRate += fireRateModifier;
     }
 
     // Function: ON_DEACTIVATE
@@ -32,7 +30,6 @@ public class Powerup {
         target.forwardSpeed -= speedModifier;
         target.MaxHealth -= maxHealthModifier;
         target.health -= healthModifier;
-        // target.fireRate -= fireRateModifier;
     }
 
 }

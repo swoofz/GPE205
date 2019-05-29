@@ -42,7 +42,6 @@ public class MapGenerator : MonoBehaviour {
 
         // Reset the Random for every other things that is using random
         UnityEngine.Random.InitState(System.Environment.TickCount);
-        timer = 10f;
     }
 
     public void GenerateGrid() {
@@ -102,16 +101,7 @@ public class MapGenerator : MonoBehaviour {
     }
 
     void Update() {
-        /* // Uncomment To test Random Map Generatortion 
-        // Testing the Random Feature of the Map Generator
-        timer -= Time.deltaTime;
-        if(timer <= 0) {
-            LoadNextRandomMap();
-
-            // Reset timer
-            timer = 10f;
-        }
-        */
+        
     }
 
     // Funtion: RANDOM_ROOM_PREFAB
