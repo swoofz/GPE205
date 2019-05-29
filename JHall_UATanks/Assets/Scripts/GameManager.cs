@@ -55,6 +55,7 @@ public class GameManager : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         RespawnIfNeed();
+        RemovePlayers();
 
         // Update Scores
         if (players.Count > 0) {
@@ -131,6 +132,7 @@ public class GameManager : MonoBehaviour {
     }
 
     // Function: SPAWN_AI
+    // Used to spawn on start
     void SpawnAI() {
         GameObject game = GameObject.Find("Game");
         // Spawn all AI
@@ -140,7 +142,7 @@ public class GameManager : MonoBehaviour {
     }
 
     // Function: SPAWN_PLAYERS
-    // Spawn a spefic number of players
+    // Spawn a spefic number of players on start
     void SpawnPlayers(int playerCount) {
         GameObject game = GameObject.Find("Game");
         for(int i = 0; i < playerCount; i++) {
@@ -154,17 +156,58 @@ public class GameManager : MonoBehaviour {
         // Check if a player needs a respawn
         foreach(TankData player in players) {
             if(player.health <= 0) {
-                ResetHealth(player.gameObject); // Reset health
-                Respawn(player.transform);      // Then respawn
+                player.lives -= 1;              // Remove one life
+
+                if (player.lives > 0) {
+                    ResetHealth(player.gameObject); // Reset health
+                    Respawn(player.transform);      // Then respawn
+                } else {
+                    player.gameObject.SetActive(false);
+                }
             }
         }
 
         // Check if an ai needs a respawn
         foreach(TankData ai in enemies) {
             if(ai.health <= 0) {
-                ResetHealth(ai.gameObject); // Reset health
-                Respawn(ai.transform);      // Then respawn
+                ai.lives -= 1;              // Remove one life
+                if (ai.lives > 0) {
+                    ResetHealth(ai.gameObject); // Reset health
+                    Respawn(ai.transform);      // Then respawn
+                } else {
+                    ai.gameObject.SetActive(false);
+                }
             }
         }
+    }
+
+    // Function: REMOVE_PLAYERS
+    void RemovePlayers() {
+        // Create a new list
+        List<TankData> removeData = new List<TankData>();
+
+        // Go through existing list and find the tank need to remove
+        foreach(TankData tank in players) {
+            if(!tank.gameObject.activeSelf) {
+                removeData.Add(tank);
+            }
+        }
+
+        foreach(TankData tank in enemies) {
+            if (!tank.gameObject.activeSelf) {
+                removeData.Add(tank);
+            }
+        }
+
+        // Remove the tanks for the lists
+        foreach (TankData tank in removeData) {
+            tanks.Remove(tank.transform);
+            players.Remove(tank);
+            enemies.Remove(tank);
+            Destroy(tank.gameObject);
+        }
+
+        // Clear our new list
+        removeData.Clear();
     }
 }

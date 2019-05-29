@@ -379,7 +379,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Player1Points: 0
   AI1Points: 0
-  shellDamage: 20
+  shellDamage: 100
   shellTimeForExistence: 3
   AIPrefabs:
   - {fileID: 100012, guid: d06f2202f2e4e1948b9d0505c0044ce0, type: 3}
@@ -393,6 +393,7 @@ MonoBehaviour:
   tanks: []
   SpawnPoints: []
   PowerupSpawns: []
+  wayPoints: []
   powerupCount: 0
 --- !u!4 &1966472388
 Transform:

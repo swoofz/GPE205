@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8135500674176112384
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8135500674176112391}
+  - component: {fileID: 8135500674176112390}
+  m_Layer: 0
+  m_Name: GameManger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8135500674176112391
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8135500674176112384}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8135500674176112390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8135500674176112384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fba3ca541ace0694bb93653fd45e18db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Player1Points: 0
+  AI1Points: 0
+  shellDamage: 100
+  shellTimeForExistence: 3
+  AIPrefabs:
+  - {fileID: 100012, guid: d06f2202f2e4e1948b9d0505c0044ce0, type: 3}
+  - {fileID: 100012, guid: e093a7966cfdb9b4e951dc3e6ba0ceb1, type: 3}
+  - {fileID: 100012, guid: fff12326244fbcb4d8a051fb09c96853, type: 3}
+  - {fileID: 100012, guid: 42deb1bf458684e49baca6d982cd89f7, type: 3}
+  PlayerPrefabs:
+  - {fileID: 100012, guid: 65e92f227846e794883569c427a9c4c3, type: 3}
+  players: []
+  enemies: []
+  tanks: []
+  SpawnPoints: []
+  PowerupSpawns: []
+  wayPoints: []
+  powerupCount: 0

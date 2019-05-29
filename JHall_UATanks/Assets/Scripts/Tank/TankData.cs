@@ -9,6 +9,7 @@ public class TankData : MonoBehaviour {
     public float backwardsSpeed = 3;    // in meters per second
     public float turnSpeed = 180;       // in degress per second
     public int pointsGivenOnDestory;    // points that other tanks get if this tank is destroyed
+    public int lives = 1;
 
     // Don't want to be able to set the amount of Points each tank has in inspector but still have
     // access to it in other scripts
