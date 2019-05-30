@@ -19,12 +19,12 @@ public class PlayerController : MonoBehaviour {
         tankData = gameObject.GetComponent<TankData>();             // Store Tank data in a variable
         motor = gameObject.GetComponent<TankMotor>();               // Store Tank moter in a variable
         input = GetComponent<InputController>();                    // Store our InputController in a variable
-        GameManager.instance.players.Add(tankData);                 // Adding player's Tank Data to our list in the Game Manger to keep track of how many players are in the game
-        GameManager.instance.tanks.Add(gameObject.transform);       // Add our tranform to a list in the game Manager
     }
 
     // Start is called before the first frame update
     void Start() {
+        GameManager.instance.players.Add(tankData);                 // Adding player's Tank Data to our list in the Game Manger to keep track of how many players are in the game
+        GameManager.instance.tanks.Add(gameObject.transform);       // Add our tranform to a list in the game Manager
         tankData.health = tankData.MaxHealth;                       // Set the current health to max on start
         shellDamge = GameManager.instance.shellDamage;              // Get our shell damage
     }

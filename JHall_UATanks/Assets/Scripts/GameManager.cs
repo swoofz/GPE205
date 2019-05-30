@@ -13,6 +13,10 @@ public class GameManager : MonoBehaviour {
     public GameObject[] AIPrefabs;          // Store our AI prefabs here
     public GameObject[] PlayerPrefabs;      // Store our Player prefabs here
 
+
+    public List<ScoreData> scores;
+
+
     [HideInInspector]
     public List<TankData> players;          // Holds all players in the game
     [HideInInspector]
@@ -47,9 +51,9 @@ public class GameManager : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
-        SpawnPlayers(1);    // Spawn a given amount of players
-        SpawnAI();          // Spawn all AI tanks
-        Spawn();            // Position all players and ai in the spawnLocations
+        //SpawnPlayers(1);    // Spawn a given amount of players
+        //SpawnAI();          // Spawn all AI tanks
+        //Spawn();            // Position all players and ai in the spawnLocations
     }
 
     // Update is called once per frame
@@ -146,7 +150,9 @@ public class GameManager : MonoBehaviour {
     void SpawnPlayers(int playerCount) {
         GameObject game = GameObject.Find("Game");
         for(int i = 0; i < playerCount; i++) {
-            Instantiate(PlayerPrefabs[Random.Range(0, PlayerPrefabs.Length)]).transform.parent = game.transform;
+            GameObject player = Instantiate(PlayerPrefabs[Random.Range(0, PlayerPrefabs.Length)]) as GameObject;
+            player.name = "Player 1";
+            player.transform.parent = game.transform.parent;
         }
     }
 
