@@ -271,6 +271,50 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 855901529, guid: 65e92f227846e794883569c427a9c4c3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 600547475, guid: 65e92f227846e794883569c427a9c4c3, type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 600547475, guid: 65e92f227846e794883569c427a9c4c3, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 600547475, guid: 65e92f227846e794883569c427a9c4c3, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 600547475, guid: 65e92f227846e794883569c427a9c4c3, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 600547475, guid: 65e92f227846e794883569c427a9c4c3, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 600547478, guid: 65e92f227846e794883569c427a9c4c3, type: 3}
+      propertyPath: m_PixelPerfect
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 600547478, guid: 65e92f227846e794883569c427a9c4c3, type: 3}
+      propertyPath: m_PlaneDistance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 600547478, guid: 65e92f227846e794883569c427a9c4c3, type: 3}
+      propertyPath: m_RenderMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 600547478, guid: 65e92f227846e794883569c427a9c4c3, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 800468051}
+    - target: {fileID: 1699052780, guid: 65e92f227846e794883569c427a9c4c3, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 19.800018
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 65e92f227846e794883569c427a9c4c3, type: 3}
 --- !u!1 &800468048
@@ -477,6 +521,22 @@ PrefabInstance:
     - target: {fileID: 676914197, guid: 65e92f227846e794883569c427a9c4c3, type: 3}
       propertyPath: input
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 855901529, guid: 65e92f227846e794883569c427a9c4c3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 600547475, guid: 65e92f227846e794883569c427a9c4c3, type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 600547478, guid: 65e92f227846e794883569c427a9c4c3, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 909008648}
+    - target: {fileID: 1699052780, guid: 65e92f227846e794883569c427a9c4c3, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 19.800018
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 65e92f227846e794883569c427a9c4c3, type: 3}
