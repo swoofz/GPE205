@@ -6,8 +6,6 @@ public class GameManager : MonoBehaviour {
 
     public static GameManager instance;     // Creating our Game Manager Singleton
 
-    public int Player1Points = 0;           // Player1 Points for show
-    public int AI1Points = 0;               // AI points for show
     public int shellDamage = 20;            // Damage a shell can do
     public int shellTimeForExistence = 3;   // How long a shell can exist
     public GameObject[] AIPrefabs;          // Store our AI prefabs here
@@ -15,6 +13,9 @@ public class GameManager : MonoBehaviour {
 
 
     public List<ScoreData> scores;
+    public string[] playerNames = new string[2];
+    [HideInInspector]
+    public float waitForLoadTimer;
 
 
     [HideInInspector]
@@ -33,8 +34,9 @@ public class GameManager : MonoBehaviour {
     public int powerupCount;                // Hold the amount of powerups are in the game
 
 
-    private int tanksAlive;         // Store the number of tank alive
-    private bool ranOnce = false;   // Run a piece of code once
+    private UIManager ui;
+    private int tanksAlive;             // Store the number of tank alive
+    private bool gameIsRunning = false; // Check if the game is running
 
 
     // Runs before Start()
@@ -51,39 +53,49 @@ public class GameManager : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
-        //SpawnPlayers(1);    // Spawn a given amount of players
-        //SpawnAI();          // Spawn all AI tanks
-        //Spawn();            // Position all players and ai in the spawnLocations
+        playerNames[0] = "Player 1";
+        playerNames[1] = "Player 2";
+        ui = GetComponent<UIManager>();
     }
 
     // Update is called once per frame
     void Update() {
-        RespawnIfNeed();
-        RemovePlayers();
+        CheckToStartGameLogic();
 
-        // Update Scores
-        if (players.Count > 0) {
-            Player1Points = players[0].points;
-        }
+        if (gameIsRunning) {
+            RespawnIfNeed();
+            RemovePlayers();
 
-        if (enemies.Count > 0) {
-            AI1Points = enemies[0].points;
-        }
+            
 
-        tanksAlive = players.Count + enemies.Count;         // A Count of All the tank that are alive
+            tanksAlive = players.Count + enemies.Count;         // A Count of All the tank that are alive
 
-        if(tanksAlive <= 1 && !ranOnce) {                       // If there is only 1 Tank left, possibly no Tanks and haven't ran this code yet
-            if(players.Count == 1) {                            // One Player
-                Debug.Log(players[0].name + " is the Winner!"); // Player wins
-            } else if(enemies.Count == 1) {                     // One Enemy
-                Debug.Log(enemies[0].name + " is the Winner!"); // Enemy wins
-            } else {                                            // Everyone Died
-                Debug.Log("Game ended in a Draw...");           // A Draw
+            if (tanksAlive <= 1) {                       // If there is only 1 Tank left, possibly no Tanks and haven't ran this code yet
+                if (players.Count == 1) {                            // One Player
+                    Debug.Log(players[0].name + " is the Winner!"); // Player wins
+                    Destroy(players[0].gameObject);
+                } else if (enemies.Count == 1) {                     // One Enemy
+                    Debug.Log(enemies[0].name + " is the Winner!"); // Enemy wins
+                    Destroy(enemies[0].gameObject);
+                } else {                                            // Everyone Died
+                    Debug.Log("Game ended in a Draw...");           // A Draw
+                }
+
+                ui.ShowGameOverScreen();
+                gameIsRunning = false;
             }
-
-            ranOnce = true; // We ran the code above once
         }
+        
 
+    }
+
+    public void Reset() {
+        players.Clear();
+        enemies.Clear();
+        tanks.Clear();
+        SpawnPoints.Clear();
+        PowerupSpawns.Clear();
+        wayPoints.Clear();
     }
 
     // Function: RESPAWN
@@ -137,7 +149,7 @@ public class GameManager : MonoBehaviour {
 
     // Function: SPAWN_AI
     // Used to spawn on start
-    void SpawnAI() {
+    public void SpawnAI() {
         GameObject game = GameObject.Find("Game");
         // Spawn all AI
         foreach(GameObject ai in AIPrefabs) {
@@ -147,12 +159,25 @@ public class GameManager : MonoBehaviour {
 
     // Function: SPAWN_PLAYERS
     // Spawn a spefic number of players on start
-    void SpawnPlayers(int playerCount) {
+    public void SpawnPlayers(int playerCount) {
         GameObject game = GameObject.Find("Game");
         for(int i = 0; i < playerCount; i++) {
             GameObject player = Instantiate(PlayerPrefabs[Random.Range(0, PlayerPrefabs.Length)]) as GameObject;
-            player.name = "Player 1";
-            player.transform.parent = game.transform.parent;
+            player.name = playerNames[i];
+            player.transform.parent = game.transform;
+
+            // Multiplayer Camera and Input Scheme
+            if (playerCount > 1) {
+                PlayerController controller = player.GetComponent<PlayerController>();
+                if(i == 0) {
+                    // Player 1 Top Screen
+                    controller.camera.rect = new Rect(0, 0.5f, 1, 0.5f);
+                } else {
+                    // Player 2 Bottom Screen and arrowKey input Scheme
+                    controller.camera.rect = new Rect(0, 0, 1, 0.5f);
+                    player.GetComponent<InputController>().input = InputController.InputScheme.arrowKeys;
+                }
+            }
         }
     }
 
@@ -161,7 +186,7 @@ public class GameManager : MonoBehaviour {
     void RespawnIfNeed() {
         // Check if a player needs a respawn
         foreach(TankData player in players) {
-            if(player.health <= 0) {
+            if (player.health <= 0) {
                 player.lives -= 1;              // Remove one life
 
                 if (player.lives > 0) {
@@ -215,5 +240,15 @@ public class GameManager : MonoBehaviour {
 
         // Clear our new list
         removeData.Clear();
+    }
+
+
+    void CheckToStartGameLogic() {
+        if (waitForLoadTimer > 0) {
+            waitForLoadTimer -= Time.deltaTime;
+            if (waitForLoadTimer <= 0) {
+                gameIsRunning = true;
+            }
+        }
     }
 }

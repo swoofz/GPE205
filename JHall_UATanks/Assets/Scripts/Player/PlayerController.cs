@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour {
 
     public Shooter shooter;             // Our Shooter component in order to shoot
+    public Camera camera;               // Our Player View Camera
     
     private TankData tankData;          // Tank's Data
     private TankMotor motor;            // Tank's motor
@@ -19,20 +20,20 @@ public class PlayerController : MonoBehaviour {
         tankData = gameObject.GetComponent<TankData>();             // Store Tank data in a variable
         motor = gameObject.GetComponent<TankMotor>();               // Store Tank moter in a variable
         input = GetComponent<InputController>();                    // Store our InputController in a variable
+        GameManager.instance.tanks.Add(gameObject.transform);       // Add our tranform to a list in the game Manager
     }
 
     // Start is called before the first frame update
     void Start() {
-        GameManager.instance.players.Add(tankData);                 // Adding player's Tank Data to our list in the Game Manger to keep track of how many players are in the game
-        GameManager.instance.tanks.Add(gameObject.transform);       // Add our tranform to a list in the game Manager
         tankData.health = tankData.MaxHealth;                       // Set the current health to max on start
+        GameManager.instance.players.Add(tankData);                 // Adding player's Tank Data to our list in the Game Manger to keep track of how many players are in the game
         shellDamge = GameManager.instance.shellDamage;              // Get our shell damage
     }
 
     // Update is called once per frame
     void Update() {
         // Get two a max of two input to move around with
-        if(input.move1  == InputController.MoveActions.Forward || input.move2 == InputController.MoveActions.Forward) {
+        if (input.move1  == InputController.MoveActions.Forward || input.move2 == InputController.MoveActions.Forward) {
             motor.Move(tankData.forwardSpeed);                  // Move Forward
         }
 

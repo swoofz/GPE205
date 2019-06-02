@@ -37,13 +37,13 @@ public class AIController : MonoBehaviour {
         tf = GetComponent<Transform>();                             // Store our Transform for easy access
         tankData = gameObject.GetComponent<TankData>();             // Store Tank data in a variable
         motor = gameObject.GetComponent<TankMotor>();               // Store Tank moter in a variable
-        GameManager.instance.enemies.Add(tankData);                 // Adding AI's Tank Data to our list in the Game Manger to keep track of how many players are in the game
-        GameManager.instance.tanks.Add(tf);                         // Add our transform to our list to kept track on the different players in the game
+        GameManager.instance.tanks.Add(tf);                                             // Add our transform to our list to kept track on the different players in the game
     }
 
     // Start is called before the first frame update
     void Start() {
         tankData.health = tankData.MaxHealth;                                           // Set the current health to max on start
+        GameManager.instance.enemies.Add(tankData);                                     // Adding AI's Tank Data to our list in the Game Manger to keep track of how many players are in the game
         shellDamge = GameManager.instance.shellDamage;                                  // Get our shell damage
         currentWaypoint = Random.Range(0, GameManager.instance.wayPoints.Count);        // Start off with a random waypoint
     }

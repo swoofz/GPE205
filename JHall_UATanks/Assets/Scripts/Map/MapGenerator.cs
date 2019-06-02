@@ -17,29 +17,19 @@ public class MapGenerator : MonoBehaviour {
 
     public GameObject[] gridPrefabs;    // Room prefabs
 
-    private float timer;    // Test variable to test random map
 
-
-    // Start is called before the first frame update
-    void Start() {
-        if (isMapOfTheDay && !randomMap) {
+    public void SetRandomSeed() {
+        if (isMapOfTheDay) {
             // Set our seed
             UnityEngine.Random.InitState(DateToInt(DateTime.Now.Date));
         }
 
-        if (randomMap && !isMapOfTheDay) {
+        if (randomMap) {
             UnityEngine.Random.InitState(DateToInt(DateTime.Now) * mapSeed);
-            //UnityEngine.Random.InitState(mapSeed);
         }
+    }
 
-        if (randomMap && isMapOfTheDay) {
-            Debug.Log("No map was generated.");
-            Debug.LogWarning("Can't be both a random map and the map of the day.");
-        } else {
-            // Generate grid
-            GenerateGrid();
-        }
-
+    public void ResetRandomSeed() {
         // Reset the Random for every other things that is using random
         UnityEngine.Random.InitState(System.Environment.TickCount);
     }
@@ -100,10 +90,6 @@ public class MapGenerator : MonoBehaviour {
         }
     }
 
-    void Update() {
-        
-    }
-
     // Funtion: RANDOM_ROOM_PREFAB
     // Return a random room
     public GameObject RandomRoomPrefab() {
@@ -125,9 +111,14 @@ public class MapGenerator : MonoBehaviour {
             Destroy(child.gameObject);
         }
 
-        // Go back to Start to generate another map
-        Start();
         // Spawn all players in a new spot
         GameManager.instance.Spawn();
+    }
+
+    public void ClearMap() {
+        // Clear out the current rooms
+        foreach (Transform child in transform) {
+            Destroy(child.gameObject);
+        }
     }
 }

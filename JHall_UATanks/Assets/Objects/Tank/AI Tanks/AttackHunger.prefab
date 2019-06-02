@@ -459,6 +459,7 @@ MonoBehaviour:
   backwardsSpeed: 3
   turnSpeed: 180
   pointsGivenOnDestory: 10
+  lives: 1
   points: 0
   health: 0
 --- !u!114 &310437180118227939
