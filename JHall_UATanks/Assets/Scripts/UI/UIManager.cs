@@ -99,12 +99,12 @@ public class UIManager : MonoBehaviour {
     }
 
     public void ShowGameOverScreen() {
+        mapGenerator.ClearMap();
         gui.SetActive(true);
         GameOverMenu.SetActive(true);
     }
     
     public void RestartGame() {
-        mapGenerator.ClearMap();
         GameManager.instance.Reset();
         StartGame();
     }

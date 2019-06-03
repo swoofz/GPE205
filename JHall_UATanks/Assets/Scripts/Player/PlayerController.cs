@@ -1,13 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 
 [RequireComponent(typeof(InputController), typeof(TankMotor))]
 public class PlayerController : MonoBehaviour {
 
     public Shooter shooter;             // Our Shooter component in order to shoot
-    public Camera camera;               // Our Player View Camera
-    
+    public Camera cam;                  // Our Player View Camera
+    public Text scoreText;
+    public Text livesText;
+    public ScoreData sData;
+
+
     private TankData tankData;          // Tank's Data
     private TankMotor motor;            // Tank's motor
     private InputController input;      // Player's inputs to do actions
@@ -28,10 +33,17 @@ public class PlayerController : MonoBehaviour {
         tankData.health = tankData.MaxHealth;                       // Set the current health to max on start
         GameManager.instance.players.Add(tankData);                 // Adding player's Tank Data to our list in the Game Manger to keep track of how many players are in the game
         shellDamge = GameManager.instance.shellDamage;              // Get our shell damage
+        GameManager.instance.scores.Add(sData);
+        sData.name = gameObject.name;
     }
 
     // Update is called once per frame
     void Update() {
+        // Update Score
+        UpdateScore();
+        livesText.text = "Lives: " + tankData.lives;
+
+
         // Get two a max of two input to move around with
         if (input.move1  == InputController.MoveActions.Forward || input.move2 == InputController.MoveActions.Forward) {
             motor.Move(tankData.forwardSpeed);                  // Move Forward
@@ -60,8 +72,7 @@ public class PlayerController : MonoBehaviour {
 
         // If health get to zero or lower then destory this object
         if (tankData.health <= 0) {
-            // Player dead
-            motor.GivePoints(tankData.pointsGivenOnDestory, lastHitBy);     // Give points
+            // Player died
         }
     }
 
@@ -72,6 +83,18 @@ public class PlayerController : MonoBehaviour {
 
             // Set lastHitby to the shell owner
             lastHitBy = other.gameObject.GetComponent<ShellController>().tankShooter;
+            motor.GivePoints(tankData.pointsGivenOnDestory, lastHitBy);                 // Give points
+        }
+    }
+
+    void UpdateScore() {
+        sData.score = tankData.points;
+        scoreText.text = "Score: " + sData.score;
+
+        foreach(ScoreData score in GameManager.instance.scores) {
+            if(score.name == sData.name) {
+                score.score = sData.score;
+            }
         }
     }
 }

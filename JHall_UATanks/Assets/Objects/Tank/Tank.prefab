@@ -431,7 +431,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shooter: {fileID: 49392262}
-  camera: {fileID: 855901532}
+  cam: {fileID: 855901532}
+  scoreText: {fileID: 813713090}
+  livesText: {fileID: 1699052781}
+  sData:
+    score: 0
+    name: 
 --- !u!114 &676914200
 MonoBehaviour:
   m_ObjectHideFlags: 0

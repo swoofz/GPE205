@@ -54,7 +54,6 @@ public class AIController : MonoBehaviour {
         // Health
         if (tankData.health <= 0) {
             // Dies
-            motor.GivePoints(tankData.pointsGivenOnDestory, lastHitBy);     // Give Points
         }
 
         // Handling Actions
@@ -287,6 +286,7 @@ public class AIController : MonoBehaviour {
 
             // Set lastHitby to the shell owner
             lastHitBy = other.gameObject.GetComponent<ShellController>().tankShooter;
+            motor.GivePoints(tankData.pointsGivenOnDestory, lastHitBy);                 // Give Points
         }
     }
 

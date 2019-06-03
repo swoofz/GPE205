@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour {
 
     private UIManager ui;
     private int tanksAlive;             // Store the number of tank alive
-    private bool gameIsRunning = false; // Check if the game is running
+    public bool gameIsRunning = false; // Check if the game is running
 
 
     // Runs before Start()
@@ -80,7 +80,6 @@ public class GameManager : MonoBehaviour {
                 } else {                                            // Everyone Died
                     Debug.Log("Game ended in a Draw...");           // A Draw
                 }
-
                 ui.ShowGameOverScreen();
                 gameIsRunning = false;
             }
@@ -96,6 +95,7 @@ public class GameManager : MonoBehaviour {
         SpawnPoints.Clear();
         PowerupSpawns.Clear();
         wayPoints.Clear();
+        scores.Clear();
     }
 
     // Function: RESPAWN
@@ -171,10 +171,10 @@ public class GameManager : MonoBehaviour {
                 PlayerController controller = player.GetComponent<PlayerController>();
                 if(i == 0) {
                     // Player 1 Top Screen
-                    controller.camera.rect = new Rect(0, 0.5f, 1, 0.5f);
+                    controller.cam.rect = new Rect(0, 0.5f, 1, 0.5f);
                 } else {
                     // Player 2 Bottom Screen and arrowKey input Scheme
-                    controller.camera.rect = new Rect(0, 0, 1, 0.5f);
+                    controller.cam.rect = new Rect(0, 0, 1, 0.5f);
                     player.GetComponent<InputController>().input = InputController.InputScheme.arrowKeys;
                 }
             }
@@ -246,8 +246,9 @@ public class GameManager : MonoBehaviour {
     void CheckToStartGameLogic() {
         if (waitForLoadTimer > 0) {
             waitForLoadTimer -= Time.deltaTime;
-            if (waitForLoadTimer <= 0) {
+            if (waitForLoadTimer <= 0 && !gameIsRunning) {
                 gameIsRunning = true;
+                waitForLoadTimer = 4f;
             }
         }
     }
