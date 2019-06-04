@@ -6,6 +6,7 @@ using System;
 [System.Serializable]
 public class ScoreData : IComparable<ScoreData> {
 
+    public int id;
     public float score;
     public string name;
 
@@ -24,17 +25,4 @@ public class ScoreData : IComparable<ScoreData> {
 
         return 0;
     }
-
-
-    /* Notes:
-     *  - List<ScoreData> scores;
-     *  - // Add scores to list
-     *  - scores.Sort();
-     *  
-     *  // Limit how many scores see
-     *  scores = scores.GetRange(0,3);
-     *  
-     *  // High scores
-     *  scores.Reverse();  // Do before trim scores down
-     */
 }

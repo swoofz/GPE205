@@ -66,11 +66,19 @@ public class GameManager : MonoBehaviour {
             RespawnIfNeed();
             RemovePlayers();
 
-            
+            //for(int i = 0; i < scores.Count; i++) {
+                //string text = "#" + ( i + 1 );
+                //SaveManager.SaveScore(text, scores[i]);
+            //}
+
+
 
             tanksAlive = players.Count + enemies.Count;         // A Count of All the tank that are alive
 
             if (tanksAlive <= 1) {                       // If there is only 1 Tank left, possibly no Tanks and haven't ran this code yet
+
+                // TODO:: set a timer so when can update score before move on
+
                 if (players.Count == 1) {                            // One Player
                     Debug.Log(players[0].name + " is the Winner!"); // Player wins
                     Destroy(players[0].gameObject);
@@ -95,7 +103,6 @@ public class GameManager : MonoBehaviour {
         SpawnPoints.Clear();
         PowerupSpawns.Clear();
         wayPoints.Clear();
-        scores.Clear();
     }
 
     // Function: RESPAWN

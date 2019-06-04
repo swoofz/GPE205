@@ -33,8 +33,9 @@ public class PlayerController : MonoBehaviour {
         tankData.health = tankData.MaxHealth;                       // Set the current health to max on start
         GameManager.instance.players.Add(tankData);                 // Adding player's Tank Data to our list in the Game Manger to keep track of how many players are in the game
         shellDamge = GameManager.instance.shellDamage;              // Get our shell damage
-        GameManager.instance.scores.Add(sData);
+        sData.id = GameManager.instance.scores.Count;
         sData.name = gameObject.name;
+        GameManager.instance.scores.Add(sData);
     }
 
     // Update is called once per frame
@@ -92,7 +93,7 @@ public class PlayerController : MonoBehaviour {
         scoreText.text = "Score: " + sData.score;
 
         foreach(ScoreData score in GameManager.instance.scores) {
-            if(score.name == sData.name) {
+            if(score.id == sData.id) {
                 score.score = sData.score;
             }
         }

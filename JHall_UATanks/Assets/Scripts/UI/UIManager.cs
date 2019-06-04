@@ -30,6 +30,7 @@ public class UIManager : MonoBehaviour {
     }
 
     public void StartGame() {
+        GameManager.instance.Reset();
         DeactiveMenus();
         gui.SetActive(false);
         mapGenerator.SetRandomSeed();
