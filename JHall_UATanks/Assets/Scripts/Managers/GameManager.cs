@@ -171,7 +171,7 @@ public class GameManager : MonoBehaviour {
     public void SpawnPlayers(int playerCount) {
         GameObject game = GameObject.Find("Game");
         for(int i = 0; i < playerCount; i++) {
-            GameObject player = Instantiate(PlayerPrefabs[Random.Range(0, PlayerPrefabs.Length)]) as GameObject;
+            GameObject player = Instantiate(PlayerPrefabs[i]) as GameObject;
             player.name = playerNames[i];
             player.transform.parent = game.transform;
 

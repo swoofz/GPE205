@@ -56,6 +56,7 @@ MonoBehaviour:
   - {fileID: 100012, guid: 42deb1bf458684e49baca6d982cd89f7, type: 3}
   PlayerPrefabs:
   - {fileID: 100012, guid: 65e92f227846e794883569c427a9c4c3, type: 3}
+  - {fileID: 100012, guid: 16ba4629f9964594b84db723491e9ddd, type: 3}
   scores: []
   playerNames:
   - 
@@ -119,11 +120,11 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 9c3f8e0940ec3b944aa267fde1a3bb81, type: 3}
   - name: MenuMusic
     type: 0
-    volume: 0.3
+    volume: 0.7
     clip: {fileID: 8300000, guid: f7f2f01da01df1a41ab641c555e07fcf, type: 3}
   - name: GameMusic
     type: 0
-    volume: 0.3
+    volume: 0.5
     clip: {fileID: 8300000, guid: 02e85f668106c514ca543a70d3376ada, type: 3}
   - name: Shoot
     type: 1
