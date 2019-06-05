@@ -11,6 +11,7 @@ public class ShowScores : MonoBehaviour {
 
     private Transform tf;       // our transfrom
     private bool ranOnce;       // Run a piece of code once
+    private float delay = 1f;   // timer to not change the score list right away
 
     void Awake() {
         tf = GetComponent<Transform>();
@@ -23,15 +24,20 @@ public class ShowScores : MonoBehaviour {
         if(!GameManager.instance.gameIsRunning && !ranOnce) {
             // Do want highscore or just player scores
             if (highScores) {
-                // Show High Scores
-                ClearScoreBoard();      // Clear board first
-                ShowHighScores();       // Create board text
+                delay -= Time.deltaTime;
+                if (delay <= 0) {
+                    // Show High Scores
+                    ClearScoreBoard();      // Clear board first
+                    ShowHighScores();       // Create board text
+                    delay = 1f;             // add delay when run again
+                    ranOnce = true;         // ran once
+                }
             } else {
                 ClearScoreBoard();          // Clear board
                 ShowPlayerScore(8, 70);     // Show player 1 score
                 ShowPlayerScore(9, 20);     // Show player 2 score
+                ranOnce = true;             // ran once
             }
-            ranOnce = true; // We ranonce
         }
     }
 
@@ -77,10 +83,12 @@ public class ShowScores : MonoBehaviour {
 
         // Show highscores
         for (int i = 0; i < GameManager.instance.scores.Count; i++) {
+            // Scores Data
             string name = GameManager.instance.scores[i].name;
             float score = GameManager.instance.scores[i].score;
             string text = i+1 + ".\t" + name;
 
+            // Show our Scores
             GameObject highScorePlayer = new GameObject(name);
             AddTextComponent(highScorePlayer);
             ChangeText(highScorePlayer, text);

@@ -3,7 +3,16 @@ guid: 8d6579bb6f43ddc4f84a78f7a5578c09
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - gui: {fileID: 4119814006244140972, guid: 30e33c3bb3d28b648a28b31bf94af205, type: 3}
+  - startMenu: {fileID: 368955474670887311, guid: 56f8eb9fac28d4449a70408857050a6f,
+      type: 3}
+  - optionsMenu: {fileID: 1897361581462269212, guid: 4a3bbad928f21b34aa073aa1159dc84d,
+      type: 3}
+  - GameOverMenu: {fileID: 5251081344029904001, guid: 532392ce6fd88d64696ce1cf290d19aa,
+      type: 3}
+  - mapGenerator: {fileID: 7526922011212323414, guid: 1d7c64091eb90d94b8c2185ba8232f78,
+      type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

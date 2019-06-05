@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 8135500674176112391}
   - component: {fileID: 8135500674176112390}
-  - component: {fileID: 2043428034}
+  - component: {fileID: 2479328823623383691}
   - component: {fileID: 2043428035}
-  - component: {fileID: 2043428038}
+  - component: {fileID: 1162382166770779193}
   - component: {fileID: 2043428039}
   m_Layer: 0
   m_Name: GameManger
@@ -70,7 +70,7 @@ MonoBehaviour:
   powerupCount: 0
   gameIsRunning: 0
   waitForLoadTimer: 0
---- !u!114 &2043428034
+--- !u!114 &2479328823623383691
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -82,11 +82,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d6579bb6f43ddc4f84a78f7a5578c09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gui: {fileID: 0}
-  startMenu: {fileID: 0}
-  optionsMenu: {fileID: 0}
-  GameOverMenu: {fileID: 0}
-  mapGenerator: {fileID: 0}
+  gui: {fileID: 4119814006244140972, guid: 30e33c3bb3d28b648a28b31bf94af205, type: 3}
+  startMenu: {fileID: 368955474670887311, guid: 56f8eb9fac28d4449a70408857050a6f,
+    type: 3}
+  optionsMenu: {fileID: 1897361581462269212, guid: 4a3bbad928f21b34aa073aa1159dc84d,
+    type: 3}
+  GameOverMenu: {fileID: 5251081344029904001, guid: 532392ce6fd88d64696ce1cf290d19aa,
+    type: 3}
+  mapGenerator: {fileID: 7526922011212323414, guid: 1d7c64091eb90d94b8c2185ba8232f78,
+    type: 3}
 --- !u!114 &2043428035
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -99,7 +103,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18a69aff02c4e2444bea7cd96a2aaa5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2043428038
+--- !u!114 &1162382166770779193
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -111,8 +115,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7f187873f82dc24fb60a17aa7d32c4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MusicVolume: {fileID: 0}
-  FX: {fileID: 0}
+  MusicVolume: {fileID: 121450229017787456, guid: 586cc0fd675cd014491cf775205db527,
+    type: 3}
+  FX: {fileID: 6863953131773686166, guid: 80527fc014e7dd64187d31fe7b5791ba, type: 3}
   sounds:
   - name: pickup
     type: 1
