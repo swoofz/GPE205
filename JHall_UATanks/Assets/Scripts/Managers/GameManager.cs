@@ -12,8 +12,8 @@ public class GameManager : MonoBehaviour {
     public GameObject[] PlayerPrefabs;      // Store our Player prefabs here
 
 
-    public List<ScoreData> scores;
-    public string[] playerNames = new string[2];
+    public List<ScoreData> scores;                  // List of all scores
+    public string[] playerNames = new string[2];    // Default names for player 1 and player 2
 
 
     [HideInInspector]
@@ -33,11 +33,11 @@ public class GameManager : MonoBehaviour {
     [HideInInspector]
     public bool gameIsRunning = false;      // Check if the game is running
     [HideInInspector]
-    public float waitForLoadTimer;
+    public float waitForLoadTimer;          // Time so things can load in before starting game
 
 
 
-    private UIManager ui;
+    private UIManager ui;               // Get our UI Manager
     private int tanksAlive;             // Store the number of tank alive
 
     // Runs before Start()
@@ -61,9 +61,11 @@ public class GameManager : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
+        // Check whether or not we have started our game
         CheckToStartGameLogic();
 
         if (gameIsRunning) {
+            // Check if player needs a Respawn or needs to be Removed
             RespawnIfNeed();
             RemovePlayers();
 
@@ -82,6 +84,8 @@ public class GameManager : MonoBehaviour {
                 } else {                                            // Everyone Died
                     Debug.Log("Game ended in a Draw...");           // A Draw
                 }
+                
+                // Change Background music and switch to a gameover screen
                 AudioManager.instance.ChangeBackgroundAudio("MenuMusic");
                 ui.ShowGameOverScreen();
                 gameIsRunning = false;
@@ -91,7 +95,10 @@ public class GameManager : MonoBehaviour {
 
     }
 
+    // Function: RESET
+    // Reset Game Stats
     public void Reset() {
+        // Clear all list
         players.Clear();
         enemies.Clear();
         tanks.Clear();
@@ -249,7 +256,8 @@ public class GameManager : MonoBehaviour {
         removeData.Clear();
     }
 
-
+    // Function: CHECK_TO_START_GAME_LOGIC
+    // Run game logic check after time is over
     void CheckToStartGameLogic() {
         if (waitForLoadTimer > 0) {
             waitForLoadTimer -= Time.deltaTime;

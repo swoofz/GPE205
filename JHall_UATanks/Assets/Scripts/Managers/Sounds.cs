@@ -4,13 +4,14 @@ using UnityEngine;
 
 [System.Serializable]
 public class Sounds {
+    // Background Music / FX sounds
     public enum SoundType { Music, FX };
 
-    public string name;
-    public SoundType type;
+    public string name;         // find clip by this name
+    public SoundType type;      // Type of sound we want to be classed wit
 
     [Range(0f, 1f)]
-    public float volume;
-    public AudioClip clip;
+    public float volume;        // volume of clip to be played at
+    public AudioClip clip;      // audio clip
 
 }

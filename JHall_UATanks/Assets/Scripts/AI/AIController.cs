@@ -36,7 +36,7 @@ public class AIController : MonoBehaviour {
         tf = GetComponent<Transform>();                             // Store our Transform for easy access
         tankData = gameObject.GetComponent<TankData>();             // Store Tank data in a variable
         motor = gameObject.GetComponent<TankMotor>();               // Store Tank moter in a variable
-        GameManager.instance.tanks.Add(tf);                                             // Add our transform to our list to kept track on the different players in the game
+        GameManager.instance.tanks.Add(tf);                         // Add our transform to our list to kept track on the different players in the game
     }
 
     // Start is called before the first frame update

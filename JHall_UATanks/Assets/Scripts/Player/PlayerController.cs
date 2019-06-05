@@ -8,10 +8,9 @@ public class PlayerController : MonoBehaviour {
 
     public Shooter shooter;             // Our Shooter component in order to shoot
     public Camera cam;                  // Our Player View Camera
-    public Text scoreText;
-    public Text livesText;
-    public ScoreData sData;
-
+    public Text scoreText;              // Get our score text
+    public Text livesText;              // Get our lives text
+    public ScoreData sData;             // Create ScoreData basic on this component
 
     private TankData tankData;          // Tank's Data
     private TankMotor motor;            // Tank's motor
@@ -33,9 +32,9 @@ public class PlayerController : MonoBehaviour {
         tankData.health = tankData.MaxHealth;                       // Set the current health to max on start
         GameManager.instance.players.Add(tankData);                 // Adding player's Tank Data to our list in the Game Manger to keep track of how many players are in the game
         shellDamge = GameManager.instance.shellDamage;              // Get our shell damage
-        sData.id = GameManager.instance.scores.Count;
-        sData.name = gameObject.name;
-        GameManager.instance.scores.Add(sData);
+        sData.id = GameManager.instance.scores.Count;               // Set our ScoreData id to be able to get it later
+        sData.name = gameObject.name;                               // Set our ScoreData name
+        GameManager.instance.scores.Add(sData);                     // Add to our score list
     }
 
     // Update is called once per frame
@@ -75,6 +74,7 @@ public class PlayerController : MonoBehaviour {
         if(other.gameObject.tag == "Shell") {
             // If we get hit by a shell, take some damage
             tankData.health = motor.TakeDamage(tankData.health, shellDamge);
+            // Play take damage clip
             AudioSource.PlayClipAtPoint(AudioManager.instance.GetClip("GotShot"), transform.position, AudioManager.instance.volume("GotShot"));
 
             // Set lastHitby to the shell owner
@@ -83,10 +83,15 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
+
+    // Function: UPDATE_SCORE
+    // Change our point value
     void UpdateScore() {
+        // Change scores value and text
         sData.score = tankData.points;
         scoreText.text = "Score: " + sData.score;
 
+        // Change the value of this scoredata in GameManger list
         foreach(ScoreData score in GameManager.instance.scores) {
             if(score.id == sData.id) {
                 score.score = sData.score;

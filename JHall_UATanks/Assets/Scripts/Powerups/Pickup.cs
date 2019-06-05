@@ -7,7 +7,7 @@ public class Pickup : MonoBehaviour {
     public Powerup powerup;         // Set powerup values
 
     private Transform tf;       // Store our transfrom
-    private string clipName;
+    private string clipName;    // Name of our clip
 
     // Start is called before the first frame update
     void Start() {
@@ -24,7 +24,7 @@ public class Pickup : MonoBehaviour {
             // Add the powerup
             powCon.Add(powerup);
 
-            // Play Feedback(if it is set)
+            // If there is a clip use it
             if(AudioManager.instance.HaveClip(clipName)) {
                 AudioSource.PlayClipAtPoint(AudioManager.instance.GetClip(clipName), tf.position, AudioManager.instance.volume(clipName));
             }
