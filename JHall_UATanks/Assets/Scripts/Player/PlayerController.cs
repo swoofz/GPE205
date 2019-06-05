@@ -69,18 +69,13 @@ public class PlayerController : MonoBehaviour {
                 shootTimer = shooter.Shoot();                   // Shoot
             }
         }
-
-
-        // If health get to zero or lower then destory this object
-        if (tankData.health <= 0) {
-            // Player died
-        }
     }
 
     void OnTriggerEnter(Collider other) {
         if(other.gameObject.tag == "Shell") {
             // If we get hit by a shell, take some damage
             tankData.health = motor.TakeDamage(tankData.health, shellDamge);
+            AudioSource.PlayClipAtPoint(AudioManager.instance.GetClip("GotShot"), transform.position, AudioManager.instance.volume("GotShot"));
 
             // Set lastHitby to the shell owner
             lastHitBy = other.gameObject.GetComponent<ShellController>().tankShooter;

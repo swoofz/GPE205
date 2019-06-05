@@ -5,13 +5,14 @@ using UnityEngine;
 public class Pickup : MonoBehaviour {
 
     public Powerup powerup;         // Set powerup values
-    public AudioClip feedback;      // When picked up play this sound
 
     private Transform tf;       // Store our transfrom
+    private string clipName;
 
     // Start is called before the first frame update
     void Start() {
         tf = GetComponent<Transform>();
+        clipName = "pickup";
     }
 
     void OnTriggerEnter(Collider other) {
@@ -24,8 +25,8 @@ public class Pickup : MonoBehaviour {
             powCon.Add(powerup);
 
             // Play Feedback(if it is set)
-            if(feedback != null) {
-                AudioSource.PlayClipAtPoint(feedback, tf.position, 1.0f);
+            if(AudioManager.instance.HaveClip(clipName)) {
+                AudioSource.PlayClipAtPoint(AudioManager.instance.GetClip(clipName), tf.position, AudioManager.instance.volume(clipName));
             }
 
             // Destory this pickup

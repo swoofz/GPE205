@@ -14,7 +14,6 @@ public class AIController : MonoBehaviour {
     public float FOV = 45f;             // Field of View    
     public float inSight = 5f;          // Distance that can to be able to see a target
     public float hearDistance = 5f;     // The distance in which you can hear
-    public Transform[] waypoints;       // Locations that will go to
 
     private FiniteStateMachine FSM;     // Finite State Machine for our AI
     private Transform tf;               // To store our tranform
@@ -50,11 +49,6 @@ public class AIController : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-
-        // Health
-        if (tankData.health <= 0) {
-            // Dies
-        }
 
         // Handling Actions
         switch (FSM.persionality) {
@@ -283,6 +277,7 @@ public class AIController : MonoBehaviour {
         if(other.gameObject.tag == "Shell") {
             // Hit by a shell and loses health
             tankData.health = motor.TakeDamage(tankData.health, shellDamge);
+            AudioSource.PlayClipAtPoint(AudioManager.instance.GetClip("GotShot"), transform.position, AudioManager.instance.volume("GotShot"));
 
             // Set lastHitby to the shell owner
             lastHitBy = other.gameObject.GetComponent<ShellController>().tankShooter;

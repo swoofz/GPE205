@@ -35,6 +35,8 @@ public class Shooter : MonoBehaviour {
 
         // Create a GameObject that is spawning a shell at the gunTip position
         GameObject clone = Instantiate(bullet, barrelTip.position, tf.rotation) as GameObject;
+        AudioSource.PlayClipAtPoint(AudioManager.instance.GetClip("Shoot"), transform.position, AudioManager.instance.volume("Shoot"));
+
         clone.transform.parent = bulletPlaceHolder.transform;                                  // Set new bullets instantiate as a child of the Bullets GameObject
 
         // Add force to the bullet to move it forward

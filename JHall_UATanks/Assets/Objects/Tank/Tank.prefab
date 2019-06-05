@@ -751,7 +751,6 @@ GameObject:
   m_Component:
   - component: {fileID: 855901530}
   - component: {fileID: 855901532}
-  - component: {fileID: 855901531}
   m_Layer: 0
   m_Name: View Camera
   m_TagString: Untagged
@@ -815,14 +814,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &855901531
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 855901529}
-  m_Enabled: 1
 --- !u!1 &1699052779
 GameObject:
   m_ObjectHideFlags: 0
@@ -1014,7 +1005,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8197447616464025964}
   - component: {fileID: 995948799211264553}
-  - component: {fileID: 2280001895762838949}
   m_Layer: 0
   m_Name: MiniMapCamera
   m_TagString: Untagged
@@ -1078,11 +1068,3 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &2280001895762838949
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8630267203211874147}
-  m_Enabled: 1
