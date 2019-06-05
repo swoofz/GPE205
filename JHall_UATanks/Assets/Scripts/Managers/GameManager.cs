@@ -69,29 +69,24 @@ public class GameManager : MonoBehaviour {
             RespawnIfNeed();
             RemovePlayers();
 
-            tanksAlive = players.Count + enemies.Count;         // A Count of All the tank that are alive
+            tanksAlive = players.Count;         // A Count of All the tank that are alive
 
-            if (tanksAlive <= 1) {                       // If there is only 1 Tank left, possibly no Tanks and haven't ran this code yet
-
-                // TODO:: set a timer so when can update score before move on
-
-                if (players.Count == 1) {                            // One Player
-                    Debug.Log(players[0].name + " is the Winner!"); // Player wins
-                    Destroy(players[0].gameObject);
-                } else if (enemies.Count == 1) {                     // One Enemy
-                    Debug.Log(enemies[0].name + " is the Winner!"); // Enemy wins
-                    Destroy(enemies[0].gameObject);
-                } else {                                            // Everyone Died
-                    Debug.Log("Game ended in a Draw...");           // A Draw
-                }
-                
+            if (tanksAlive <= 0) {                       // If there is only 1 Tank left, possibly no Tanks and haven't ran this code yet
                 // Change Background music and switch to a gameover screen
                 AudioManager.instance.ChangeBackgroundAudio("MenuMusic");
                 ui.ShowGameOverScreen();
                 gameIsRunning = false;
             }
+
+        } else {
+            // If not starting game then ending so Remove tanks
+            if (tanks.Count > 0 && waitForLoadTimer <= 0) {
+                foreach (Transform tank in tanks) {
+                    tank.gameObject.SetActive(false);
+                }
+                RemovePlayers();
+            }
         }
-        
 
     }
 
@@ -212,16 +207,10 @@ public class GameManager : MonoBehaviour {
         // Check if an ai needs a respawn
         foreach(TankData ai in enemies) {
             if(ai.health <= 0) {
-                ai.lives -= 1;              // Remove one life
                 // Play Death Sound
                 AudioSource.PlayClipAtPoint(AudioManager.instance.GetClip("Death"), ai.transform.position, AudioManager.instance.volume("Death"));
-
-                if (ai.lives > 0) {
-                    ResetHealth(ai.gameObject); // Reset health
-                    Respawn(ai.transform);      // Then respawn
-                } else {
-                    ai.gameObject.SetActive(false);
-                }
+                ResetHealth(ai.gameObject); // Reset health
+                Respawn(ai.transform);      // Then respawn
             }
         }
     }

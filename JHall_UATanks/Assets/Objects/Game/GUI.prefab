@@ -195,7 +195,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2043428034, guid: 43b135677f1f47a45bc3606edafd8bda, type: 3}
         m_MethodName: OpenMenu
         m_Mode: 2
         m_Arguments:
@@ -206,7 +206,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2043428034, guid: 43b135677f1f47a45bc3606edafd8bda, type: 3}
         m_MethodName: PlayButtonSound
         m_Mode: 1
         m_Arguments:
@@ -335,7 +335,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2043428034, guid: 43b135677f1f47a45bc3606edafd8bda, type: 3}
         m_MethodName: SaveSoundVolume
         m_Mode: 1
         m_Arguments:
@@ -553,7 +553,7 @@ MonoBehaviour:
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2043428034, guid: 43b135677f1f47a45bc3606edafd8bda, type: 3}
         m_MethodName: IsPlayerOne
         m_Mode: 6
         m_Arguments:
@@ -564,7 +564,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2043428034, guid: 43b135677f1f47a45bc3606edafd8bda, type: 3}
         m_MethodName: GetInputFieldText
         m_Mode: 2
         m_Arguments:
@@ -1263,7 +1263,7 @@ MonoBehaviour:
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2043428034, guid: 43b135677f1f47a45bc3606edafd8bda, type: 3}
         m_MethodName: IsPlayerOne
         m_Mode: 6
         m_Arguments:
@@ -1274,7 +1274,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2043428034, guid: 43b135677f1f47a45bc3606edafd8bda, type: 3}
         m_MethodName: GetInputFieldText
         m_Mode: 2
         m_Arguments:
@@ -1883,7 +1883,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2043428034, guid: 43b135677f1f47a45bc3606edafd8bda, type: 3}
         m_MethodName: OpenMenu
         m_Mode: 2
         m_Arguments:
@@ -2387,7 +2387,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2043428034, guid: 43b135677f1f47a45bc3606edafd8bda, type: 3}
         m_MethodName: StartGame
         m_Mode: 1
         m_Arguments:
@@ -2614,7 +2614,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2043428034, guid: 43b135677f1f47a45bc3606edafd8bda, type: 3}
         m_MethodName: Toggle
         m_Mode: 2
         m_Arguments:
@@ -2625,7 +2625,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2043428034, guid: 43b135677f1f47a45bc3606edafd8bda, type: 3}
         m_MethodName: IsRandomMap
         m_Mode: 2
         m_Arguments:
@@ -2755,7 +2755,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2043428034, guid: 43b135677f1f47a45bc3606edafd8bda, type: 3}
         m_MethodName: OpenMenu
         m_Mode: 2
         m_Arguments:
@@ -2766,7 +2766,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2043428034, guid: 43b135677f1f47a45bc3606edafd8bda, type: 3}
         m_MethodName: PlayButtonSound
         m_Mode: 1
         m_Arguments:
@@ -2895,7 +2895,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2043428034, guid: 43b135677f1f47a45bc3606edafd8bda, type: 3}
         m_MethodName: QuitGame
         m_Mode: 1
         m_Arguments:
@@ -2906,7 +2906,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2043428034, guid: 43b135677f1f47a45bc3606edafd8bda, type: 3}
         m_MethodName: PlayButtonSound
         m_Mode: 1
         m_Arguments:
@@ -3153,7 +3153,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2043428034, guid: 43b135677f1f47a45bc3606edafd8bda, type: 3}
         m_MethodName: Toggle
         m_Mode: 2
         m_Arguments:
@@ -4033,7 +4033,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2043428034, guid: 43b135677f1f47a45bc3606edafd8bda, type: 3}
         m_MethodName: GetTextToChange
         m_Mode: 2
         m_Arguments:
@@ -4044,7 +4044,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2043428034, guid: 43b135677f1f47a45bc3606edafd8bda, type: 3}
         m_MethodName: UpdateText
         m_Mode: 2
         m_Arguments:
@@ -4999,7 +4999,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2043428034, guid: 43b135677f1f47a45bc3606edafd8bda, type: 3}
         m_MethodName: GetTextToChange
         m_Mode: 2
         m_Arguments:
@@ -5010,7 +5010,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2043428034, guid: 43b135677f1f47a45bc3606edafd8bda, type: 3}
         m_MethodName: UpdateText
         m_Mode: 2
         m_Arguments:
@@ -5182,7 +5182,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2043428034, guid: 43b135677f1f47a45bc3606edafd8bda, type: 3}
         m_MethodName: Toggle
         m_Mode: 2
         m_Arguments:
@@ -5193,7 +5193,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2043428034, guid: 43b135677f1f47a45bc3606edafd8bda, type: 3}
         m_MethodName: IsMultiplayer
         m_Mode: 2
         m_Arguments:
@@ -5632,7 +5632,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2043428034, guid: 43b135677f1f47a45bc3606edafd8bda, type: 3}
         m_MethodName: StartGame
         m_Mode: 1
         m_Arguments:
@@ -5643,7 +5643,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2043428038, guid: 43b135677f1f47a45bc3606edafd8bda, type: 3}
         m_MethodName: ChangeBackgroundAudio
         m_Mode: 5
         m_Arguments:
@@ -6164,7 +6164,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2043428034, guid: 43b135677f1f47a45bc3606edafd8bda, type: 3}
         m_MethodName: Toggle
         m_Mode: 2
         m_Arguments:

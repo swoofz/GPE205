@@ -59,8 +59,8 @@ MonoBehaviour:
   - {fileID: 100012, guid: 16ba4629f9964594b84db723491e9ddd, type: 3}
   scores: []
   playerNames:
-  - 
-  - 
+  - Player 1
+  - Player 2
   players: []
   enemies: []
   tanks: []
@@ -120,11 +120,11 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 9c3f8e0940ec3b944aa267fde1a3bb81, type: 3}
   - name: MenuMusic
     type: 0
-    volume: 0.7
+    volume: 0.8
     clip: {fileID: 8300000, guid: f7f2f01da01df1a41ab641c555e07fcf, type: 3}
   - name: GameMusic
     type: 0
-    volume: 0.5
+    volume: 0.8
     clip: {fileID: 8300000, guid: 02e85f668106c514ca543a70d3376ada, type: 3}
   - name: Shoot
     type: 1
