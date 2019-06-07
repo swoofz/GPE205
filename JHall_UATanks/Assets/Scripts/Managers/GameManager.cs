@@ -107,7 +107,9 @@ public class GameManager : MonoBehaviour {
     public void Respawn(Transform ourPostion) {
         // Deactivate gameobject to reset position and not get an inputs
         ourPostion.gameObject.SetActive(false);
-        ourPostion.position = SpawnPoints[Random.Range(0, SpawnPoints.Count)].position;
+        int locationIndex = Random.Range(0, SpawnPoints.Count);
+        ourPostion.position = SpawnPoints[locationIndex].position;
+        ourPostion.rotation = SpawnPoints[locationIndex].rotation;
 
         // Reactivate gameobject in new position
         ourPostion.gameObject.SetActive(true);
@@ -130,6 +132,7 @@ public class GameManager : MonoBehaviour {
             // Add a spawnlocation and spawn our player
             spawnLocations.Add(spawnNumber);
             player.position = SpawnPoints[spawnNumber].position;
+            player.rotation = SpawnPoints[spawnNumber].rotation;
         }
     }
 
