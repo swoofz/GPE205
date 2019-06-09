@@ -9,7 +9,10 @@ public class PlayerController : MonoBehaviour {
     public Shooter shooter;             // Our Shooter component in order to shoot
     public Camera cam;                  // Our Player View Camera
     public Text scoreText;              // Get our score text
-    public Text livesText;              // Get our lives text
+    public GameObject livesUI;          // Get where our lives are and update them
+    public Slider worldHealthBar;       // Player health show to the world
+    public Slider cameraHealthBar;      // Player health show to the camera
+
     public ScoreData sData;             // Create ScoreData basic on this component
 
     private TankData tankData;          // Tank's Data
@@ -39,9 +42,9 @@ public class PlayerController : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        // Update Score
-        UpdateScore();
-        livesText.text = "Lives: " + tankData.lives;
+        UpdateScore();  // Update Score
+        UpdateLives();  // Update Lives on the UI
+        UpdateHealth(); // Update Slide health bar
 
 
         // Get two a max of two input to move around with
@@ -97,5 +100,28 @@ public class PlayerController : MonoBehaviour {
                 score.score = sData.score;
             }
         }
+    }
+
+    // Function: UPDATE_LIVES
+    // Update the lives on the UI
+    void UpdateLives() {
+        int count = 0;                                      // Get a start value
+        foreach(Transform life in livesUI.transform) {      // Go into the transform that stores our lives
+            if(tankData.lives > count) {                    // Found out if we have this life
+                life.gameObject.SetActive(true);            // Makes sure our life is active to see
+                count += 1;                                 // increase our count
+            } else {
+                life.gameObject.SetActive(false);           // Otherwise, don't show life
+            }
+        }
+    }
+
+    // Function: UPDATE_HEALTH
+    // UI healtth show to player and other players
+    void UpdateHealth() {
+        worldHealthBar.maxValue = tankData.MaxHealth;
+        cameraHealthBar.maxValue = tankData.MaxHealth;
+        worldHealthBar.value = tankData.health;
+        cameraHealthBar.value = tankData.health;
     }
 }

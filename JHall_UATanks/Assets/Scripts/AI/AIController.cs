@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 
 [RequireComponent(typeof(TankMotor))]
@@ -14,6 +15,7 @@ public class AIController : MonoBehaviour {
     public float FOV = 45f;             // Field of View    
     public float inSight = 5f;          // Distance that can to be able to see a target
     public float hearDistance = 5f;     // The distance in which you can hear
+    public Slider worldHealthBar;        // Show other how much health this AI has
 
     private FiniteStateMachine FSM;     // Finite State Machine for our AI
     private Transform tf;               // To store our tranform
@@ -49,6 +51,7 @@ public class AIController : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
+        UpdateHealth(); // Change health slider in the game world
 
         // Handling Actions
         switch (FSM.persionality) {
@@ -489,5 +492,12 @@ public class AIController : MonoBehaviour {
         if (shootTimer <= 0) {
             shootTimer = shooter.Shoot();
         }
+    }
+
+    // Function: UPDATE_HEALTH
+    // Upadte the world view health for everyone to see
+    void UpdateHealth() {
+        worldHealthBar.maxValue = tankData.MaxHealth;
+        worldHealthBar.value = tankData.health;
     }
 }
