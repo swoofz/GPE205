@@ -282,9 +282,11 @@ public class AIController : MonoBehaviour {
             tankData.health = motor.TakeDamage(tankData.health, shellDamge);
             AudioSource.PlayClipAtPoint(AudioManager.instance.GetClip("GotShot"), transform.position, AudioManager.instance.volume("GotShot"));
 
-            // Set lastHitby to the shell owner
-            lastHitBy = other.gameObject.GetComponent<ShellController>().tankShooter;
-            motor.GivePoints(tankData.pointsGivenOnDestory, lastHitBy);                 // Give Points
+            if (tankData.health <= 0) {
+                // Set lastHitby to the shell owner
+                lastHitBy = other.gameObject.GetComponent<ShellController>().tankShooter;
+                motor.GivePoints(tankData.pointsGivenOnDestory, lastHitBy);                 // Give Points
+            }
         }
     }
 

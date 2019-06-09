@@ -80,9 +80,11 @@ public class PlayerController : MonoBehaviour {
             // Play take damage clip
             AudioSource.PlayClipAtPoint(AudioManager.instance.GetClip("GotShot"), transform.position, AudioManager.instance.volume("GotShot"));
 
-            // Set lastHitby to the shell owner
-            lastHitBy = other.gameObject.GetComponent<ShellController>().tankShooter;
-            motor.GivePoints(tankData.pointsGivenOnDestory, lastHitBy);                 // Give points
+            if (tankData.health <= 0) {
+                // Set lastHitby to the shell owner
+                lastHitBy = other.gameObject.GetComponent<ShellController>().tankShooter;
+                motor.GivePoints(tankData.pointsGivenOnDestory, lastHitBy);                 // Give points
+            }
         }
     }
 

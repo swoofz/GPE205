@@ -28,7 +28,9 @@ public class ShellController : MonoBehaviour {
     }
 
     void OnTriggerEnter(Collider other) {
-        // If collides with anything destory this GameObject
-        Destroy(gameObject);
+        // If collides with anything other than powerups destory this GameObject
+        if (other.tag != "Powerups") {
+            Destroy(gameObject);
+        }
     }
 }

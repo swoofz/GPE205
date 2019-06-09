@@ -106,8 +106,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   powerup:
     speedModifier: 0
-    healthModifier: 20
+    healthModifier: 30
     maxHealthModifier: 0
     duration: 0
     isPermanent: 1
-  feedback: {fileID: 8300000, guid: 9c3f8e0940ec3b944aa267fde1a3bb81, type: 3}
