@@ -710,6 +710,21 @@ PrefabInstance:
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 1336459341}
+    - target: {fileID: 4119814005015888521, guid: 30e33c3bb3d28b648a28b31bf94af205,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4119814006173924987, guid: 30e33c3bb3d28b648a28b31bf94af205,
+        type: 3}
+      propertyPath: m_FontData.m_HorizontalOverflow
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4119814006515412852, guid: 30e33c3bb3d28b648a28b31bf94af205,
+        type: 3}
+      propertyPath: m_FontData.m_HorizontalOverflow
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 30e33c3bb3d28b648a28b31bf94af205, type: 3}
 --- !u!1 &1386955220 stripped
